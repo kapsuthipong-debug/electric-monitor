@@ -1,121 +1,113 @@
 <!DOCTYPE html>
 <html lang="th">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ระบบวัดไฟฟ้าออนไลน์</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ระบบวัดไฟฟ้า</title>
 
 <style>
+
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #eef2f7;
-  color: #1e293b;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #1e293b;
 }
 
 .header {
-  background: linear-gradient(135deg, #111827, #2563eb);
-  color: white;
-  text-align: center;
-  padding: 30px 15px;
+    background: linear-gradient(135deg, #111827, #2563eb);
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
 }
 
 .header h1 {
-  margin: 0;
-  font-size: 30px;
+    margin: 0;
+    font-size: 30px;
 }
 
-.online {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 8px 20px;
-  border-radius: 30px;
-  background: #16a34a;
-  font-weight: bold;
+.status {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 20px;
+    border-radius: 30px;
+    background: #16a34a;
+    font-weight: bold;
+}
+
+.warning {
+    background: #dc2626;
 }
 
 .container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 25px 15px;
+    max-width: 1100px;
+    margin: auto;
+    padding: 25px 15px;
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+    display: grid;
+    grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 20px;
 }
 
 .card {
-  background: white;
-  border-radius: 20px;
-  padding: 25px;
-  text-align: center;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,0.08);
 }
 
 .icon {
-  font-size: 40px;
+    font-size: 40px;
 }
 
 .name {
-  font-size: 17px;
-  color: #64748b;
-  margin-top: 10px;
+    font-size: 17px;
+    color: #64748b;
+    margin-top: 10px;
 }
 
 .value {
-  font-size: 30px;
-  font-weight: bold;
-  margin-top: 8px;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 8px;
 }
 
 .unit {
-  font-size: 16px;
-  color: #64748b;
-}
-
-.chart {
-  margin-top: 25px;
-  background: white;
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-}
-
-canvas {
-  width: 100%;
-  height: 300px;
+    font-size: 17px;
+    color: #64748b;
 }
 
 .footer {
-  text-align: center;
-  padding: 25px;
-  color: #64748b;
+    text-align: center;
+    padding: 25px;
+    color: #64748b;
 }
 
-@media(max-width:600px) {
-  .header h1 {
-    font-size: 24px;
-  }
-
-  .value {
-    font-size: 27px;
-  }
-}
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
 
-<h1>⚡ ระบบวัดไฟฟ้าออนไลน์</h1>
+<h1>⚡ ระบบวัดไฟฟ้า ESP32</h1>
 
-<p>ESP32 + PZEM-004T</p>
+<p>PZEM-004T Electricity Monitoring</p>
 
-<div class="online">
+<div id="status" class="status">
 🟢 ONLINE
 </div>
 
@@ -126,73 +118,124 @@ canvas {
 
 <div class="grid">
 
+
 <div class="card">
+
 <div class="icon">⚡</div>
-<div class="name">แรงดันไฟฟ้า</div>
+
+<div class="name">
+แรงดันไฟฟ้า
+</div>
+
 <div class="value">
+
 <span id="voltage">0</span>
+
 <span class="unit">V</span>
+
 </div>
+
 </div>
 
 
 <div class="card">
+
 <div class="icon">🔌</div>
-<div class="name">กระแสไฟฟ้า</div>
+
+<div class="name">
+กระแสไฟฟ้า
+</div>
+
 <div class="value">
+
 <span id="current">0</span>
+
 <span class="unit">A</span>
+
 </div>
+
 </div>
 
 
 <div class="card">
+
 <div class="icon">💡</div>
-<div class="name">กำลังไฟฟ้า</div>
+
+<div class="name">
+กำลังไฟฟ้า
+</div>
+
 <div class="value">
+
 <span id="power">0</span>
+
 <span class="unit">W</span>
+
 </div>
+
 </div>
 
 
 <div class="card">
+
 <div class="icon">📊</div>
-<div class="name">พลังงานสะสม</div>
+
+<div class="name">
+พลังงานสะสม
+</div>
+
 <div class="value">
+
 <span id="energy">0</span>
+
 <span class="unit">kWh</span>
+
 </div>
+
 </div>
 
 
 <div class="card">
+
 <div class="icon">💰</div>
-<div class="name">ค่าไฟต่อชั่วโมง</div>
-<div class="value">
-<span id="cost">0</span>
-<span class="unit">บาท/ชม.</span>
+
+<div class="name">
+ค่าไฟต่อชั่วโมง
 </div>
+
+<div class="value">
+
+<span id="cost">0</span>
+
+<span class="unit">
+บาท/ชม.
+</span>
+
+</div>
+
 </div>
 
 
 <div class="card">
+
 <div class="icon">💵</div>
-<div class="name">ค่าไฟสะสม</div>
+
+<div class="name">
+ค่าไฟสะสม
+</div>
+
 <div class="value">
+
 <span id="totalCost">0</span>
-<span class="unit">บาท</span>
-</div>
-</div>
+
+<span class="unit">
+บาท
+</span>
 
 </div>
 
+</div>
 
-<div class="chart">
-
-<h2>📈 กราฟกำลังไฟฟ้า</h2>
-
-<canvas id="powerChart"></canvas>
 
 </div>
 
@@ -201,151 +244,151 @@ canvas {
 
 <div class="footer">
 
-ESP32 Electricity Monitoring System<br>
-ข้อมูลจาก ThingSpeak
+ESP32 + PZEM-004T + Firebase
 
 </div>
 
 
-<script>
+<!-- Firebase -->
 
-const channelID = "3499357";
+<script type="module">
 
-const url =
-"https://api.thingspeak.com/channels/" +
-channelID +
-"/feeds.json?results=20";
+import {
+    initializeApp
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 
-async function loadData() {
+import {
+    getDatabase,
+    ref,
+    onValue
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-  try {
 
-    const response = await fetch(url);
+// Firebase Configuration
 
-    const data = await response.json();
+const firebaseConfig = {
 
-    const feeds = data.feeds;
+    apiKey:
+    "AIzaSyAD1PRsE7T90otvZoKrwENdPmbgrJG-RKE",
 
-    if (feeds.length == 0) {
-      return;
+    authDomain:
+    "electric-monitor-648d7.firebaseapp.com",
+
+    databaseURL:
+    "https://electric-monitor-648d7-default-rtdb.firebaseio.com",
+
+    projectId:
+    "electric-monitor-648d7",
+
+    storageBucket:
+    "electric-monitor-648d7.firebasestorage.app",
+
+    messagingSenderId:
+    "72175707129",
+
+    appId:
+    "1:72175707129:web:2250a63bf56a1f1c09d328",
+
+    measurementId:
+    "G-304FBDBJY5"
+};
+
+
+// เริ่ม Firebase
+
+const app = initializeApp(firebaseConfig);
+
+const database = getDatabase(app);
+
+
+// ตำแหน่งข้อมูล
+
+const electricityRef =
+ref(database, "electricity");
+
+
+// รับข้อมูลจาก Firebase
+
+onValue(electricityRef, (snapshot) => {
+
+    const data = snapshot.val();
+
+
+    if (!data) {
+        return;
     }
 
-    const last = feeds[feeds.length - 1];
+
+    // แสดงข้อมูล
+
+    document.getElementById("voltage")
+    .innerText =
+    Number(data.voltage || 0)
+    .toFixed(1);
 
 
-    document.getElementById("voltage").innerText =
-      Number(last.field1 || 0).toFixed(1);
+    document.getElementById("current")
+    .innerText =
+    Number(data.current || 0)
+    .toFixed(2);
 
 
-    document.getElementById("current").innerText =
-      Number(last.field2 || 0).toFixed(2);
+    document.getElementById("power")
+    .innerText =
+    Number(data.power || 0)
+    .toFixed(1);
 
 
-    document.getElementById("power").innerText =
-      Number(last.field3 || 0).toFixed(1);
+    document.getElementById("energy")
+    .innerText =
+    Number(data.energy || 0)
+    .toFixed(2);
 
 
-    document.getElementById("energy").innerText =
-      Number(last.field4 || 0).toFixed(2);
+    document.getElementById("cost")
+    .innerText =
+    Number(data.costPerHour || 0)
+    .toFixed(2);
 
 
-    document.getElementById("cost").innerText =
-      Number(last.field5 || 0).toFixed(2);
+    document.getElementById("totalCost")
+    .innerText =
+    Number(data.totalCost || 0)
+    .toFixed(2);
 
 
-    document.getElementById("totalCost").innerText =
-      Number(last.field6 || 0).toFixed(2);
+    // สถานะ
+
+    const status =
+    document.getElementById("status");
 
 
-    drawChart(feeds);
+    if (data.warning == true) {
 
-  } catch (error) {
+        status.innerText =
+        "🔴 CURRENT OVER 20A";
 
-    console.log("ไม่สามารถเชื่อมต่อ ThingSpeak");
+        status.className =
+        "status warning";
 
-  }
-
-}
-
-
-function drawChart(feeds) {
-
-  const canvas = document.getElementById("powerChart");
-
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = canvas.offsetWidth;
-  canvas.height = 300;
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-
-  const powers = feeds.map(function(feed) {
-
-    return Number(feed.field3 || 0);
-
-  });
-
-
-  let maxPower = Math.max(...powers);
-
-  if (maxPower < 10) {
-    maxPower = 10;
-  }
-
-
-  ctx.beginPath();
-
-  ctx.moveTo(0, 280);
-
-  powers.forEach(function(power, index) {
-
-    const x =
-      index * (canvas.width / (powers.length - 1));
-
-    const y =
-      280 - (power / maxPower * 240);
-
-    if (index == 0) {
-      ctx.moveTo(x, y);
-    } else {
-      ctx.lineTo(x, y);
     }
 
-  });
+    else {
 
+        status.innerText =
+        "🟢 ONLINE";
 
-  ctx.strokeStyle = "#2563eb";
+        status.className =
+        "status";
+    }
 
-  ctx.lineWidth = 4;
-
-  ctx.stroke();
-
-
-  ctx.font = "14px Arial";
-
-  ctx.fillStyle = "#64748b";
-
-  ctx.fillText(
-    "กำลังไฟฟ้า (W)",
-    10,
-    20
-  );
-
-}
-
-
-loadData();
-
-
-setInterval(function() {
-
-  loadData();
-
-}, 16000);
+});
 
 </script>
 
 </body>
+
 </html>
