@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>PowerPulse IoT - Smart Electricity Monitor</title>
   
-  <!-- PWA Integration -->
   <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlBvd2VyUHVsc2UgSW9UIiwKICAic2hvcnRfbmFtZSI6ICJQb3dlclB1bHNlIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmOGY5ZmEiLAogICJ0aGVtZV9jb2xvciI6ICI0MzYxZWUiCn0=">
-
-  <!-- Google Fonts, Icons, Chart.js & QRCode.js -->
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -16,63 +13,38 @@
 
   <style>
     :root {
-      --bg-color: #f8f9fa;
-      --card-bg: #ffffff;
-      --text-main: #2b2d42;
-      --text-sub: #8d99ae;
-      --border-color: #e9ecef;
-      --primary-color: #4361ee;
-      --danger-color: #e63946;
-      --warning-color: #ffb703;
-      --success-color: #2a9d8f;
-      --border-radius: 16px;
+      --bg-color: #f8f9fa; --card-bg: #ffffff; --text-main: #2b2d42; --text-sub: #8d99ae;
+      --border-color: #e9ecef; --primary-color: #4361ee; --danger-color: #e63946;
+      --warning-color: #ffb703; --success-color: #2a9d8f; --border-radius: 16px;
       --shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     }
-
     [data-theme="dark"] {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --text-main: #f8fafc;
-      --text-sub: #94a3b8;
-      --border-color: #334155;
-      --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      --bg-color: #0f172a; --card-bg: #1e293b; --text-main: #f8fafc; --text-sub: #94a3b8;
+      --border-color: #334155; --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Prompt', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: var(--bg-color); color: var(--text-main); padding: 16px; padding-bottom: 90px; min-height: 100vh; }
     .container { max-width: 1000px; margin: 0 auto; }
-
-    /* Header & Mobile Optimization */
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
     .header h1 { font-size: 20px; font-weight: 700; line-height: 1.2; }
     .header h1 i { color: var(--warning-color); margin-right: 6px; }
     .subtitle { font-size: 14px; font-weight: 500; color: var(--text-sub); }
-
     .header-actions { display: flex; align-items: center; gap: 8px; }
-
     .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
     .status-badge.online { background-color: rgba(42, 157, 143, 0.15); color: var(--success-color); }
     .status-badge.offline { background-color: rgba(230, 57, 70, 0.15); color: var(--danger-color); }
     .status-dot { width: 8px; height: 8px; border-radius: 50%; }
     .online .status-dot { background-color: var(--success-color); }
     .offline .status-dot { background-color: var(--danger-color); }
-
-    /* Tab Navigation Bar (Desktop Top / Mobile Bottom) */
     .tab-bar { display: flex; background: var(--card-bg); padding: 6px; border-radius: 14px; margin-bottom: 20px; gap: 6px; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
-    .tab-btn { flex: 1; padding: 12px 8px; border: none; background: transparent; color: var(--text-sub); border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
+    .tab-btn { flex: 1; padding: 12px 8px; border: none; background: transparent; color: var(--text-sub); border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; transition: 0.2s; }
     .tab-btn.active { background: var(--primary-color); color: white; box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3); }
-
-    /* Tab Contents Visibility */
     .tab-content { display: none; }
     .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Actionable Insight Banner */
     .insight-card { background: var(--card-bg); border-left: 5px solid var(--primary-color); padding: 14px 18px; border-radius: var(--border-radius); margin-bottom: 18px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border: 1px solid var(--border-color); }
     .insight-info { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
     .badge-score { background-color: var(--primary-color); color: white; padding: 4px 10px; border-radius: 10px; font-weight: 700; font-size: 13px; }
-
-    /* Grid & Cards */
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 18px; }
     .card { background: var(--card-bg); padding: 16px; border-radius: var(--border-radius); box-shadow: var(--shadow); display: flex; align-items: center; gap: 14px; border: 1px solid var(--border-color); }
     .card-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
@@ -82,61 +54,46 @@
     .icon-e { background: rgba(32, 201, 151, 0.1); color: #20c997; }
     .icon-c { background: rgba(252, 196, 25, 0.1); color: #fcc419; }
     .icon-h { background: rgba(51, 154, 240, 0.1); color: #339af0; }
-
     .card-info h3 { font-size: 12px; color: var(--text-sub); font-weight: 500; margin-bottom: 2px; }
     .card-info .value { font-size: 20px; font-weight: 700; }
     .card-info .sub-text { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
-
-    /* Chart Panel */
     .chart-container { position: relative; width: 100%; height: 260px; margin-top: 10px; }
-
-    /* Control Buttons Touch-Friendly */
     .controls { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
-    .btn { flex: 1; min-width: 140px; padding: 14px 16px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow); }
+    .btn { flex: 1; min-width: 140px; padding: 14px 16px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow); transition: 0.2s; }
+    .btn:active { transform: scale(0.98); }
     .btn-mute { background-color: var(--warning-color); color: #111; }
     .btn-reset { background-color: var(--danger-color); color: white; }
-    .btn-demo { background-color: var(--primary-color); color: white; }
-
-    /* Section Panels */
+    .btn-voice { background-color: #8a2be2; color: white; }
     .panel { background: var(--card-bg); padding: 18px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-bottom: 18px; border: 1px solid var(--border-color); }
     .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
     .panel-title { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-
-    /* Tables */
     .table-container { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; }
     th, td { padding: 10px 12px; border-bottom: 1px solid var(--border-color); font-size: 13px; }
     th { color: var(--text-sub); font-size: 11px; text-transform: uppercase; }
-
-    /* Inputs Grid */
     .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 10px; }
     .input-group { display: flex; flex-direction: column; gap: 4px; }
     .input-group label { font-size: 12px; color: var(--text-sub); font-weight: 500; }
     .input-group input, .input-group select { padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-main); font-size: 14px; outline: none; }
-
     .tool-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-
-    /* Modal */
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
     .modal-content { background: var(--card-bg); padding: 22px; border-radius: var(--border-radius); text-align: center; max-width: 300px; width: 90%; position: relative; color: var(--text-main); }
     .close-btn { position: absolute; right: 15px; top: 10px; font-size: 20px; cursor: pointer; color: var(--text-sub); }
     #qrcode { display: flex; justify-content: center; margin: 12px 0; }
-
-    /* Responsive Mobile Bottom Navigation Bar */
     @media (max-width: 768px) {
       body { padding: 12px; padding-bottom: 85px; }
       .header h1 { font-size: 17px; }
-      .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; margin-bottom: 0; border-radius: 0; border-top: 1px solid var(--border-color); z-index: 999; padding: 8px 12px; justify-content: space-around; box-shadow: 0 -5px 15px rgba(0,0,0,0.08); }
+      .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; margin-bottom: 0; border-radius: 0; border-top: 1px solid var(--border-color); z-index: 999; padding: 8px 12px; justify-content: space-around; box-shadow: 0 -5px 15px rgba(0,0,0,0.08); background: var(--card-bg); }
       .tab-btn { flex-direction: column; gap: 3px; font-size: 10px; padding: 6px; }
       .tab-btn i { font-size: 16px; }
       .grid { grid-template-columns: 1fr 1fr; }
+      .controls { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- Header Section -->
   <div class="header">
     <h1>
       <i class="fa-solid fa-bolt"></i> <span data-i18n="title">ระบบวัดค่าไฟฟ้าแบบเรียลไทม์</span><br>
@@ -151,7 +108,6 @@
     </div>
   </div>
 
-  <!-- Navigation Tabs -->
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('tab-dash', this)"><i class="fa-solid fa-chart-line"></i> <span data-i18n="tab_dash">หน้าหลัก</span></button>
     <button class="tab-btn" onclick="switchTab('tab-history', this)"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="tab_history">ประวัติ & สรุป</span></button>
@@ -159,9 +115,7 @@
     <button class="tab-btn" onclick="switchTab('tab-system', this)"><i class="fa-solid fa-gear"></i> <span data-i18n="tab_system">ระบบ & ทดสอบ</span></button>
   </div>
 
-  <!-- TAB 1: หน้าหลัก (Dashboard) -->
   <div id="tab-dash" class="tab-content active">
-    <!-- Actionable Insight Banner -->
     <div class="insight-card">
       <div class="insight-info">
         <i class="fa-solid fa-circle-info" style="color: var(--primary-color); font-size: 18px;"></i>
@@ -173,7 +127,6 @@
       <div class="badge-score" id="eco-grade">GRADE A</div>
     </div>
 
-    <!-- Monitor Cards Grid -->
     <div class="grid">
       <div class="card">
         <div class="card-icon icon-v"><i class="fa-solid fa-car-battery"></i></div>
@@ -183,7 +136,6 @@
           <div class="sub-text" id="v-health" data-i18n="quality_ok">คุณภาพไฟ: ปกติ</div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-icon icon-i"><i class="fa-solid fa-plug-circle-bolt"></i></div>
         <div class="card-info">
@@ -192,7 +144,6 @@
           <div class="sub-text" data-i18n="max_limit">จำกัดสูงสุด: 15.00 A</div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-icon icon-w"><i class="fa-solid fa-lightbulb"></i></div>
         <div class="card-info">
@@ -201,7 +152,6 @@
           <div class="sub-text" id="appliance-est" data-i18n="load_light">โหลด: พัดลม/หลอดไฟ</div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-icon icon-e"><i class="fa-solid fa-charging-station"></i></div>
         <div class="card-info">
@@ -212,7 +162,6 @@
       </div>
     </div>
 
-    <!-- 24-Hour Power Line Chart Panel -->
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-chart-area"></i> <span data-i18n="chart_title">กราฟแสดงการใช้กำลังไฟฟ้า 24 ชั่วโมง (Watt)</span></div>
       <div class="chart-container">
@@ -220,14 +169,19 @@
       </div>
     </div>
 
-    <!-- Main Controls -->
+    <!-- ปุ่มควบคุมหลัก รวมถึงปุ่มสั่งงานด้วยเสียงที่เพิ่มเข้ามา -->
     <div class="controls">
       <button class="btn btn-mute" onclick="toggleBuzzerMute()"><i class="fa-solid fa-bell-slash"></i> <span data-i18n="btn_mute">เปิด/ปิด Buzzer</span></button>
       <button class="btn btn-reset" onclick="resetData()"><i class="fa-solid fa-rotate-right"></i> <span data-i18n="btn_reset">Reset ค่าพลังงาน</span></button>
+      <button class="btn btn-voice" onclick="startVoiceCommand()">
+        <i class="fa-solid fa-microphone"></i> <span data-i18n="btn_voice">สั่งงานด้วยเสียง (Voice Control)</span>
+      </button>
+      <div id="voice-status" style="width: 100%; text-align: center; margin-top: 5px; font-size: 13px; color: #8a2be2; font-weight: 600; display: none;">
+        <i class="fa-solid fa-ear-listen fa-beat"></i> <span data-i18n="voice_listening">กำลังฟังคำสั่ง... (พูดคำสั่งได้เลย)</span>
+      </div>
     </div>
   </div>
 
-  <!-- TAB 2: ประวัติ & สรุป (History & Analytics) -->
   <div id="tab-history" class="tab-content">
     <div class="grid">
       <div class="card">
@@ -238,7 +192,6 @@
           <div class="sub-text" id="rate-display">อัตรา: 4.39 ฿/หน่วย</div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-icon icon-h"><i class="fa-solid fa-receipt"></i></div>
         <div class="card-info">
@@ -248,7 +201,6 @@
         </div>
       </div>
     </div>
-
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="history_title">ประวัติรายวัน & Peak Tracker</span></div>
@@ -273,7 +225,6 @@
     </div>
   </div>
 
-  <!-- TAB 3: ตั้งค่า & เครื่องมือ (Settings & Tools) -->
   <div id="tab-calc" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-sliders"></i> <span data-i18n="title_tariff">ตั้งค่าอัตราค่าไฟฟ้า</span></div>
@@ -292,7 +243,6 @@
         </div>
       </div>
     </div>
-
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-calculator"></i> <span data-i18n="title_calc">เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า</span></div>
       <div class="calc-grid">
@@ -312,14 +262,12 @@
     </div>
   </div>
 
-  <!-- TAB 4: ระบบ & ทดสอบ (System & Demo) -->
   <div id="tab-system" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-vial"></i> <span data-i18n="title_demo">โหมดจำลองสถานการณ์เตือนภัย</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase เป็นเวลา 5 วินาที เพื่อทดสอบระบบเตือนภัยวันนำเสนอ</p>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase 5 วินาที เพื่อทดสอบระบบเตือนภัยวันนำเสนอ</p>
       <button class="btn btn-demo" onclick="triggerDemo()"><i class="fa-solid fa-flask"></i> <span data-i18n="btn_demo">ทดสอบ Simulation (15.5A)</span></button>
     </div>
-
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-desktop"></i> <span data-i18n="title_tools">เครื่องมือการแสดงผล</span></div>
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
@@ -350,7 +298,6 @@
   let currentLang = 'th';
   let powerChart;
 
-  // Language Dictionary
   const i18n = {
     th: {
       title: "ระบบวัดค่าไฟฟ้าแบบเรียลไทม์", tab_dash: "หน้าหลัก", tab_history: "ประวัติ & สรุป", tab_calc: "ตั้งค่า & เครื่องมือ", tab_system: "ระบบ & ทดสอบ",
@@ -363,7 +310,8 @@
       opt_home: "บ้านอยู่อาศัย (~4.39 บาท)", opt_dorm: "หอพัก / อพาร์ตเมนต์ (~7.00 บาท)", opt_shop: "ร้านค้า (~4.80 บาท)", title_calc: "เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า",
       lbl_watt: "กำลังไฟ (วัตต์):", lbl_hrs: "เปิดใช้งาน (ชั่วโมง/วัน):", btn_calc: "คำนวณค่าไฟ", title_demo: "โหมดจำลองสถานการณ์เตือนภัย",
       desc_demo: "จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase 5 วินาที เพื่อทดสอบระบบเตือนภัย", btn_demo: "ทดสอบ Simulation (15.5A)", title_tools: "เครื่องมือการแสดงผล",
-      btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ"
+      btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ", btn_voice: "สั่งงานด้วยเสียง (Voice Control)",
+      voice_listening: "กำลังฟังคำสั่ง... (พูดคำสั่งได้เลย)"
     },
     en: {
       title: "Real-time Electricity Monitor", tab_dash: "Dashboard", tab_history: "History & Summary", tab_calc: "Settings & Tools", tab_system: "System & Demo",
@@ -376,11 +324,11 @@
       opt_home: "Residential (~4.39 THB)", opt_dorm: "Dormitory (~7.00 THB)", opt_shop: "Small Business (~4.80 THB)", title_calc: "Appliance Bill Calculator",
       lbl_watt: "Power (Watts):", lbl_hrs: "Usage (Hours/Day):", btn_calc: "Calculate", title_demo: "Alarm Simulation Mode",
       desc_demo: "Simulate current spike to 15.50 A on Firebase for 5 seconds to test alarms.", btn_demo: "Run Simulation (15.5A)", title_tools: "Display Tools",
-      btn_theme: "Toggle Dark/Light", btn_qr: "Show QR Code", qr_title: "Scan to Open Web App"
+      btn_theme: "Toggle Dark/Light", btn_qr: "Show QR Code", qr_title: "Scan to Open Web App", btn_voice: "Voice Control",
+      voice_listening: "Listening..."
     }
   };
 
-  // Toggle Language
   function toggleLang() {
     currentLang = currentLang === 'th' ? 'en' : 'th';
     document.getElementById('lang-btn-text').innerText = currentLang === 'th' ? 'EN' : 'TH';
@@ -390,21 +338,18 @@
     });
   }
 
-  // Switch Tab
   function switchTab(tabId, btn) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
-    btn.classList.add('active');
+    if(btn) btn.classList.add('active');
   }
 
-  // Dark/Light Theme
   function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
   }
 
-  // Initialize 24-Hour Line Chart
   function initChart() {
     const ctx = document.getElementById('powerChart').getContext('2d');
     powerChart = new Chart(ctx, {
@@ -412,19 +357,10 @@
       data: {
         labels: [],
         datasets: [{
-          label: 'Power (Watt)',
-          data: [],
-          borderColor: '#4361ee',
-          backgroundColor: 'rgba(67, 97, 238, 0.1)',
-          fill: true,
-          tension: 0.3
+          label: 'Power (Watt)', data: [], borderColor: '#4361ee', backgroundColor: 'rgba(67, 97, 238, 0.1)', fill: true, tension: 0.3
         }]
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: { y: { beginAtZero: true } }
-      }
+      options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false } } }
     });
   }
 
@@ -439,7 +375,6 @@
     powerChart.update();
   }
 
-  // Dynamic Rate & Calculator
   function updateRate() {
     customRate = parseFloat(document.getElementById('unitRateInput').value) || 4.39;
     document.getElementById('rate-display').innerText = `อัตรา: ${customRate.toFixed(2)} ฿/หน่วย`;
@@ -456,11 +391,9 @@
     const hours = parseFloat(document.getElementById('calcHours').value) || 0;
     const dailyKwh = (watt * hours) / 1000;
     const dailyCost = dailyKwh * customRate;
-    document.getElementById('calc-result').innerHTML = 
-      `ผลคำนวณ: วันละ ${dailyKwh.toFixed(2)} kWh (${dailyCost.toFixed(2)} บาท/วัน หรือ ${(dailyCost*30).toFixed(2)} บาท/เดือน)`;
+    document.getElementById('calc-result').innerHTML = `ผลคำนวณ: วันละ ${dailyKwh.toFixed(2)} kWh (${dailyCost.toFixed(2)} บาท/วัน หรือ ${(dailyCost*30).toFixed(2)} บาท/เดือน)`;
   }
 
-  // Modal QR Code
   function openQRModal() {
     document.getElementById('qrModal').style.display = 'flex';
     if (!document.getElementById("qrcode").innerHTML) {
@@ -469,48 +402,34 @@
   }
   function closeQRModal() { document.getElementById('qrModal').style.display = 'none'; }
 
-  // Fetch Realtime Data & Chart
   async function fetchRealtimeData() {
     try {
       const res = await fetch(`${FIREBASE_BASE}/electricity.json`);
       const data = await res.json();
-
       if (data) {
-        const v = data.voltage || 0;
-        const i = data.current || 0;
-        const w = data.power || 0;
-        const energy = data.energy || 0;
-
+        const v = data.voltage || 0; const i = data.current || 0; const w = data.power || 0; const energy = data.energy || 0;
         document.getElementById('voltage').innerText = `${v.toFixed(1)} V`;
         document.getElementById('current').innerText = `${i.toFixed(2)} A`;
         document.getElementById('power').innerText = `${w.toFixed(1)} W`;
         document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
-
         updateChart(w);
 
         const totalCost = energy * customRate;
         const baseCost = totalCost / 1.07;
         const vatCost = totalCost - baseCost;
-
         document.getElementById('totalCost').innerText = `${totalCost.toFixed(2)} ฿`;
         document.getElementById('breakdown-text').innerText = `ฐาน: ${baseCost.toFixed(2)} ฿ | VAT: ${vatCost.toFixed(2)} ฿`;
 
         const nowStr = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
-        if (i > maxCurrentToday) {
-          maxCurrentToday = i;
-          maxCurrentTimeToday = nowStr;
-        }
+        if (i > maxCurrentToday) { maxCurrentToday = i; maxCurrentTimeToday = nowStr; }
         document.getElementById('peak-today').innerText = `พีควันนี้: ${maxCurrentToday.toFixed(2)} A (${maxCurrentTimeToday})`;
 
         lastDataTime = Date.now();
         saveDailyHistory(energy, totalCost, maxCurrentToday, maxCurrentTimeToday);
       }
-    } catch (e) {
-      console.error("Fetch Error:", e);
-    }
+    } catch (e) { console.error("Fetch Error:", e); }
   }
 
-  // Trigger Demo & Controls
   async function triggerDemo() {
     alert("Simulation Mode: 15.50 A for 5 seconds");
     await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) });
@@ -532,7 +451,6 @@
       const data = await res.json();
       const tbody = document.getElementById('history-table-body');
       tbody.innerHTML = '';
-
       if (data) {
         Object.keys(data).reverse().forEach(date => {
           const item = data[date];
@@ -552,18 +470,14 @@
     const res = await fetch(`${FIREBASE_BASE}/history.json`);
     const data = await res.json();
     if (!data) return alert("No Data");
-
     let csv = "\uFEFFDate,Energy(kWh),Peak(A),PeakTime,Cost(THB)\n";
     Object.keys(data).forEach(date => {
       const item = data[date];
       csv += `${date},${(item.energy||0).toFixed(2)},${(item.peakCurrent||0).toFixed(2)},${item.peakTime||'-'},${(item.totalCost||0).toFixed(2)}\n`;
     });
-
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `PowerPulse_History.csv`;
-    a.click();
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = `PowerPulse_History.csv`; a.click();
   }
 
   async function toggleBuzzerMute() {
@@ -578,23 +492,105 @@
     }
   }
 
-  // Status Checker
+  // ==========================================
+  // ระบบรับคำสั่งเสียงแบบสมบูรณ์
+  // ==========================================
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  
+  if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'th-TH';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    window.startVoiceCommand = function() {
+      const statusEl = document.getElementById('voice-status');
+      statusEl.style.display = 'block'; 
+      try { recognition.start(); } catch(e) { console.error("Mic is already running"); }
+    };
+
+    recognition.onresult = function(event) {
+      const command = event.results[0][0].transcript.trim();
+      document.getElementById('voice-status').style.display = 'none';
+      console.log("Voice Command: " + command);
+
+      if (command.includes("หน้าหลัก") || command.includes("แดชบอร์ด")) {
+        switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
+      } 
+      else if (command.includes("หน้าประวัติ") || command.includes("ประวัติ") || command.includes("สรุป")) {
+        switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
+      } 
+      else if (command.includes("หน้าตั้งค่า") || command.includes("ตั้งค่า") || command.includes("เครื่องมือ")) {
+        switchTab('tab-calc', document.querySelectorAll('.tab-btn')[2]);
+      } 
+      else if (command.includes("หน้าระบบ") || command.includes("ระบบ")) {
+        switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
+      }
+      else if (command.includes("ดาวน์โหลด") || command.includes("โหลดไฟล์")) {
+        switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
+        exportCSV();
+      } 
+      else if (command.includes("คำนวณ") || command.includes("คำนวณค่าไฟ")) {
+        switchTab('tab-calc', document.querySelectorAll('.tab-btn')[2]);
+        calculateAppliance();
+      } 
+      else if (command.includes("เปลี่ยนธีม") || command.includes("โหมดมืด") || command.includes("โหมดสว่าง")) {
+        toggleTheme();
+      } 
+      else if (command.includes("คิวอาร์") || command.includes("คิวอาร์โค้ด")) {
+        openQRModal();
+      } 
+      else if (command.includes("เปลี่ยนภาษา")) {
+        toggleLang();
+      }
+      else if (command.includes("ปิดเสียง") || command.includes("เงียบ")) {
+        currentMuteState = true;
+        fetch(`${FIREBASE_BASE}/electricity/buzzerMute.json`, { method: 'PUT', body: JSON.stringify(currentMuteState) });
+        alert(`🎙️ รับคำสั่ง: "${command}"\n✅ ปิดเสียง Buzzer แล้ว`);
+      } 
+      else if (command.includes("เปิดเสียง")) {
+        currentMuteState = false;
+        fetch(`${FIREBASE_BASE}/electricity/buzzerMute.json`, { method: 'PUT', body: JSON.stringify(currentMuteState) });
+        alert(`🎙️ รับคำสั่ง: "${command}"\n✅ เปิดเสียง Buzzer แล้ว`);
+      } 
+      else if (command.includes("รีเซ็ต") || command.includes("ล้างค่า")) {
+        if (confirm(`🎙️ AI ได้ยินคำสั่ง: "${command}"\nคุณแน่ใจหรือไม่ว่าต้องการ Reset?`)) {
+          fetch(`${FIREBASE_BASE}/electricity/resetEnergy.json`, { method: 'PUT', body: JSON.stringify(true) });
+        }
+      } 
+      else if (command.includes("ทดสอบ") || command.includes("เตือนภัย") || command.includes("จำลอง")) {
+        triggerDemo();
+        alert(`🎙️ AI รับคำสั่ง: "${command}"\n⚠️ เริ่มจำลองสถานการณ์เตือนภัย!`);
+      } 
+      else {
+        alert(`🎙️ AI ได้ยินว่า: "${command}"\n❌ ไม่พบคำสั่งนี้ ลองพูดใหม่ เช่น "หน้าประวัติ", "ปิดเสียง", หรือ "เปลี่ยนธีม"`);
+      }
+    };
+
+    recognition.onerror = function(event) {
+      document.getElementById('voice-status').style.display = 'none';
+      if (event.error === 'not-allowed') { alert("กรุณาอนุญาตการเข้าถึงไมโครโฟนบนเบราว์เซอร์ด้วยครับ"); }
+    };
+    recognition.onspeechend = function() {
+      recognition.stop();
+      document.getElementById('voice-status').style.display = 'none';
+    };
+  } else {
+    window.startVoiceCommand = function() { alert("⚠️ เบราว์เซอร์ของคุณไม่รองรับระบบสั่งงานด้วยเสียง"); };
+  }
+
   setInterval(() => {
     const badge = document.getElementById('status-badge');
     const text = document.getElementById('status-text');
     if (Date.now() - lastDataTime > 10000) {
-      text.innerText = "OFFLINE";
-      badge.className = "status-badge offline";
+      text.innerText = "OFFLINE"; badge.className = "status-badge offline";
     } else {
-      text.innerText = "ONLINE";
-      badge.className = "status-badge online";
+      text.innerText = "ONLINE"; badge.className = "status-badge online";
     }
   }, 3000);
 
   window.onload = () => {
-    initChart();
-    fetchRealtimeData();
-    fetchHistory();
+    initChart(); fetchRealtimeData(); fetchHistory();
     setInterval(fetchRealtimeData, 3000);
     setInterval(fetchHistory, 10000);
   };
