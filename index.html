@@ -36,15 +36,20 @@
     .status-dot { width: 8px; height: 8px; border-radius: 50%; }
     .online .status-dot { background-color: var(--success-color); }
     .offline .status-dot { background-color: var(--danger-color); }
-    .tab-bar { display: flex; background: var(--card-bg); padding: 6px; border-radius: 14px; margin-bottom: 20px; gap: 6px; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
-    .tab-btn { flex: 1; padding: 12px 8px; border: none; background: transparent; color: var(--text-sub); border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; transition: 0.2s; }
+    
+    /* Tab Bar ปรับให้เลื่อนและรองรับ 5 เมนู */
+    .tab-bar { display: flex; background: var(--card-bg); padding: 6px; border-radius: 14px; margin-bottom: 20px; gap: 4px; border: 1px solid var(--border-color); box-shadow: var(--shadow); overflow-x: auto; }
+    .tab-btn { flex: 1; min-width: 95px; padding: 10px 6px; border: none; background: transparent; color: var(--text-sub); border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; white-space: nowrap; transition: 0.2s; }
     .tab-btn.active { background: var(--primary-color); color: white; box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3); }
+    
     .tab-content { display: none; }
     .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    
     .insight-card { background: var(--card-bg); border-left: 5px solid var(--primary-color); padding: 14px 18px; border-radius: var(--border-radius); margin-bottom: 18px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border: 1px solid var(--border-color); }
     .insight-info { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
     .badge-score { background-color: var(--primary-color); color: white; padding: 4px 10px; border-radius: 10px; font-weight: 700; font-size: 13px; }
+    
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 18px; }
     .card { background: var(--card-bg); padding: 16px; border-radius: var(--border-radius); box-shadow: var(--shadow); display: flex; align-items: center; gap: 14px; border: 1px solid var(--border-color); }
     .card-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
@@ -57,6 +62,7 @@
     .card-info h3 { font-size: 12px; color: var(--text-sub); font-weight: 500; margin-bottom: 2px; }
     .card-info .value { font-size: 20px; font-weight: 700; }
     .card-info .sub-text { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+    
     .chart-container { position: relative; width: 100%; height: 260px; margin-top: 10px; }
     .controls { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
     .btn { flex: 1; min-width: 140px; padding: 14px 16px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow); transition: 0.2s; }
@@ -64,28 +70,40 @@
     .btn-mute { background-color: var(--warning-color); color: #111; }
     .btn-reset { background-color: var(--danger-color); color: white; }
     .btn-voice { background-color: #8a2be2; color: white; }
+    
     .panel { background: var(--card-bg); padding: 18px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-bottom: 18px; border: 1px solid var(--border-color); }
     .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
     .panel-title { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    
     .table-container { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; }
     th, td { padding: 10px 12px; border-bottom: 1px solid var(--border-color); font-size: 13px; }
     th { color: var(--text-sub); font-size: 11px; text-transform: uppercase; }
+    
     .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 10px; }
     .input-group { display: flex; flex-direction: column; gap: 4px; }
     .input-group label { font-size: 12px; color: var(--text-sub); font-weight: 500; }
     .input-group input, .input-group select { padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-main); font-size: 14px; outline: none; }
     .tool-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    
+    /* สไตล์สำหรับหน้าคู่มือ (Manual Page) */
+    .manual-step { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
+    .step-num { background: var(--primary-color); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+    .step-desc h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .step-desc p { font-size: 13px; color: var(--text-sub); line-height: 1.4; }
+    .voice-command-tag { background: rgba(138, 43, 226, 0.1); color: #8a2be2; padding: 4px 8px; border-radius: 6px; font-family: monospace; font-weight: 600; font-size: 12px; display: inline-block; margin: 2px 0; }
+
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
     .modal-content { background: var(--card-bg); padding: 22px; border-radius: var(--border-radius); text-align: center; max-width: 300px; width: 90%; position: relative; color: var(--text-main); }
     .close-btn { position: absolute; right: 15px; top: 10px; font-size: 20px; cursor: pointer; color: var(--text-sub); }
-    #qrcode { display: flex; justify-content: center; margin: 12px 0; }
+    #qrcode, #manual-qrcode { display: flex; justify-content: center; margin: 12px 0; }
+
     @media (max-width: 768px) {
       body { padding: 12px; padding-bottom: 85px; }
       .header h1 { font-size: 17px; }
-      .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; margin-bottom: 0; border-radius: 0; border-top: 1px solid var(--border-color); z-index: 999; padding: 8px 12px; justify-content: space-around; box-shadow: 0 -5px 15px rgba(0,0,0,0.08); background: var(--card-bg); }
-      .tab-btn { flex-direction: column; gap: 3px; font-size: 10px; padding: 6px; }
-      .tab-btn i { font-size: 16px; }
+      .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; margin-bottom: 0; border-radius: 0; border-top: 1px solid var(--border-color); z-index: 999; padding: 8px 6px; justify-content: space-around; box-shadow: 0 -5px 15px rgba(0,0,0,0.08); background: var(--card-bg); }
+      .tab-btn { flex-direction: column; gap: 2px; font-size: 9px; padding: 4px; min-width: auto; }
+      .tab-btn i { font-size: 14px; }
       .grid { grid-template-columns: 1fr 1fr; }
       .controls { flex-direction: column; }
     }
@@ -108,13 +126,16 @@
     </div>
   </div>
 
+  <!-- Tab Bar (เพิ่มเมนูคู่มือการใช้งาน เป็น 5 Tabs) -->
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('tab-dash', this)"><i class="fa-solid fa-chart-line"></i> <span data-i18n="tab_dash">หน้าหลัก</span></button>
-    <button class="tab-btn" onclick="switchTab('tab-history', this)"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="tab_history">ประวัติ & สรุป</span></button>
-    <button class="tab-btn" onclick="switchTab('tab-calc', this)"><i class="fa-solid fa-sliders"></i> <span data-i18n="tab_calc">ตั้งค่า & เครื่องมือ</span></button>
-    <button class="tab-btn" onclick="switchTab('tab-system', this)"><i class="fa-solid fa-gear"></i> <span data-i18n="tab_system">ระบบ & ทดสอบ</span></button>
+    <button class="tab-btn" onclick="switchTab('tab-history', this)"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="tab_history">ประวัติ</span></button>
+    <button class="tab-btn" onclick="switchTab('tab-calc', this)"><i class="fa-solid fa-sliders"></i> <span data-i18n="tab_calc">ตั้งค่า</span></button>
+    <button class="tab-btn" onclick="switchTab('tab-system', this)"><i class="fa-solid fa-gear"></i> <span data-i18n="tab_system">ระบบ</span></button>
+    <button class="tab-btn" onclick="switchTab('tab-manual', this)"><i class="fa-solid fa-book-open"></i> <span data-i18n="tab_manual">คู่มือ</span></button>
   </div>
 
+  <!-- TAB 1: หน้าหลัก -->
   <div id="tab-dash" class="tab-content active">
     <div class="insight-card">
       <div class="insight-info">
@@ -164,17 +185,14 @@
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-chart-area"></i> <span data-i18n="chart_title">กราฟแสดงการใช้กำลังไฟฟ้า 24 ชั่วโมง (Watt)</span></div>
-      <div class="chart-container">
-        <canvas id="powerChart"></canvas>
-      </div>
+      <div class="chart-container"><canvas id="powerChart"></canvas></div>
     </div>
 
-    <!-- ปุ่มควบคุมหลัก รวมถึงปุ่มสั่งงานด้วยเสียงที่เพิ่มเข้ามา -->
     <div class="controls">
       <button class="btn btn-mute" onclick="toggleBuzzerMute()"><i class="fa-solid fa-bell-slash"></i> <span data-i18n="btn_mute">เปิด/ปิด Buzzer</span></button>
       <button class="btn btn-reset" onclick="resetData()"><i class="fa-solid fa-rotate-right"></i> <span data-i18n="btn_reset">Reset ค่าพลังงาน</span></button>
       <button class="btn btn-voice" onclick="startVoiceCommand()">
-        <i class="fa-solid fa-microphone"></i> <span data-i18n="btn_voice">สั่งงานด้วยเสียง (Voice Control)</span>
+        <i class="fa-solid fa-microphone"></i> <span data-i18n="btn_voice">สั่งงานด้วยเสียง</span>
       </button>
       <div id="voice-status" style="width: 100%; text-align: center; margin-top: 5px; font-size: 13px; color: #8a2be2; font-weight: 600; display: none;">
         <i class="fa-solid fa-ear-listen fa-beat"></i> <span data-i18n="voice_listening">กำลังฟังคำสั่ง... (พูดคำสั่งได้เลย)</span>
@@ -182,6 +200,7 @@
     </div>
   </div>
 
+  <!-- TAB 2: ประวัติ & สรุป -->
   <div id="tab-history" class="tab-content">
     <div class="grid">
       <div class="card">
@@ -225,6 +244,7 @@
     </div>
   </div>
 
+  <!-- TAB 3: ตั้งค่า & เครื่องมือ -->
   <div id="tab-calc" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-sliders"></i> <span data-i18n="title_tariff">ตั้งค่าอัตราค่าไฟฟ้า</span></div>
@@ -262,6 +282,7 @@
     </div>
   </div>
 
+  <!-- TAB 4: ระบบ & ทดสอบ -->
   <div id="tab-system" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-vial"></i> <span data-i18n="title_demo">โหมดจำลองสถานการณ์เตือนภัย</span></div>
@@ -274,6 +295,49 @@
         <button class="tool-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> <span data-i18n="btn_theme">สลับธีม สว่าง/มืด</span></button>
         <button class="tool-btn" onclick="openQRModal()"><i class="fa-solid fa-qrcode"></i> <span data-i18n="btn_qr">แสดง QR Code</span></button>
       </div>
+    </div>
+  </div>
+
+  <!-- TAB 5: คู่มือการใช้งาน (User Manual & Guide) - เพิ่มใหม่ -->
+  <div id="tab-manual" class="tab-content">
+    <div class="panel">
+      <div class="panel-title"><i class="fa-solid fa-book-open" style="color: var(--primary-color);"></i> คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)</div>
+      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 16px;">เอกสารแนะนำการใช้งานฟีเจอร์ต่างๆ และคำสั่งเสียงอัจฉริยะสำหรับผู้ใช้งานและคณะกรรมการ</p>
+
+      <div class="manual-step">
+        <div class="step-num">1</div>
+        <div class="step-desc">
+          <h4>การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Dashboard)</h4>
+          <p>แสดงค่าแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 อัปเดตอัตโนมัติทุก 3 วินาที พร้อมกราฟเส้นแสดงแนวโน้ม 24 ชั่วโมง</p>
+        </div>
+      </div>
+
+      <div class="manual-step">
+        <div class="step-num">2</div>
+        <div class="step-desc">
+          <h4>การใช้งานระบบสั่งงานด้วยเสียง (Voice Control)</h4>
+          <p>กดปุ่ม <i class="fa-solid fa-microphone" style="color: #8a2be2;"></i> <strong>สั่งงานด้วยเสียง</strong> ในหน้าหลัก แล้วพูดคำสั่งภาษาไทยเพื่อควบคุมระบบได้ทันที:</p>
+          <div style="margin-top: 6px;">
+            • ไปยังหน้าต่างๆ: <span class="voice-command-tag">"หน้าหลัก"</span>, <span class="voice-command-tag">"หน้าประวัติ"</span>, <span class="voice-command-tag">"หน้าตั้งค่า"</span>, <span class="voice-command-tag">"หน้าระบบ"</span><br>
+            • ควบคุมระบบ: <span class="voice-command-tag">"ปิดเสียง"</span>, <span class="voice-command-tag">"เปิดเสียง"</span>, <span class="voice-command-tag">"รีเซ็ตข้อมูล"</span>, <span class="voice-command-tag">"ทดสอบเตือนภัย"</span><br>
+            • เครื่องมืออื่นๆ: <span class="voice-command-tag">"เปลี่ยนธีม"</span>, <span class="voice-command-tag">"เปลี่ยนภาษา"</span>, <span class="voice-command-tag">"ดาวน์โหลดประวัติ"</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="manual-step">
+        <div class="step-num">3</div>
+        <div class="step-desc">
+          <h4>การส่งออกข้อมูลและตั้งค่าอัตราค่าไฟ</h4>
+          <p>สามารถเลือกประเภทสถานที่ (บ้าน / หอพัก / ร้านค้า) เพื่อคำนวณค่าไฟ หรือกดดาวน์โหลดไฟล์รายงาน (.CSV) นำไปเปิดใน Excel ได้ที่หน้า <strong>ประวัติ & ตั้งค่า</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="text-align: center;">
+      <div class="panel-title" style="justify-content: center;"><i class="fa-solid fa-qrcode"></i> สแกนเพื่อเปิดใช้งานบนมือถือ</div>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 10px;">ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง</p>
+      <div id="manual-qrcode" style="display: flex; justify-content: center;"></div>
     </div>
   </div>
 </div>
@@ -297,24 +361,25 @@
   let maxCurrentTimeToday = "00:00";
   let currentLang = 'th';
   let powerChart;
+  let qrInitialized = false;
 
   const i18n = {
     th: {
-      title: "ระบบวัดค่าไฟฟ้าแบบเรียลไทม์", tab_dash: "หน้าหลัก", tab_history: "ประวัติ & สรุป", tab_calc: "ตั้งค่า & เครื่องมือ", tab_system: "ระบบ & ทดสอบ",
+      title: "ระบบวัดค่าไฟฟ้าแบบเรียลไทม์", tab_dash: "หน้าหลัก", tab_history: "ประวัติ", tab_calc: "ตั้งค่า", tab_system: "ระบบ", tab_manual: "คู่มือ",
       analyzing: "กำลังวิเคราะห์พฤติกรรมการใช้ไฟ...", v_normal: "สถานะไฟฟ้า: ปกติสมบูรณ์", lbl_voltage: "แรงดันไฟฟ้า", quality_ok: "คุณภาพไฟ: ปกติ",
       lbl_current: "กระแสไฟฟ้า", max_limit: "จำกัดสูงสุด: 15.00 A", lbl_power: "กำลังไฟฟ้า", load_light: "โหลด: พัดลม/หลอดไฟ",
       lbl_energy: "พลังงานสะสม", chart_title: "กราฟแสดงการใช้กำลังไฟฟ้า 24 ชั่วโมง (Watt)", btn_mute: "เปิด/ปิด Buzzer", btn_reset: "Reset ค่าพลังงาน",
       lbl_total_cost: "ค่าไฟสะสมรวม", lbl_breakdown: "แจกแจงค่าไฟ", sub_vat: "รวมค่า Ft + VAT 7% แล้ว", history_title: "ประวัติรายวัน & Peak Tracker",
       btn_export: "ดาวน์โหลด CSV", th_date: "วันที่", th_kwh: "พลังงาน (kWh)", th_peak_i: "กระแสสูงสุด", th_peak_t: "เวลา Peak", th_cost: "ค่าไฟ (บาท)",
       loading: "กำลังโหลดข้อมูล...", title_tariff: "ตั้งค่าอัตราค่าไฟฟ้า", lbl_rate: "อัตราค่าไฟ (บาท/หน่วย):", lbl_preset: "เลือกประเภทสถานที่:",
-      opt_home: "บ้านอยู่อาศัย (~4.39 บาท)", opt_dorm: "หอพัก / อพาร์ตเมนต์ (~7.00 บาท)", opt_shop: "ร้านค้า (~4.80 บาท)", title_calc: "เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า",
+      opt_home: "บ้านอยู่อาศัย (~4.39 บาท)", opt_dorm: "หอพัก / อพาร์ตเมนต์ (~7.00 บาท)", opt_shop: "ร้านค้า / กิจการขนาดเล็ก (~4.80 บาท)", title_calc: "เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า",
       lbl_watt: "กำลังไฟ (วัตต์):", lbl_hrs: "เปิดใช้งาน (ชั่วโมง/วัน):", btn_calc: "คำนวณค่าไฟ", title_demo: "โหมดจำลองสถานการณ์เตือนภัย",
       desc_demo: "จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase 5 วินาที เพื่อทดสอบระบบเตือนภัย", btn_demo: "ทดสอบ Simulation (15.5A)", title_tools: "เครื่องมือการแสดงผล",
-      btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ", btn_voice: "สั่งงานด้วยเสียง (Voice Control)",
-      voice_listening: "กำลังฟังคำสั่ง... (พูดคำสั่งได้เลย)"
+      btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ", btn_voice: "สั่งงานด้วยเสียง",
+      voice_listening: "กำลังฟังคำสั่ง..."
     },
     en: {
-      title: "Real-time Electricity Monitor", tab_dash: "Dashboard", tab_history: "History & Summary", tab_calc: "Settings & Tools", tab_system: "System & Demo",
+      title: "Real-time Electricity Monitor", tab_dash: "Dashboard", tab_history: "History", tab_calc: "Settings", tab_system: "System", tab_manual: "Manual",
       analyzing: "Analyzing power consumption...", v_normal: "Grid Status: Normal (220V)", lbl_voltage: "Voltage", quality_ok: "Power Quality: Optimal",
       lbl_current: "Current", max_limit: "Max Limit: 15.00 A", lbl_power: "Active Power", load_light: "Load: Fan/Lighting",
       lbl_energy: "Accumulated Energy", chart_title: "24-Hour Power Consumption Chart (Watt)", btn_mute: "Mute/Unmute Buzzer", btn_reset: "Reset Energy",
@@ -343,6 +408,12 @@
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
     if(btn) btn.classList.add('active');
+
+    // สร้าง QR Code อัตโนมัติเมื่อกดเข้าหน้าคู่มือ
+    if(tabId === 'tab-manual' && !qrInitialized) {
+      new QRCode(document.getElementById("manual-qrcode"), { text: window.location.href, width: 140, height: 140 });
+      qrInitialized = true;
+    }
   }
 
   function toggleTheme() {
@@ -493,7 +564,7 @@
   }
 
   // ==========================================
-  // ระบบรับคำสั่งเสียงแบบสมบูรณ์
+  // ระบบรับคำสั่งเสียงสมบูรณ์ (Voice Command)
   // ==========================================
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   
@@ -520,21 +591,20 @@
       else if (command.includes("หน้าประวัติ") || command.includes("ประวัติ") || command.includes("สรุป")) {
         switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
       } 
-      else if (command.includes("หน้าตั้งค่า") || command.includes("ตั้งค่า") || command.includes("เครื่องมือ")) {
+      else if (command.includes("หน้าตั้งค่า") || command.includes("ตั้งค่า")) {
         switchTab('tab-calc', document.querySelectorAll('.tab-btn')[2]);
       } 
       else if (command.includes("หน้าระบบ") || command.includes("ระบบ")) {
         switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
       }
+      else if (command.includes("คู่มือ") || command.includes("วิธีใช้")) {
+        switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
+      }
       else if (command.includes("ดาวน์โหลด") || command.includes("โหลดไฟล์")) {
         switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
         exportCSV();
       } 
-      else if (command.includes("คำนวณ") || command.includes("คำนวณค่าไฟ")) {
-        switchTab('tab-calc', document.querySelectorAll('.tab-btn')[2]);
-        calculateAppliance();
-      } 
-      else if (command.includes("เปลี่ยนธีม") || command.includes("โหมดมืด") || command.includes("โหมดสว่าง")) {
+      else if (command.includes("เปลี่ยนธีม") || command.includes("โหมดมืด")) {
         toggleTheme();
       } 
       else if (command.includes("คิวอาร์") || command.includes("คิวอาร์โค้ด")) {
@@ -563,7 +633,7 @@
         alert(`🎙️ AI รับคำสั่ง: "${command}"\n⚠️ เริ่มจำลองสถานการณ์เตือนภัย!`);
       } 
       else {
-        alert(`🎙️ AI ได้ยินว่า: "${command}"\n❌ ไม่พบคำสั่งนี้ ลองพูดใหม่ เช่น "หน้าประวัติ", "ปิดเสียง", หรือ "เปลี่ยนธีม"`);
+        alert(`🎙️ AI ได้ยินว่า: "${command}"\n❌ ไม่พบคำสั่งนี้ ลองพูดใหม่ เช่น "หน้าคู่มือ", "ปิดเสียง" หรือ "หน้าประวัติ"`);
       }
     };
 
