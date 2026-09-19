@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Electricity Monitor</title>
+  <title>ระบบวัดค่าไฟฟ้าแบบเรียลไทม์ ( PowerPulse IoT )</title>
   <!-- Google Fonts & Font Awesome Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -266,7 +266,7 @@
     /* Responsive */
     @media (max-width: 600px) {
       body { padding: 12px; }
-      .header h1 { font-size: 20px; }
+      .header h1 { font-size: 18px; }
       .card { padding: 16px; }
       .card-icon { width: 50px; height: 50px; font-size: 20px; }
       .card-info .value { font-size: 22px; }
@@ -278,7 +278,7 @@
 <div class="container">
   <!-- Header Section -->
   <div class="header">
-    <h1><i class="fa-solid fa-bolt"></i> ระบบวัดไฟฟ้า ESP32</h1>
+    <h1><i class="fa-solid fa-bolt"></i> ระบบวัดค่าไฟฟ้าแบบเรียลไทม์ ( PowerPulse IoT )</h1>
     <div id="status-badge" class="status-badge offline">
       <div class="status-dot"></div>
       <span id="status-text">OFFLINE</span>
@@ -289,7 +289,7 @@
   <div id="alert-banner" class="alert-banner">
     <div>
       <i class="fa-solid fa-triangle-exclamation"></i>
-      <strong> คำเตือน:</strong> กระแสไฟฟ้าเกินกำหนด ( > 0.40 A )
+      <strong> คำเตือน:</strong> กระแสไฟฟ้าเกินกำหนด ( > 15.00 A )
     </div>
   </div>
 
@@ -395,9 +395,9 @@
         currentMuteState = data.buzzerMute || false;
         lastDataTime = Date.now();
         
-        // เตือนกระแสไฟฟ้าเกิน 0.40 A
+        // เตือนเมื่อกระแสเกิน 15.00 A
         const alertBanner = document.getElementById('alert-banner');
-        if (data.current > 0.40) {
+        if (data.current > 15.00) {
           alertBanner.style.display = 'flex';
         } else {
           alertBanner.style.display = 'none';
