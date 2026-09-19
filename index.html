@@ -3,68 +3,374 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ระบบวัดไฟฟ้า ESP32</title>
+  <title>Smart Electricity Monitor</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
-    .container { max-width: 900px; margin: auto; }
-    .header { text-align: center; margin-bottom: 20px; }
-    .badge { padding: 8px 16px; border-radius: 20px; color: white; font-weight: bold; display: inline-block; }
-    .bg-online { background-color: #28a745; }
-    .bg-offline { background-color: #dc3545; }
-    
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 25px; }
-    .card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-    .card h3 { margin: 0; color: #6c757d; font-size: 16px; }
-    .card .value { font-size: 28px; font-weight: bold; margin: 10px 0; color: #333; }
-    
-    .btn-group { display: flex; gap: 10px; justify-content: center; margin-bottom: 25px; }
-    button { padding: 12px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-    .btn-mute { background-color: #ffc107; color: #212529; }
-    .btn-reset { background-color: #dc3545; color: white; }
-    button:hover { opacity: 0.85; }
+    :root {
+      --primary-color: #4361ee;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-main: #2b2d42;
+      --text-sub: #8d99ae;
+      --danger-color: #e63946;
+      --warning-color: #ffb703;
+      --success-color: #2a9d8f;
+      --border-radius: 16px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
 
-    .history-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { padding: 12px; text-align: center; border-bottom: 1px solid #e9ecef; }
-    th { background-color: #f8f9fa; color: #495057; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Prompt', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Header & Status Banner */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header h1 i {
+      color: var(--warning-color);
+    }
+
+    .status-badge {
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .status-badge.online {
+      background-color: #e8f5e9;
+      color: var(--success-color);
+    }
+
+    .status-badge.offline {
+      background-color: #ffebee;
+      color: var(--danger-color);
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .online .status-dot { background-color: var(--success-color); }
+    .offline .status-dot { background-color: var(--danger-color); }
+
+    /* Alert Banner */
+    .alert-banner {
+      background-color: var(--danger-color);
+      color: white;
+      padding: 15px 20px;
+      border-radius: var(--border-radius);
+      margin-bottom: 25px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.85; }
+      100% { opacity: 1; }
+    }
+
+    /* Dashboard Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 22px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .icon-voltage { background-color: #eef2ff; color: #4361ee; }
+    .icon-current { background-color: #fff4e6; color: #ff922b; }
+    .icon-power   { background-color: #f3d9fa; color: #cc5de8; }
+    .icon-energy  { background-color: #e6fcf5; color: #20c997; }
+    .icon-cost    { background-color: #fff3bf; color: #fcc419; }
+    .icon-total   { background-color: #e7f5ff; color: #339af0; }
+
+    .card-info h3 {
+      font-size: 14px;
+      color: var(--text-sub);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .card-info .value {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Action Buttons */
+    .controls {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      flex: 1;
+      min-width: 200px;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-mute {
+      background-color: var(--warning-color);
+      color: #212529;
+    }
+
+    .btn-reset {
+      background-color: var(--danger-color);
+      color: white;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    /* Table Section */
+    .history-section {
+      background: var(--card-bg);
+      padding: 25px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    .history-section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-main);
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #f1f3f5;
+    }
+
+    th {
+      color: var(--text-sub);
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      font-size: 15px;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    tbody tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      .header h1 { font-size: 20px; }
+      .card { padding: 16px; }
+      .card-icon { width: 50px; height: 50px; font-size: 20px; }
+      .card-info .value { font-size: 22px; }
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
+  <!-- Header Section -->
   <div class="header">
-    <h1>⚡ ระบบวัดไฟฟ้า ESP32</h1>
-    <span id="status-badge" class="badge bg-offline">OFFLINE</span>
+    <h1><i class="fa-solid fa-bolt"></i> ระบบวัดไฟฟ้า ESP32</h1>
+    <div id="status-badge" class="status-badge offline">
+      <div class="status-dot"></div>
+      <span id="status-text">OFFLINE</span>
+    </div>
   </div>
 
+  <!-- High Current Warning Banner -->
+  <div id="alert-banner" class="alert-banner">
+    <div>
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <strong> คำเตือน:</strong> กระแสไฟฟ้าเกินกำหนด ( > 0.40 A )
+    </div>
+  </div>
+
+  <!-- Monitor Cards Grid -->
   <div class="grid">
-    <div class="card"><h3>แรงดันไฟฟ้า</h3><div class="value" id="voltage">0.0 V</div></div>
-    <div class="card"><h3>กระแสไฟฟ้า</h3><div class="value" id="current">0.00 A</div></div>
-    <div class="card"><h3>กำลังไฟฟ้า</h3><div class="value" id="power">0.0 W</div></div>
-    <div class="card"><h3>พลังงานสะสม</h3><div class="value" id="energy">0.00 kWh</div></div>
-    <div class="card"><h3>ค่าไฟต่อชั่วโมง</h3><div class="value" id="costPerHour">0.00 บาท/ชม.</div></div>
-    <div class="card"><h3>ค่าไฟสะสม</h3><div class="value" id="totalCost">0.00 บาท</div></div>
+    <div class="card">
+      <div class="card-icon icon-voltage"><i class="fa-solid fa-car-battery"></i></div>
+      <div class="card-info">
+        <h3>แรงดันไฟฟ้า</h3>
+        <div class="value" id="voltage">0.0 V</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon icon-current"><i class="fa-solid fa-plug-circle-bolt"></i></div>
+      <div class="card-info">
+        <h3>กระแสไฟฟ้า</h3>
+        <div class="value" id="current">0.00 A</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon icon-power"><i class="fa-solid fa-lightbulb"></i></div>
+      <div class="card-info">
+        <h3>กำลังไฟฟ้า</h3>
+        <div class="value" id="power">0.0 W</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon icon-energy"><i class="fa-solid fa-charging-station"></i></div>
+      <div class="card-info">
+        <h3>พลังงานสะสม</h3>
+        <div class="value" id="energy">0.00 kWh</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon icon-cost"><i class="fa-solid fa-clock-rotate-left"></i></div>
+      <div class="card-info">
+        <h3>ค่าไฟประมาณการ</h3>
+        <div class="value" id="costPerHour">0.00 ฿/ชม.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon icon-total"><i class="fa-solid fa-wallet"></i></div>
+      <div class="card-info">
+        <h3>ค่าไฟสะสมรวม</h3>
+        <div class="value" id="totalCost">0.00 ฿</div>
+      </div>
+    </div>
   </div>
 
-  <div class="btn-group">
-    <button class="btn-mute" onclick="toggleBuzzerMute()">🔔 เปิด/ปิด เสียง Buzzer</button>
-    <button class="btn-reset" onclick="resetData()">🔄 Reset ค่าพลังงานสะสม</button>
+  <!-- Controls -->
+  <div class="controls">
+    <button class="btn btn-mute" onclick="toggleBuzzerMute()">
+      <i class="fa-solid fa-bell-slash"></i> เปิด/ปิด เสียง Buzzer
+    </button>
+    <button class="btn btn-reset" onclick="resetData()">
+      <i class="fa-solid fa-rotate-right"></i> Reset ค่าพลังงานสะสม
+    </button>
   </div>
 
-  <div class="history-card">
-    <h2>📅 ประวัติการใช้ไฟรายวัน</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>วันที่</th>
-          <th>พลังงานที่ใช้ (kWh)</th>
-          <th>ค่าไฟโดยประมาณ (บาท)</th>
-        </tr>
-      </thead>
-      <tbody id="history-table-body">
-        <tr><td colspan="3">กำลังโหลดข้อมูล...</td></tr>
-      </tbody>
-    </table>
+  <!-- History Section -->
+  <div class="history-section">
+    <h2><i class="fa-solid fa-calendar-days"></i> ประวัติการใช้ไฟรายวัน</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>วันที่</th>
+            <th>พลังงานที่ใช้ (kWh)</th>
+            <th>ค่าไฟโดยประมาณ (บาท)</th>
+          </tr>
+        </thead>
+        <tbody id="history-table-body">
+          <tr><td colspan="3" style="text-align: center; color: var(--text-sub);">กำลังโหลดข้อมูล...</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -83,12 +389,20 @@
         document.getElementById('current').innerText = `${data.current.toFixed(2)} A`;
         document.getElementById('power').innerText = `${data.power.toFixed(1)} W`;
         document.getElementById('energy').innerText = `${data.energy.toFixed(2)} kWh`;
-        document.getElementById('costPerHour').innerText = `${data.costPerHour.toFixed(2)} บาท/ชม.`;
-        document.getElementById('totalCost').innerText = `${data.totalCost.toFixed(2)} บาท`;
+        document.getElementById('costPerHour').innerText = `${data.costPerHour.toFixed(2)} ฿/ชม.`;
+        document.getElementById('totalCost').innerText = `${data.totalCost.toFixed(2)} ฿`;
         
         currentMuteState = data.buzzerMute || false;
         lastDataTime = Date.now();
         
+        // เตือนกระแสไฟฟ้าเกิน 0.40 A
+        const alertBanner = document.getElementById('alert-banner');
+        if (data.current > 0.40) {
+          alertBanner.style.display = 'flex';
+        } else {
+          alertBanner.style.display = 'none';
+        }
+
         saveDailyHistory(data.energy, data.totalCost);
       }
     } catch (e) {
@@ -96,26 +410,27 @@
     }
   }
 
-  // เช็คสถานะ OFFLINE ถ้าไม่มีข้อมูลเข้าเกิน 10 วินาที
+  // ตรวจสอบสถานะ Online/Offline
   setInterval(() => {
     const badge = document.getElementById('status-badge');
+    const text = document.getElementById('status-text');
     if (Date.now() - lastDataTime > 10000) {
-      badge.innerText = "OFFLINE";
-      badge.className = "badge bg-offline";
+      text.innerText = "OFFLINE";
+      badge.className = "status-badge offline";
     } else {
-      badge.innerText = "ONLINE";
-      badge.className = "badge bg-online";
+      text.innerText = "ONLINE";
+      badge.className = "status-badge online";
     }
   }, 3000);
 
-  // ปุ่มกดปิดเสียง Buzzer
+  // ปุ่มกด เปิด/ปิด เสียง Buzzer
   async function toggleBuzzerMute() {
     const newState = !currentMuteState;
     await fetch(`${FIREBASE_BASE}/electricity/buzzerMute.json`, {
       method: 'PUT',
       body: JSON.stringify(newState)
     });
-    alert(newState ? "ปิดเสียง Buzzer เรียบร้อย" : "เปิดเสียง Buzzer เรียบร้อย");
+    alert(newState ? "สั่งปิดเสียง Buzzer เรียบร้อย" : "เปิดเสียง Buzzer ตามปกติเรียบร้อย");
   }
 
   // ปุ่มกด Reset ค่าพลังงาน
@@ -125,11 +440,11 @@
         method: 'PUT',
         body: JSON.stringify(true)
       });
-      alert("ส่งคำสั่ง Reset ไปยัง ESP32 แล้ว");
+      alert("ส่งคำสั่ง Reset ไปยัง ESP32 เรียบร้อยแล้ว");
     }
   }
 
-  // บันทึกค่าลงรายวัน
+  // บันทึกประวัติลงรายวัน
   async function saveDailyHistory(energy, totalCost) {
     const today = new Date().toISOString().split('T')[0];
     await fetch(`${FIREBASE_BASE}/history/${today}.json`, {
@@ -142,7 +457,7 @@
     });
   }
 
-  // ดึงข้อมูลประวัติมาแสดงในตาราง
+  // ดึงประวัติย้อนหลังมาแสดง
   async function fetchHistory() {
     try {
       const res = await fetch(`${FIREBASE_BASE}/history.json`);
@@ -153,14 +468,14 @@
       if (data) {
         Object.keys(data).reverse().forEach(date => {
           const row = `<tr>
-            <td>${date}</td>
-            <td>${data[date].energy.toFixed(2)}</td>
-            <td>${data[date].totalCost.toFixed(2)}</td>
+            <td><strong>${date}</strong></td>
+            <td>${data[date].energy.toFixed(2)} kWh</td>
+            <td>${data[date].totalCost.toFixed(2)} ฿</td>
           </tr>`;
           tbody.innerHTML += row;
         });
       } else {
-        tbody.innerHTML = '<tr><td colspan="3">ยังไม่มีข้อมูลประวัติย้อนหลัง</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">ยังไม่มีข้อมูลประวัติย้อนหลัง</td></tr>';
       }
     } catch (e) {
       console.error("Error fetching history:", e);
