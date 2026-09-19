@@ -1,394 +1,177 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบวัดไฟฟ้า ESP32</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
+    .container { max-width: 900px; margin: auto; }
+    .header { text-align: center; margin-bottom: 20px; }
+    .badge { padding: 8px 16px; border-radius: 20px; color: white; font-weight: bold; display: inline-block; }
+    .bg-online { background-color: #28a745; }
+    .bg-offline { background-color: #dc3545; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .card h3 { margin: 0; color: #6c757d; font-size: 16px; }
+    .card .value { font-size: 28px; font-weight: bold; margin: 10px 0; color: #333; }
+    
+    .btn-group { display: flex; gap: 10px; justify-content: center; margin-bottom: 25px; }
+    button { padding: 12px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .btn-mute { background-color: #ffc107; color: #212529; }
+    .btn-reset { background-color: #dc3545; color: white; }
+    button:hover { opacity: 0.85; }
 
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>ระบบวัดไฟฟ้า</title>
-
-<style>
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #eef2f7;
-    color: #1e293b;
-}
-
-.header {
-    background: linear-gradient(135deg, #111827, #2563eb);
-    color: white;
-    text-align: center;
-    padding: 30px 15px;
-}
-
-.header h1 {
-    margin: 0;
-    font-size: 30px;
-}
-
-.status {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 8px 20px;
-    border-radius: 30px;
-    background: #16a34a;
-    font-weight: bold;
-}
-
-.warning {
-    background: #dc2626;
-}
-
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 25px 15px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns:
-    repeat(auto-fit, minmax(220px, 1fr));
-
-    gap: 20px;
-}
-
-.card {
-    background: white;
-    border-radius: 20px;
-    padding: 25px;
-    text-align: center;
-
-    box-shadow:
-    0 5px 20px rgba(0,0,0,0.08);
-}
-
-.icon {
-    font-size: 40px;
-}
-
-.name {
-    font-size: 17px;
-    color: #64748b;
-    margin-top: 10px;
-}
-
-.value {
-    font-size: 30px;
-    font-weight: bold;
-    margin-top: 8px;
-}
-
-.unit {
-    font-size: 17px;
-    color: #64748b;
-}
-
-.footer {
-    text-align: center;
-    padding: 25px;
-    color: #64748b;
-}
-
-</style>
-
+    .history-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 12px; text-align: center; border-bottom: 1px solid #e9ecef; }
+    th { background-color: #f8f9fa; color: #495057; }
+  </style>
 </head>
-
 <body>
 
-<div class="header">
-
-<h1>⚡ ระบบวัดไฟฟ้า ESP32</h1>
-
-<p>PZEM-004T Electricity Monitoring</p>
-
-<div id="status" class="status">
-🟢 ONLINE
-</div>
-
-</div>
-
-
 <div class="container">
+  <div class="header">
+    <h1>⚡ ระบบวัดไฟฟ้า ESP32</h1>
+    <span id="status-badge" class="badge bg-offline">OFFLINE</span>
+  </div>
 
-<div class="grid">
+  <div class="grid">
+    <div class="card"><h3>แรงดันไฟฟ้า</h3><div class="value" id="voltage">0.0 V</div></div>
+    <div class="card"><h3>กระแสไฟฟ้า</h3><div class="value" id="current">0.00 A</div></div>
+    <div class="card"><h3>กำลังไฟฟ้า</h3><div class="value" id="power">0.0 W</div></div>
+    <div class="card"><h3>พลังงานสะสม</h3><div class="value" id="energy">0.00 kWh</div></div>
+    <div class="card"><h3>ค่าไฟต่อชั่วโมง</h3><div class="value" id="costPerHour">0.00 บาท/ชม.</div></div>
+    <div class="card"><h3>ค่าไฟสะสม</h3><div class="value" id="totalCost">0.00 บาท</div></div>
+  </div>
 
+  <div class="btn-group">
+    <button class="btn-mute" onclick="toggleBuzzerMute()">🔔 เปิด/ปิด เสียง Buzzer</button>
+    <button class="btn-reset" onclick="resetData()">🔄 Reset ค่าพลังงานสะสม</button>
+  </div>
 
-<div class="card">
-
-<div class="icon">⚡</div>
-
-<div class="name">
-แรงดันไฟฟ้า
+  <div class="history-card">
+    <h2>📅 ประวัติการใช้ไฟรายวัน</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>วันที่</th>
+          <th>พลังงานที่ใช้ (kWh)</th>
+          <th>ค่าไฟโดยประมาณ (บาท)</th>
+        </tr>
+      </thead>
+      <tbody id="history-table-body">
+        <tr><td colspan="3">กำลังโหลดข้อมูล...</td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<div class="value">
-
-<span id="voltage">0</span>
-
-<span class="unit">V</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">🔌</div>
-
-<div class="name">
-กระแสไฟฟ้า
-</div>
-
-<div class="value">
-
-<span id="current">0</span>
-
-<span class="unit">A</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">💡</div>
-
-<div class="name">
-กำลังไฟฟ้า
-</div>
-
-<div class="value">
-
-<span id="power">0</span>
-
-<span class="unit">W</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">📊</div>
-
-<div class="name">
-พลังงานสะสม
-</div>
-
-<div class="value">
-
-<span id="energy">0</span>
-
-<span class="unit">kWh</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">💰</div>
-
-<div class="name">
-ค่าไฟต่อชั่วโมง
-</div>
-
-<div class="value">
-
-<span id="cost">0</span>
-
-<span class="unit">
-บาท/ชม.
-</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">💵</div>
-
-<div class="name">
-ค่าไฟสะสม
-</div>
-
-<div class="value">
-
-<span id="totalCost">0</span>
-
-<span class="unit">
-บาท
-</span>
-
-</div>
-
-</div>
-
-
-</div>
-
-</div>
-
-
-<div class="footer">
-
-ESP32 + PZEM-004T + Firebase
-
-</div>
-
-
-<!-- Firebase -->
-
-<script type="module">
-
-import {
-    initializeApp
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-
-import {
-    getDatabase,
-    ref,
-    onValue
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-
-// Firebase Configuration
-
-const firebaseConfig = {
-
-    apiKey:
-    "AIzaSyAD1PRsE7T90otvZoKrwENdPmbgrJG-RKE",
-
-    authDomain:
-    "electric-monitor-648d7.firebaseapp.com",
-
-    databaseURL:
-    "https://electric-monitor-648d7-default-rtdb.firebaseio.com",
-
-    projectId:
-    "electric-monitor-648d7",
-
-    storageBucket:
-    "electric-monitor-648d7.firebasestorage.app",
-
-    messagingSenderId:
-    "72175707129",
-
-    appId:
-    "1:72175707129:web:2250a63bf56a1f1c09d328",
-
-    measurementId:
-    "G-304FBDBJY5"
-};
-
-
-// เริ่ม Firebase
-
-const app = initializeApp(firebaseConfig);
-
-const database = getDatabase(app);
-
-
-// ตำแหน่งข้อมูล
-
-const electricityRef =
-ref(database, "electricity");
-
-
-// รับข้อมูลจาก Firebase
-
-onValue(electricityRef, (snapshot) => {
-
-    const data = snapshot.val();
-
-
-    if (!data) {
-        return;
+<script>
+  const FIREBASE_BASE = "https://electric-monitor-648d7-default-rtdb.firebaseio.com";
+  let lastDataTime = Date.now();
+  let currentMuteState = false;
+
+  async function fetchRealtimeData() {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/electricity.json`);
+      const data = await res.json();
+
+      if (data) {
+        document.getElementById('voltage').innerText = `${data.voltage.toFixed(1)} V`;
+        document.getElementById('current').innerText = `${data.current.toFixed(2)} A`;
+        document.getElementById('power').innerText = `${data.power.toFixed(1)} W`;
+        document.getElementById('energy').innerText = `${data.energy.toFixed(2)} kWh`;
+        document.getElementById('costPerHour').innerText = `${data.costPerHour.toFixed(2)} บาท/ชม.`;
+        document.getElementById('totalCost').innerText = `${data.totalCost.toFixed(2)} บาท`;
+        
+        currentMuteState = data.buzzerMute || false;
+        lastDataTime = Date.now();
+        
+        saveDailyHistory(data.energy, data.totalCost);
+      }
+    } catch (e) {
+      console.error("Error fetching data:", e);
     }
+  }
 
-
-    // แสดงข้อมูล
-
-    document.getElementById("voltage")
-    .innerText =
-    Number(data.voltage || 0)
-    .toFixed(1);
-
-
-    document.getElementById("current")
-    .innerText =
-    Number(data.current || 0)
-    .toFixed(2);
-
-
-    document.getElementById("power")
-    .innerText =
-    Number(data.power || 0)
-    .toFixed(1);
-
-
-    document.getElementById("energy")
-    .innerText =
-    Number(data.energy || 0)
-    .toFixed(2);
-
-
-    document.getElementById("cost")
-    .innerText =
-    Number(data.costPerHour || 0)
-    .toFixed(2);
-
-
-    document.getElementById("totalCost")
-    .innerText =
-    Number(data.totalCost || 0)
-    .toFixed(2);
-
-
-    // สถานะ
-
-    const status =
-    document.getElementById("status");
-
-
-    if (data.warning == true) {
-
-        status.innerText =
-        "🔴 CURRENT OVER 20A";
-
-        status.className =
-        "status warning";
-
+  // เช็คสถานะ OFFLINE ถ้าไม่มีข้อมูลเข้าเกิน 10 วินาที
+  setInterval(() => {
+    const badge = document.getElementById('status-badge');
+    if (Date.now() - lastDataTime > 10000) {
+      badge.innerText = "OFFLINE";
+      badge.className = "badge bg-offline";
+    } else {
+      badge.innerText = "ONLINE";
+      badge.className = "badge bg-online";
     }
+  }, 3000);
 
-    else {
+  // ปุ่มกดปิดเสียง Buzzer
+  async function toggleBuzzerMute() {
+    const newState = !currentMuteState;
+    await fetch(`${FIREBASE_BASE}/electricity/buzzerMute.json`, {
+      method: 'PUT',
+      body: JSON.stringify(newState)
+    });
+    alert(newState ? "ปิดเสียง Buzzer เรียบร้อย" : "เปิดเสียง Buzzer เรียบร้อย");
+  }
 
-        status.innerText =
-        "🟢 ONLINE";
-
-        status.className =
-        "status";
+  // ปุ่มกด Reset ค่าพลังงาน
+  async function resetData() {
+    if (confirm("คุณแน่ใจหรือไม่ว่าต้องการ Reset ค่าพลังงานสะสม?")) {
+      await fetch(`${FIREBASE_BASE}/electricity/resetEnergy.json`, {
+        method: 'PUT',
+        body: JSON.stringify(true)
+      });
+      alert("ส่งคำสั่ง Reset ไปยัง ESP32 แล้ว");
     }
+  }
 
-});
+  // บันทึกค่าลงรายวัน
+  async function saveDailyHistory(energy, totalCost) {
+    const today = new Date().toISOString().split('T')[0];
+    await fetch(`${FIREBASE_BASE}/history/${today}.json`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        energy: energy,
+        totalCost: totalCost,
+        lastUpdated: new Date().toLocaleTimeString('th-TH')
+      })
+    });
+  }
 
+  // ดึงข้อมูลประวัติมาแสดงในตาราง
+  async function fetchHistory() {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/history.json`);
+      const data = await res.json();
+      const tbody = document.getElementById('history-table-body');
+      tbody.innerHTML = '';
+
+      if (data) {
+        Object.keys(data).reverse().forEach(date => {
+          const row = `<tr>
+            <td>${date}</td>
+            <td>${data[date].energy.toFixed(2)}</td>
+            <td>${data[date].totalCost.toFixed(2)}</td>
+          </tr>`;
+          tbody.innerHTML += row;
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="3">ยังไม่มีข้อมูลประวัติย้อนหลัง</td></tr>';
+      }
+    } catch (e) {
+      console.error("Error fetching history:", e);
+    }
+  }
+
+  setInterval(fetchRealtimeData, 3000);
+  setInterval(fetchHistory, 10000);
+  fetchRealtimeData();
+  fetchHistory();
 </script>
 
 </body>
-
 </html>
