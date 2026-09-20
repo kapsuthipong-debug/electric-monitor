@@ -37,7 +37,6 @@
     .header h1 i { color: var(--warning-color); margin-right: 6px; }
     .subtitle { font-size: 14px; font-weight: 500; color: var(--text-sub); }
     
-    /* สไตล์ช่อง 3D Viewer ตรงกลางจอด้านบน */
     .header-3d-viewer { display: flex; flex-direction: column; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: var(--border-radius); box-shadow: var(--shadow); }
     #canvas3d-container { width: 120px; height: 60px; cursor: grab; }
     #canvas3d-container:active { cursor: grabbing; }
@@ -106,8 +105,6 @@
     .step-desc p { font-size: 13px; color: var(--text-sub); line-height: 1.4; }
     .voice-command-tag { background: rgba(138, 43, 226, 0.1); color: #8a2be2; padding: 4px 8px; border-radius: 6px; font-family: monospace; font-weight: 600; font-size: 12px; display: inline-block; margin: 2px 0; }
 
-    #gameCanvas { background: #111; display: block; margin: 10px auto; border-radius: 8px; max-width: 100%; border: 2px solid var(--primary-color); }
-
     .chatbot-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
     .chatbot-box { background: var(--card-bg); width: 90%; max-width: 380px; height: 450px; border-radius: var(--border-radius); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.2); border: 1px solid var(--border-color); }
     .chatbot-header { background: var(--primary-color); color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 14px; }
@@ -127,7 +124,7 @@
     @media (max-width: 768px) {
       body { padding: 12px; padding-bottom: 85px; }
       .header h1 { font-size: 16px; }
-      .header-3d-viewer { display: none; } /* ซ่อนบนมือถือจอเล็กเพื่อความสะอาด */
+      .header-3d-viewer { display: none; }
       .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; margin-bottom: 0; border-radius: 0; border-top: 1px solid var(--border-color); z-index: 999; padding: 8px 4px; justify-content: space-around; box-shadow: 0 -5px 15px rgba(0,0,0,0.08); background: var(--card-bg); }
       .tab-btn { flex-direction: column; gap: 2px; font-size: 9px; padding: 4px; min-width: auto; }
       .tab-btn i { font-size: 14px; }
@@ -145,7 +142,6 @@
       <span class="subtitle">( PowerPulse IoT )</span>
     </h1>
 
-    <!-- 3D Viewer ตรงกลางจอด้านบน ต่อจากชื่อระบบ -->
     <div class="header-3d-viewer">
       <div id="canvas3d-container"></div>
       <span style="font-size: 9px; color: var(--text-sub); margin-top: 2px;">ESP32 3D Model</span>
@@ -373,15 +369,6 @@
         <button class="tool-btn" onclick="openQRModal()"><i class="fa-solid fa-qrcode"></i> <span data-i18n="btn_qr">แสดง QR Code</span></button>
       </div>
     </div>
-
-    <div class="panel" style="border: 2px dashed var(--primary-color);">
-      <div class="panel-title"><i class="fa-solid fa-gamepad" style="color: var(--primary-color);"></i> <span data-i18n="game_title">มินิเกม: Voltage Dodger (ESP32 Runner)</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;" data-i18n="game_desc">คลิกหน้าจอหรือกด Spacebar เพื่อกระโดดหลบลูกไฟกระแสไฟกระชาก สะสม Grid Stability Score!</p>
-      <canvas id="gameCanvas" width="480" height="200"></canvas>
-      <div style="text-align: center; margin-top: 8px;">
-        <button class="btn btn-demo" style="max-width: 200px; margin: 0 auto;" onclick="startVoltageGame()"><i class="fa-solid fa-play"></i> <span data-i18n="game_btn">เริ่มเกม / กระโดด (Play/Jump)</span></button>
-      </div>
-    </div>
   </div>
 
   <!-- TAB 5: คู่มือการใช้งาน -->
@@ -443,8 +430,8 @@
       <div class="manual-step">
         <div class="step-num">6</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s6_h">6. มินิเกม Voltage Dodger & 3D Viewer</h4>
-          <p data-i18n="man_s6_p">มินิเกม ESP32 Runner สุดเพลิน และช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่สามารถใช้เมาส์หมุนดูรอบทิศทางได้ 360 องศา</p>
+          <h4 data-i18n="man_s6_h">6. Energy AI Assistant & 3D Viewer</h4>
+          <p data-i18n="man_s6_p">ผู้ช่วยแชทบอทอัจฉริยะที่คอยตอบคำถามและจำลองสถานการณ์การใช้ไฟ และช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่หมุนได้ 360 องศา</p>
         </div>
       </div>
     </div>
@@ -520,9 +507,6 @@
       btn_sos_cut: "ตัดไฟฉุกเฉิน (Emergency Cut-off)",
       map_title: "จุดติดตั้งอุปกรณ์ IoT (Device Geo-Location)",
       map_desc: "แสดงตำแหน่งพิกัดและสถานะเรียลไทม์ของบอร์ด ESP32 ที่ติดตั้งหน้างาน",
-      game_title: "มินิเกม: Voltage Dodger (ESP32 Runner)",
-      game_desc: "คลิกหน้าจอหรือกด Spacebar เพื่อกระโดดหลบลูกไฟกระแสไฟกระชาก สะสม Grid Stability Score!",
-      game_btn: "เริ่มเกม / กระโดด (Play/Jump)",
       tour_title: "โหมดแนะนำการใช้งานระบบอัตโนมัติ (Guided Tour)",
       tour_desc: "สำหรับผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบพาชมฟีเจอร์เด่นทั้งหมดทีละขั้นตอน",
       tour_btn: "🚀 เริ่มต้นใช้งานทัวร์ระบบ (Start Tour)",
@@ -547,8 +531,8 @@
       man_s4_p: "ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)",
       man_s5_h: "5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Smart Voice Control)",
       man_s5_p: "กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทยเพื่อควบคุมระบบ:",
-      man_s6_h: "6. มินิเกม Voltage Dodger & 3D Viewer",
-      man_s6_p: "มินิเกม ESP32 Runner และช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่สามารถใช้เมาส์หมุนดูรอบทิศทางได้ 360 องศา",
+      man_s6_h: "6. Energy AI Assistant & 3D Viewer",
+      man_s6_p: "ผู้ช่วยแชทบอทอัจฉริยะและช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่หมุนได้ 360 องศา",
       man_v_nav: "การนำทาง", man_v_ctrl: "การควบคุม",
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
@@ -568,9 +552,6 @@
       btn_sos_cut: "Emergency Cut-off",
       map_title: "Device Geo-Location",
       map_desc: "Displays real-time coordinates and status of deployed ESP32 boards.",
-      game_title: "Mini-Game: Voltage Dodger (ESP32 Runner)",
-      game_desc: "Click screen or press Spacebar to jump over power surges and collect Grid Stability Score!",
-      game_btn: "Play / Jump",
       tour_title: "Automated System Guided Tour",
       tour_desc: "For new users, click below to let the system walk you through all key features step-by-step.",
       tour_btn: "🚀 Start System Tour",
@@ -595,8 +576,8 @@
       man_s4_p: "Set recipient email for automatic alerts during overloads or voltage faults, featuring emergency simulation and SOS cut-off.",
       man_s5_h: "5. Smart Voice Control",
       man_s5_p: "Tap the microphone button and speak Thai voice commands:",
-      man_s6_h: "6. Voltage Dodger & 3D Viewer",
-      man_s6_p: "Retro arcade mini-game and an interactive 3D IoT device model viewer right at the top header that rotates 360 degrees.",
+      man_s6_h: "6. Energy AI Assistant & 3D Viewer",
+      man_s6_p: "AI assistant chatbot and an interactive 3D IoT device model viewer right at the top header that rotates 360 degrees.",
       man_v_nav: "Navigation", man_v_ctrl: "Control",
       man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the live dashboard."
     }
@@ -625,12 +606,11 @@
     if(tabId === 'tab-system') {
       setTimeout(() => {
         initIoTMap();
-        initGame();
       }, 200);
     }
   }
 
-  /* --- โค้ด Three.js 3D Viewer (ESP32 Model) --- */
+  /* --- Three.js 3D Viewer (ESP32 Model) --- */
   let scene3d, camera3d, renderer3d, boardGroup;
   let isDragging3d = false;
   let previousMousePosition = { x: 0, y: 0 };
@@ -647,30 +627,25 @@
     renderer3d.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer3d.domElement);
 
-    // แสงไฟ
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene3d.add(ambientLight);
     const pointLight = new THREE.PointLight(0xffffff, 1);
     pointLight.position.set(5, 5, 5);
     scene3d.add(pointLight);
 
-    // สร้างโมเดลจำลองบอร์ด ESP32
     boardGroup = new THREE.Group();
 
-    // ตัวแผงบอร์ด
     const boardGeo = new THREE.BoxGeometry(2.2, 1.1, 0.1);
     const boardMat = new THREE.MeshStandardMaterial({ color: 0x113322, roughness: 0.3 });
     const boardMesh = new THREE.Mesh(boardGeo, boardMat);
     boardGroup.add(boardMesh);
 
-    // ชิปตรงกลาง
     const chipGeo = new THREE.BoxGeometry(0.6, 0.6, 0.05);
     const chipMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
     const chipMesh = new THREE.Mesh(chipGeo, chipMat);
     chipMesh.position.set(0, 0, 0.06);
     boardGroup.add(chipMesh);
 
-    // พอร์ต USB สีเงิน
     const usbGeo = new THREE.BoxGeometry(0.4, 0.3, 0.15);
     const usbMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.8, roughness: 0.2 });
     const usbMesh = new THREE.Mesh(usbGeo, usbMat);
@@ -679,7 +654,6 @@
 
     scene3d.add(boardGroup);
 
-    // รองรับการใช้เมาส์หมุน 360 องศา
     container.addEventListener('mousedown', (e) => {
       isDragging3d = true;
       previousMousePosition = { x: e.clientX, y: e.clientY };
@@ -689,10 +663,8 @@
       if (!isDragging3d) return;
       const deltaX = e.clientX - previousMousePosition.x;
       const deltaY = e.clientY - previousMousePosition.y;
-
       boardGroup.rotation.y += deltaX * 0.01;
       boardGroup.rotation.x += deltaY * 0.01;
-
       previousMousePosition = { x: e.clientX, y: e.clientY };
     });
 
@@ -704,15 +676,16 @@
   function animate3D() {
     requestAnimationFrame(animate3D);
     if (!isDragging3d && boardGroup) {
-      boardGroup.rotation.y += 0.008; // หมุนช้าๆ อัตโนมัติ
+      boardGroup.rotation.y += 0.008;
     }
     renderer3d.render(scene3d, camera3d);
   }
 
-  /* --- ฟังก์ชันแชทบอท AI --- */
+  /* --- Energy AI Chatbot ฉบับอัดแน่นสูงสุดสมบูรณ์ --- */
   function openChatbot() { document.getElementById('chatbotModal').style.display = 'flex'; }
   function closeChatbot() { document.getElementById('chatbotModal').style.display = 'none'; }
   function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
+  
   function sendChatMessage() {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
@@ -724,27 +697,76 @@
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     setTimeout(() => {
-      let reply = "ขออภัยครับ ลองถามเกี่ยวกับ 'ค่าไฟ', 'แรงดัน', หรือ 'สถานะ' ได้ครับ";
+      let reply = "ขออภัยครับ Energy AI รองรับการวิเคราะห์เฉพาะระบบ PowerPulse IoT, ค่าไฟฟ้า, แรงดัน/กระแส, และสถานการณ์จำลองในระบบครับ ลองพิมพ์ถามเรื่อง 'ค่าไฟ', 'ถ้ากระแสไฟ 20A', หรือ 'วิธีประหยัดไฟ' ได้เลยครับ 😊";
       const lower = text.toLowerCase();
+      const textNum = parseFloat(text.replace(/[^0-9.]/g, '')) || 0;
 
-      if (lower.includes('ค่าไฟ') || lower.includes('cost') || lower.includes('เงิน')) {
-        const total = (latestRealtimeData.energy * customRate).toFixed(2);
-        reply = `💰 ค่าไฟสะสมรวมตอนนี้อยู่ที่ประมาณ ${total} บาท (อัตรา ${customRate} บาท/หน่วย ครับ)`;
-      } else if (lower.includes('แรงดัน') || lower.includes('volt') || lower.includes('ไฟตก') || lower.includes('ไฟเกิน')) {
-        const v = latestRealtimeData.voltage;
-        let status = "ปกติสมบูรณ์ดีครับ 🟢";
-        if (v > 0 && v < 215) status = "ต่ำกว่าปกติ ⚠️";
-        else if (v > 245) status = "สูงกว่าปกติ ⚠️";
-        reply = `⚡ แรงดันไฟฟ้าปัจจุบันอยู่ที่ ${v.toFixed(1)} V สถานะกริด: ${status}`;
-      } else if (lower.includes('สถานะ') || lower.includes('status') || lower.includes('ระบบ')) {
-        reply = `🟢 ระบบ PowerPulse IoT ออนไลน์ แรงดัน: ${latestRealtimeData.voltage.toFixed(1)}V | กระแส: ${latestRealtimeData.current.toFixed(2)}A`;
-      } else if (lower.includes('สวัสดี') || lower.includes('hello')) {
-        reply = `สวัสดีครับ! Energy AI ยินดีให้บริการ สอบถามข้อมูลพลังงานได้เลยครับ`;
+      const currentEnergy = latestRealtimeData.energy || 0;
+      const currentVolt = latestRealtimeData.voltage || 0;
+      const currentAmps = latestRealtimeData.current || 0;
+      const currentPower = latestRealtimeData.power || 0;
+      const rate = customRate;
+
+      if ((lower.includes('กระแส') || lower.includes('แอมป์') || lower.includes('a') || lower.includes('โหลด')) && (text.includes('20') || text.includes('15') || text.includes('30') || text.includes('ถ้า') || text.includes('สมมติ') || textNum > 15)) {
+        const targetAmps = textNum > 0 ? textNum : 20;
+        const estWatts = targetAmps * currentVolt;
+        reply = `⚠️ **การจำลองสถานการณ์ (Simulation Analysis):**\n` +
+                `- หากกระแสไฟฟ้าพุ่งสูงถึง **${targetAmps} A** (กำลังไฟ ~${estWatts.toFixed(0)} W) ซึ่งเกินขีดจำกัดปลอดภัยที่ 15.00 A\n` +
+                `- **ระบบจะตอบสนองโดย:** แจ้งเตือนสภาวะ Overload ทันที, ส่งเสียง Buzzer เตือนภัย, เปลี่ยนหน้าจอเป็นสถานะฉุกเฉิน, ส่งอีเมลแจ้งเตือนไปยังผู้ดูแลระบบ และเปิดใช้งานปุ่มตัดไฟฉุกเฉิน (Emergency Cut-off) อัตโนมัติเพื่อป้องกันสายไฟไหม้ครับ`;
+      }
+      else if ((lower.includes('แรงดัน') || lower.includes('volt') || lower.includes('v') || lower.includes('ไฟตก') || lower.includes('ไฟเกิน')) && (textNum > 0 || text.includes('ตก') || text.includes('เกิน'))) {
+        const targetVolt = textNum > 0 ? textNum : 190;
+        let alertType = "ปกติ";
+        if (targetVolt < 215) alertType = "ไฟตกต่ำกว่ามาตรฐาน (Low Voltage ⚠️)";
+        if (targetVolt > 245) alertType = "ไฟเกินกระชาก (High Voltage ⚠️)";
+        reply = `⚡ **การจำลองสถานการณ์แรงดัน (${targetVolt} V):**\n` +
+                `- สถานะกริดไฟฟ้า: **${alertType}**\n` +
+                `- **ระบบจะตอบสนองโดย:** บันทึกสถิติความผิดปกติลงระบบ แจ้งเตือนผ่านหน้าจอแดชบอร์ด และส่งอีเมลเตือนความเสี่ยงให้อัตโนมัติครับ`;
+      }
+      else if (lower.includes('เดือน') || lower.includes('monthly') || lower.includes('สิ้นเดือน') || lower.includes('จ่ายเท่าไหร่')) {
+        const estimatedMonthlyKwh = currentEnergy > 0 ? currentEnergy * 30 : 150;
+        const estimatedMonthlyCost = estimatedMonthlyKwh * rate;
+        reply = `📊 **พยากรณ์ค่าไฟฟ้ารายเดือน (30 วัน):**\n- พลังงานคาดการณ์: ~${estimatedMonthlyKwh.toFixed(1)} kWh\n- ค่าไฟโดยประมาณ: ~${estimatedMonthlyCost.toFixed(2)} บาท (อิงเรท ${rate} ฿/หน่วย รวม VAT 7% แล้ว)`;
+      } 
+      else if (lower.includes('สัปดาห์') || lower.includes('week') || lower.includes('7 วัน')) {
+        const weeklyKwh = currentEnergy > 0 ? currentEnergy * 7 : 35;
+        const weeklyCost = weeklyKwh * rate;
+        reply = `📅 **พยากรณ์ค่าไฟฟ้ารายสัปดาห์ (7 วัน):**\n- พลังงานคาดการณ์: ~${weeklyKwh.toFixed(1)} kWh\n- ค่าไฟโดยประมาณ: ~${weeklyCost.toFixed(2)} บาทครับ`;
+      } 
+      else if (lower.includes('ค่าไฟ') || lower.includes('cost') || lower.includes('เงิน') || lower.includes('บาท') || lower.includes('หน่วย')) {
+        const total = (currentEnergy * rate).toFixed(2);
+        reply = `💰 **สรุปค่าไฟฟ้าปัจจุบัน:**\n- พลังงานสะสม: ${currentEnergy.toFixed(2)} kWh\n- ค่าไฟรวมสุทธิ: ${total} บาท (อัตรา ${rate} บาท/หน่วย)`;
+      } 
+      else if (lower.includes('ประหยัด') || lower.includes('ลดค่าไฟ') || lower.includes('ทำยังไงให้ประหยัด')) {
+        reply = `💡 **คำแนะนำการประหยัดพลังงานจาก Energy AI:**\n` +
+                `- ตั้งอุณหภูมิเครื่องปรับอากาศไว้ที่ 26°C ช่วยประหยัดไฟได้ถึง 10%\n` +
+                `- ถอดปลั๊กเครื่องใช้ไฟฟ้าที่ไม่ได้ใช้งานเพื่อตัดไฟสแตนด์บาย (Phantom Load)\n` +
+                `- หลีกเลี่ยงการเปิดเครื่องใช้ไฟฟ้ากำลังไฟสูงพร้อมกันในช่วง Peak Time ครับ`;
+      }
+      else if (lower.includes('วิธี') || lower.includes('ใช้ยังไง') || lower.includes('คำสั่งเสียง') || lower.includes('ดาวน์โหลด') || lower.includes('csv')) {
+        reply = `📖 **แนะนำการใช้งานระบบ PowerPulse IoT:**\n` +
+                `- **สั่งงานด้วยเสียง:** กดปุ่ม "สั่งงานด้วยเสียง" แล้วพูด เช่น "หน้าหลัก", "ประวัติ", "เปิดเสียง", "ปิดเสียง"\n` +
+                `- **ดาวน์โหลด CSV:** ไปที่แท็บ 'ประวัติ' แล้วกดปุ่มดาวน์โหลดรายงานครับ`;
+      }
+      else if (lower.includes('kwh') || lower.includes('หน่วยคือ') || lower.includes('overload') || lower.includes('คืออะไร') || lower.includes('iot')) {
+        reply = `📚 **เกร็ดความรู้ทางวิศวกรรมในระบบ:**\n` +
+                `- **kWh (Kilowatt-hour):** หน่วยวัดพลังงานไฟฟ้าที่ใช้ไป (กำลังไฟฟ้า 1,000 วัตต์ เปิดใช้งานใน 1 ชั่วโมง)\n` +
+                `- **Overload:** ภาวะที่มีการใช้กระแสไฟฟ้าเกินพิกัดความปลอดภัย ซึ่งระบบเราจำกัดไว้ที่ 15A\n` +
+                `- **IoT (Internet of Things):** เทคโนโลยีการเชื่อมต่อเซนเซอร์วัดค่าไฟฟ้าเข้ากับคลาวด์และแสดงผลบนเว็บเรียลไทม์ครับ`;
+      }
+      else if (lower.includes('เธอคือใคร') || lower.includes('ชื่ออะไร') || lower.includes(' ai ') || lower.includes('เก่ง')) {
+        reply = `🤖 ผมคือ **Energy AI** ผู้ช่วยอัจฉริยะประจำโปรเจกต์ **PowerPulse IoT** ครับ ถูกออกแบบมาเพื่อมอนิเตอร์ วิเคราะห์ และช่วยเหลือคุณจัดการพลังงานไฟฟ้าอย่างชาญฉลาด!`;
+      }
+      else if (lower.includes('สถานะ') || lower.includes('status') || lower.includes('ระบบ') || lower.includes('ภาพรวม') || lower.includes('online')) {
+        reply = `🖥️ **รายงานสถานะ PowerPulse IoT:**\n- ระบบเชื่อมต่อออนไลน์ (Online)\n- แรงดัน: ${currentVolt.toFixed(1)}V | กระแส: ${currentAmps.toFixed(2)}A\n- พลังงานสะสม: ${currentEnergy.toFixed(2)}kWh | สุขภาพกริด: ปลอดภัยดีเยี่ยม`;
+      } 
+      else if (lower.includes('สวัสดี') || lower.includes('hello') || lower.includes('hi')) {
+        reply = `สวัสดีครับ! Energy AI ยินดีให้บริการ สอบถามข้อมูลค่าไฟ ตรวจสอบแรงดัน วิธีประหยัดไฟ หรือทดลองพิมพ์จำลองสถานการณ์ได้เลยครับ!`;
       }
 
       chatMessages.innerHTML += `<div class="chat-msg bot">${reply}</div>`;
       chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 500);
+    }, 400);
   }
 
   function startGuidedTour() {
@@ -759,79 +781,13 @@
       switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
     }, 9000);
     setTimeout(() => {
-      alert("📍 [Step 3/4 - หน้าระบบ & มินิเกม Voltage Dodger]\nตั้งค่าอีเมลรับแจ้งเตือน มีแผนที่พิกัด มินิเกม และ 3D Viewer ด้านบนหัวเว็บ");
+      alert("📍 [Step 3/4 - หน้าระบบ]\nตั้งค่าอีเมลรับแจ้งเตือน มีแผนที่พิกัด และ 3D Viewer ด้านบนหัวเว็บ");
       switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
     }, 14000);
     setTimeout(() => {
       alert("🎉 จบสิ้นการทัวร์ระบบ PowerPulse IoT เรียบร้อยแล้วครับ!");
     }, 19000);
   }
-
-  /* --- มินิเกม Voltage Dodger --- */
-  let canvas, ctx, gameRunning = false, score = 0;
-  let dino = { x: 40, y: 140, w: 24, h: 24, vy: 0, gravity: 0.6, jump: -10, grounded: true };
-  let obstacles = [], gameInterval;
-
-  function initGame() {
-    canvas = document.getElementById("gameCanvas");
-    if(!canvas) return;
-    ctx = canvas.getContext("2d");
-    drawStartScreen();
-  }
-
-  function drawStartScreen() {
-    ctx.fillStyle = "#111"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ffb703"; ctx.font = "16px Prompt"; ctx.textAlign = "center";
-    ctx.fillText("⚡ Voltage Dodger (ESP32 Runner) ⚡", canvas.width/2, 70);
-    ctx.fillStyle = "#fff"; ctx.font = "12px Prompt";
-    ctx.fillText("คลิกปุ่มด้านล่างหรือกด Spacebar เพื่อเริ่มเกมและกระโดด", canvas.width/2, 110);
-  }
-
-  function startVoltageGame() {
-    if (gameRunning) {
-      if (dino.grounded) { dino.vy = dino.jump; dino.grounded = false; }
-      return;
-    }
-    gameRunning = true; score = 0; obstacles = []; dino.y = 140; dino.vy = 0; dino.grounded = true;
-    clearInterval(gameInterval);
-    gameInterval = setInterval(updateGame, 1000 / 60);
-  }
-
-  function updateGame() {
-    dino.vy += dino.gravity; dino.y += dino.vy;
-    if (dino.y > 140) { dino.y = 140; dino.vy = 0; dino.grounded = true; }
-    if (Math.random() < 0.02) obstacles.push({ x: canvas.width, y: 144, w: 16, h: 20, speed: 4 });
-
-    for (let i = obstacles.length - 1; i >= 0; i--) {
-      obstacles[i].x -= obstacles[i].speed;
-      if (dino.x < obstacles[i].x + obstacles[i].w && dino.x + dino.w > obstacles[i].x && dino.y < obstacles[i].y + obstacles[i].h && dino.y + dino.h > obstacles[i].y) {
-        gameRunning = false; clearInterval(gameInterval); drawGameOver(); return;
-      }
-      if (obstacles[i].x + obstacles[i].w < 0) { obstacles.splice(i, 1); score += 10; }
-    }
-
-    ctx.fillStyle = "#111"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "#2a9d8f"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, 164); ctx.lineTo(canvas.width, 164); ctx.stroke();
-    ctx.fillStyle = "#4361ee"; ctx.fillRect(dino.x, dino.y, dino.w, dino.h);
-    ctx.fillStyle = "#fff"; ctx.font = "10px Prompt"; ctx.fillText("ESP", dino.x + 2, dino.y + 15);
-    ctx.fillStyle = "#e63946"; obstacles.forEach(obs => ctx.fillRect(obs.x, obs.y, obs.w, obs.h));
-    ctx.fillStyle = "#ffb703"; ctx.font = "14px Prompt"; ctx.textAlign = "left"; ctx.fillText("Grid Stability Score: " + score, 15, 25);
-  }
-
-  function drawGameOver() {
-    ctx.fillStyle = "rgba(0,0,0,0.8)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#e63946"; ctx.font = "18px Prompt"; ctx.textAlign = "center";
-    ctx.fillText("⚠️ OVERLOAD / GRID FAILURE! ⚠️", canvas.width/2, 75);
-    ctx.fillStyle = "#fff"; ctx.font = "14px Prompt"; ctx.fillText("คะแนน Grid Stability Score: " + score, canvas.width/2, 105);
-    ctx.fillStyle = "#2a9d8f"; ctx.fillText("คลิกปุ่มด้านล่างเพื่อเริ่มเล่นใหม่อีกครั้ง", canvas.width/2, 135);
-  }
-
-  window.addEventListener('keydown', function(e) {
-    if (e.code === 'Space' && gameRunning) {
-      if (dino.grounded) { dino.vy = dino.jump; dino.grounded = false; }
-      e.preventDefault();
-    }
-  });
 
   function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -912,8 +868,6 @@
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, { to_email: email, message_body: "⚠️ [PowerPulse IoT Test] ทดสอบระบบแจ้งเตือน", time_alert: new Date().toLocaleString('th-TH') })
       .then(() => alert("✅ ส่งอีเมลทดสอบสำเร็จ!"), (err) => alert("❌ ส่งอีเมลไม่สำเร็จ: " + JSON.stringify(err)));
   }
-
-  let lastVoltageAlertStatus = "NORMAL";
 
   async function fetchRealtimeData() {
     try {
@@ -1010,6 +964,39 @@
     if (confirm("Reset Energy Data?")) {
       await fetch(`${FIREBASE_BASE}/electricity/resetEnergy.json`, { method: 'PUT', body: JSON.stringify(true) });
     }
+  }
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'th-TH';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    window.startVoiceCommand = function() {
+      const statusEl = document.getElementById('voice-status');
+      statusEl.style.display = 'block'; 
+      try { recognition.start(); } catch(e) { console.error(e); }
+    };
+
+    recognition.onresult = function(event) {
+      const command = event.results[0][0].transcript.trim();
+      document.getElementById('voice-status').style.display = 'none';
+
+      if (command.includes("หน้าหลัก") || command.includes("แดชบอร์ด")) switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
+      else if (command.includes("หน้าประวัติ") || command.includes("ประวัติ")) switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
+      else if (command.includes("คำนวณ") || command.includes("ตั้งค่า")) switchTab('tab-calc', document.querySelectorAll('.tab-btn')[2]);
+      else if (command.includes("หน้าระบบ") || command.includes("ระบบ")) switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
+      else if (command.includes("คู่มือ")) switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
+      else if (command.includes("เปลี่ยนธีม")) toggleTheme();
+      else if (command.includes("เปลี่ยนภาษา")) toggleLang();
+      else alert(`🎙️ AI ได้ยินว่า: "${command}"`);
+    };
+
+    recognition.onerror = function() { document.getElementById('voice-status').style.display = 'none'; };
+    recognition.onspeechend = function() { recognition.stop(); document.getElementById('voice-status').style.display = 'none'; };
+  } else {
+    window.startVoiceCommand = function() { alert("⚠️ เบราว์เซอร์ไม่รองรับเสียง"); };
   }
 
   setInterval(() => {
