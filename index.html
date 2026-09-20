@@ -307,7 +307,7 @@
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-vial"></i> <span data-i18n="title_demo">โหมดจำลองสถานการณ์เตือนภัย</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase 5 วินาที เพื่อทดสอบระบบเตือนภัยวันนำเสนอ</p>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase 5 วินาที พร้อมส่งอีเมลแจ้งเตือนอัตโนมัติ</p>
       <button class="btn btn-demo" onclick="triggerDemo()"><i class="fa-solid fa-flask"></i> <span data-i18n="btn_demo">ทดสอบ Simulation (15.5A)</span></button>
     </div>
 
@@ -402,7 +402,7 @@
       loading: "กำลังโหลดข้อมูล...", title_tariff: "ตั้งค่าอัตราค่าไฟฟ้า", lbl_rate: "อัตราค่าไฟ (บาท/หน่วย):", lbl_preset: "เลือกประเภทสถานที่:",
       opt_home: "บ้านอยู่อาศัย (~4.39 บาท)", opt_dorm: "หอพัก / อพาร์ตเมนต์ (~7.00 บาท)", opt_shop: "ร้านค้า / กิจการขนาดเล็ก (~4.80 บาท)", title_calc: "เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า",
       lbl_watt: "กำลังไฟ (วัตต์):", lbl_hrs: "เปิดใช้งาน (ชั่วโมง/วัน):", btn_calc: "คำนวณค่าไฟ", title_demo: "โหมดจำลองสถานการณ์เตือนภัย",
-      desc_demo: "จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase 5 วินาที เพื่อทดสอบระบบเตือนภัย", btn_demo: "ทดสอบ Simulation (15.5A)", title_tools: "เครื่องมือการแสดงผล",
+      desc_demo: "จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase 5 วินาที พร้อมส่งอีเมลแจ้งเตือนอัตโนมัติ", btn_demo: "ทดสอบ Simulation (15.5A)", title_tools: "เครื่องมือการแสดงผล",
       btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ", btn_voice: "สั่งงานด้วยเสียง",
       voice_listening: "กำลังฟังคำสั่ง...",
       mail_title: "ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)",
@@ -433,7 +433,7 @@
       loading: "Loading data...", title_tariff: "Electricity Tariff Settings", lbl_rate: "Rate (THB/kWh):", lbl_preset: "Select Location Type:",
       opt_home: "Residential (~4.39 THB)", opt_dorm: "Dormitory (~7.00 THB)", opt_shop: "Small Business (~4.80 THB)", title_calc: "Appliance Bill Calculator",
       lbl_watt: "Power (Watts):", lbl_hrs: "Usage (Hours/Day):", btn_calc: "Calculate", title_demo: "Alarm Simulation Mode",
-      desc_demo: "Simulate current spike to 15.50 A on Firebase for 5 seconds to test alarms.", btn_demo: "Run Simulation (15.5A)", title_tools: "Display Tools",
+      desc_demo: "Simulate current spike to 15.50 A on Firebase for 5 seconds with auto email alert.", btn_demo: "Run Simulation (15.5A)", title_tools: "Display Tools",
       btn_theme: "Toggle Dark/Light", btn_qr: "Show QR Code", qr_title: "Scan to Open Web App", btn_voice: "Voice Control",
       voice_listening: "Listening...",
       mail_title: "Email Alert Settings",
@@ -607,10 +607,37 @@
   }
 
   async function triggerDemo() {
-    alert("Simulation Mode: 15.50 A for 5 seconds");
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) });
+    alert("Simulation Mode: 15.50 A for 5 seconds (พร้อมส่งอีเมลแจ้งเตือน)");
+    
+    // 1. ส่งค่ากระแสไฟเกินไปที่ Firebase
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { 
+      method: 'PATCH', 
+      body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) 
+    });
+
+    // 2. สั่งส่งอีเมลแจ้งเตือนผ่าน EmailJS อัตโนมัติทันที
+    const email = document.getElementById('alertEmailInput').value.trim();
+    if (email) {
+      const templateParams = {
+        to_email: email,
+        message_body: "⚠️ [PowerPulse IoT Simulation] ตรวจพบกระแสไฟฟ้าเกินพิกัด (15.50 A) ระบบตัดไฟอัตโนมัติ",
+        time_alert: new Date().toLocaleString('th-TH')
+      };
+
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+        .then((response) => {
+           console.log('Simulation Email Sent!', response.status);
+        }, (error) => {
+           console.error('Simulation Email Failed:', error);
+        });
+    }
+
+    // 3. จำลองให้ค่ากลับมาปกติหลังผ่านไป 5 วินาที
     setTimeout(async () => {
-      await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 1.50, voltage: 220.0, power: 330.0 }) });
+      await fetch(`${FIREBASE_BASE}/electricity.json`, { 
+        method: 'PATCH', 
+        body: JSON.stringify({ current: 1.50, voltage: 220.0, power: 330.0 }) 
+      });
     }, 5000);
   }
 
@@ -731,7 +758,7 @@
       } 
       else if (command.includes("ทดสอบ") || command.includes("เตือนภัย") || command.includes("จำลอง")) {
         triggerDemo();
-        alert(`🎙️ AI รับคำสั่ง: "${command}"\n⚠️ เริ่มจำลองสถานการณ์เตือนภัย!`);
+        alert(`🎙️ AI รับคำสั่ง: "${command}"\n⚠️ เริ่มจำลองสถานการณ์เตือนภัยและส่งอีเมล!`);
       } 
       else {
         alert(`🎙️ AI ได้ยินว่า: "${command}"\n❌ ไม่พบคำสั่งนี้`);
