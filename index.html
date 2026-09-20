@@ -422,7 +422,7 @@
         <div class="step-num">6</div>
         <div class="step-desc">
           <h4 data-i18n="man_s6_h">6. Mechatronics 3D Logo Viewer</h4>
-          <p data-i18n="man_s6_p">ป้ายโลโก้ 3 มิติวงกลมประจำภาควิชาบนหัวหน้าจอ สามารถใช้เมาส์คลิกและลากเพื่อหมุนดูรอบทิศทางได้ 360 องศา</p>
+          <p data-i18n="man_s6_p">ป้ายโลโก้ 3 มิติวงกลมประจำภาควิชาบนหัวหน้าจอ สามารถหมุนดูรอบทิศทางได้ 360 องศา</p>
         </div>
       </div>
     </div>
@@ -584,7 +584,7 @@
     }
   }
 
-  /* --- Three.js 3D Logo Viewer --- */
+  /* --- Three.js 3D Logo Viewer (สร้างแคนวาสโลโก้ภาควิชาแปะบนเหรียญ 3 มิติ) --- */
   let scene3d, camera3d, renderer3d, logoDiscGroup;
   let isDragging3d = false;
   let previousMousePosition = { x: 0, y: 0 };
@@ -602,37 +602,55 @@
     renderer3d.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer3d.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene3d.add(ambientLight);
-    const pointLight = new THREE.PointLight(0xffffff, 1.2);
+    const pointLight = new THREE.PointLight(0xffffff, 1.5);
     pointLight.position.set(5, 5, 5);
     scene3d.add(pointLight);
 
     logoDiscGroup = new THREE.Group();
 
-    // สร้างรูปทรงกระบอกแบน (เหรียญวงกลม 3 มิติ)
+    // สร้างพื้นผิวโลโก้ Mechatronics Engineering บน Canvas 2D
+    const canvas = document.createElement('canvas');
+    canvas.width = 512; canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    
+    // วาดพื้นหลังวงกลมสีขาวสะอาดตา
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(256, 256, 240, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.lineWidth = 12;
+    ctx.strokeStyle = '#4361ee';
+    ctx.stroke();
+
+    // วาดข้อความ MECHATRONICS ENGINEERING
+    ctx.fillStyle = '#111111';
+    ctx.font = 'bold 46px Prompt';
+    ctx.textAlign = 'center';
+    ctx.fillText('MECHATRONICS', 256, 230);
+    
+    ctx.fillStyle = '#4361ee';
+    ctx.font = 'bold 32px Prompt';
+    ctx.fillText('ENGINEERING', 256, 280);
+
+    // วาดสัญลักษณ์วงกลมตกแต่งด้านล่าง
+    ctx.fillStyle = '#ffb703';
+    ctx.beginPath();
+    ctx.arc(256, 350, 25, 0, Math.PI * 2);
+    ctx.fill();
+
+    const logoTexture = new THREE.CanvasTexture(canvas);
+    
+    // สร้างรูปทรงเหรียญวงกลม 3 มิติ (Cylinder)
     const geometry = new THREE.CylinderGeometry(1.4, 1.4, 0.15, 32);
+    const matFront = new THREE.MeshStandardMaterial({ map: logoTexture, roughness: 0.1 });
+    const matSide = new THREE.MeshStandardMaterial({ color: 0x4361ee, metalness: 0.8, roughness: 0.2 });
+    const materials = [matSide, matFront, matFront];
     
-    // โหลดรูปภาพโลโก้ของคุณ (แปลงเป็น Data URL ของภาพ Mechatronics ที่ส่งมา)
-    const textureLoader = new THREE.TextureLoader();
-    const logoBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6e..."; // ใช้ลิงก์ภาพหรือไฟล์โลโก้ของคุณ
-    
-    // หากต้องการใช้ไฟล์ภาพ ให้ใส่ชื่อไฟล์ตรง textureLoader.load('image_2.png', ...)
-    textureLoader.load('image_2.png', (texture) => {
-      const matFront = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.2 });
-      const matSide = new THREE.MeshStandardMaterial({ color: 0x4361ee, metalness: 0.8, roughness: 0.2 });
-      const materials = [matSide, matFront, matFront];
-      
-      const logoMesh = new THREE.Mesh(geometry, materials);
-      logoMesh.rotation.x = Math.PI / 2;
-      logoDiscGroup.add(logoMesh);
-    }, undefined, (err) => {
-      // สีสำรองกรณีโหลดรูปไม่ทัน
-      const fallbackMat = new THREE.MeshStandardMaterial({ color: 0x4361ee, roughness: 0.3 });
-      const fallbackMesh = new THREE.Mesh(geometry, fallbackMat);
-      fallbackMesh.rotation.x = Math.PI / 2;
-      logoDiscGroup.add(fallbackMesh);
-    });
+    const logoMesh = new THREE.Mesh(geometry, materials);
+    logoMesh.rotation.x = Math.PI / 2;
+    logoDiscGroup.add(logoMesh);
 
     scene3d.add(logoDiscGroup);
 
