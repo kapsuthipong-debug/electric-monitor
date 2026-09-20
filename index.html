@@ -557,7 +557,10 @@
 
   function sendTestEmail() {
     const email = document.getElementById('alertEmailInput').value.trim();
-    if(!email) { alert("กรุณากรอกและบันทึกอีเมลก่อนทดสอบ"); return; }
+    if(!email) { 
+      alert("กรุณากรอกและบันทึกอีเมลก่อนทดสอบ"); 
+      return; 
+    }
 
     const templateParams = {
       to_email: email,
@@ -567,10 +570,11 @@
 
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
       .then((response) => {
-         alert("✅ ส่งอีเมลทดสอบไปยัง " + email + " สำเร็จแล้ว!");
+         console.log('SUCCESS!', response.status, response.text);
+         alert("✅ ส่งอีเมลทดสอบไปยัง " + email + " สำเร็จแล้ว! กรุณาตรวจสอบในกล่องข้อความ (Inbox) หรือ Spam ของ Gmail");
       }, (error) => {
-         alert("❌ ส่งอีเมลไม่สำเร็จ (ตรวจสอบ Service ID, Template ID หรือ Public Key อีกครั้ง)");
-         console.error("EmailJS Error:", error);
+         console.error('FAILED...', error);
+         alert("❌ ส่งอีเมลไม่สำเร็จ: " + JSON.stringify(error));
       });
   }
 
