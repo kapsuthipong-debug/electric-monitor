@@ -148,7 +148,8 @@
     </div>
 
     <div class="header-actions">
-      <button class="tool-btn" onclick="openChatbot()" title="Energy AI Assistant" style="background: var(--primary-color); color: white;"><i class="fa-solid fa-robot"></i> Gemini AI</button>
+      <!-- เปลี่ยนชื่อปุ่มเป็น AI Chat ตามที่คุณต้องการ -->
+      <button class="tool-btn" onclick="openChatbot()" title="Energy AI Assistant" style="background: var(--primary-color); color: white;"><i class="fa-solid fa-robot"></i> AI Chat</button>
       <button class="tool-btn" onclick="toggleLang()"><i class="fa-solid fa-language"></i> <span id="lang-btn-text">EN</span></button>
       <div id="status-badge" class="status-badge offline">
         <div class="status-dot"></div>
@@ -523,7 +524,7 @@
       man_subtitle: "คู่มือการใช้งานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)",
       man_s1_h: "1. การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Real-time Dashboard)",
       man_s1_p: "แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทุกๆ 3 วินาที พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)",
-      man_s2_h: "2. ประวัติการใช้ไฟและPeak Tracker (History & Export)",
+      man_s2_h: "2. ประวัติการใช้ไฟและ Peak Tracker (History & Export)",
       man_s2_p: "เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมอัตโนมัติพร้อมภาษี VAT 7% และสามารถกดดาวน์โหลดไฟล์ CSV ไปใช้งานต่อได้",
       man_s3_h: "3. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)",
       man_s3_p: "สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที",
@@ -700,8 +701,8 @@
     chatMessages.innerHTML += `<div class="chat-msg bot" id="${loadingId}">กำลังคิดวิเคราะห์ด้วย Gemini AI...</div>`;
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // นำ Gemini API Key ของคุณมาใส่ตรงนี้ (เช่น "AIzaSy...")
-    const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"; 
+    // ใส่ Gemini API Key ของคุณที่ให้มาเรียบร้อยแล้ว
+    const GEMINI_API_KEY = "AQ.Ab8RN6LECc7tD0vHrSmfYECb65Gfys76jnsnp81WfrwCdLS3Xw"; 
 
     const currentEnergy = latestRealtimeData.energy || 0;
     const currentVolt = latestRealtimeData.voltage || 0;
