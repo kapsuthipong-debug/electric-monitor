@@ -37,9 +37,11 @@
     .header h1 i { color: var(--warning-color); margin-right: 6px; }
     .subtitle { font-size: 14px; font-weight: 500; color: var(--text-sub); }
     
+    /* 3D Viewer สไตล์แก้ไขให้แสดงผลชัดเจนทุกหน้าจอ */
     .header-3d-viewer { display: flex; flex-direction: column; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: var(--border-radius); box-shadow: var(--shadow); }
-    #canvas3d-container { width: 120px; height: 60px; cursor: grab; }
+    #canvas3d-container { width: 120px; height: 60px; cursor: grab; position: relative; }
     #canvas3d-container:active { cursor: grabbing; }
+    #canvas3d-container canvas { display: block; width: 100% !important; height: 100% !important; }
 
     .header-actions { display: flex; align-items: center; gap: 8px; }
     .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
@@ -105,17 +107,6 @@
     .step-desc p { font-size: 13px; color: var(--text-sub); line-height: 1.4; }
     .voice-command-tag { background: rgba(138, 43, 226, 0.1); color: #8a2be2; padding: 4px 8px; border-radius: 6px; font-family: monospace; font-weight: 600; font-size: 12px; display: inline-block; margin: 2px 0; }
 
-    .chatbot-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
-    .chatbot-box { background: var(--card-bg); width: 90%; max-width: 380px; height: 450px; border-radius: var(--border-radius); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.2); border: 1px solid var(--border-color); }
-    .chatbot-header { background: var(--primary-color); color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 14px; }
-    .chatbot-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 13px; background: var(--bg-color); }
-    .chat-msg { padding: 8px 12px; border-radius: 10px; max-width: 80%; line-height: 1.4; white-space: pre-line; }
-    .chat-msg.bot { background: var(--card-bg); color: var(--text-main); align-self: flex-start; border: 1px solid var(--border-color); }
-    .chat-msg.user { background: var(--primary-color); color: white; align-self: flex-end; }
-    .chatbot-input-area { display: flex; padding: 10px; background: var(--card-bg); border-top: 1px solid var(--border-color); gap: 6px; }
-    .chatbot-input-area input { flex: 1; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-main); font-size: 13px; outline: none; }
-    .chatbot-input-area button { background: var(--primary-color); color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; }
-
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
     .modal-content { background: var(--card-bg); padding: 22px; border-radius: var(--border-radius); text-align: center; max-width: 300px; width: 90%; position: relative; color: var(--text-main); }
     .close-btn { position: absolute; right: 15px; top: 10px; font-size: 20px; cursor: pointer; color: var(--text-sub); }
@@ -124,7 +115,7 @@
     @media (max-width: 768px) {
       body { padding: 12px; padding-bottom: 85px; }
       .header h1 { font-size: 16px; }
-      .header-3d-viewer { display: none; }
+      .header-3d-viewer { display: flex; } /* คงให้แสดงผล 3D บนมือถือด้วย */
       .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; margin-bottom: 0; border-radius: 0; border-top: 1px solid var(--border-color); z-index: 999; padding: 8px 4px; justify-content: space-around; box-shadow: 0 -5px 15px rgba(0,0,0,0.08); background: var(--card-bg); }
       .tab-btn { flex-direction: column; gap: 2px; font-size: 9px; padding: 4px; min-width: auto; }
       .tab-btn i { font-size: 14px; }
@@ -142,13 +133,13 @@
       <span class="subtitle">( PowerPulse IoT )</span>
     </h1>
 
+    <!-- 3D Viewer แสดงผลตรงกลางด้านบนชัดเจน -->
     <div class="header-3d-viewer">
       <div id="canvas3d-container"></div>
       <span style="font-size: 9px; color: var(--text-sub); margin-top: 2px;">ESP32 3D Model</span>
     </div>
 
     <div class="header-actions">
-      <button class="tool-btn" onclick="openChatbot()" title="Energy AI Assistant" style="background: var(--primary-color); color: white;"><i class="fa-solid fa-robot"></i> AI Chat</button>
       <button class="tool-btn" onclick="toggleLang()"><i class="fa-solid fa-language"></i> <span id="lang-btn-text">EN</span></button>
       <div id="status-badge" class="status-badge offline">
         <div class="status-dot"></div>
@@ -430,8 +421,8 @@
       <div class="manual-step">
         <div class="step-num">6</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s6_h">6. AI Chat & 3D Viewer</h4>
-          <p data-i18n="man_s6_p">ผู้ช่วยแชทบอทอัจฉริยะที่คอยตอบคำถามและจำลองสถานการณ์การใช้ไฟ พร้อมช่องแสดงโมเดล 3 มิติของบอร์ด IoT ที่หมุนได้ 360 องศา</p>
+          <h4 data-i18n="man_s6_h">6. 3D Viewer & Hardware Model</h4>
+          <p data-i18n="man_s6_p">ช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่สามารถใช้เมาส์คลิกและลากเพื่อหมุนดูรอบทิศทางได้ 360 องศา</p>
         </div>
       </div>
     </div>
@@ -451,23 +442,6 @@
     <h3 data-i18n="qr_title">สแกนเพื่อเข้าใช้งานเว็บ</h3>
     <p style="font-size: 12px; color: var(--text-sub);">PowerPulse IoT Web Dashboard</p>
     <div id="qrcode"></div>
-  </div>
-</div>
-
-<!-- Modal Energy AI Chatbot -->
-<div id="chatbotModal" class="chatbot-modal">
-  <div class="chatbot-box">
-    <div class="chatbot-header">
-      <span><i class="fa-solid fa-robot"></i> AI Chat Assistant</span>
-      <span style="cursor:pointer; font-size: 18px;" onclick="closeChatbot()">&times;</span>
-    </div>
-    <div class="chatbot-messages" id="chatMessages">
-      <div class="chat-msg bot">สวัสดีครับ! ผมคือ AI Chat ผู้ช่วยอัจฉริยะประจำระบบ PowerPulse IoT สอบถามข้อมูลค่าไฟหรือวิเคราะห์ระบบได้เลยครับ 😊</div>
-    </div>
-    <div class="chatbot-input-area">
-      <input type="text" id="chatInput" placeholder="พิมพ์คำถาม เช่น ค่าไฟเท่าไหร่, ถ้ากระแสไฟ 20A..." onkeypress="handleChatKey(event)">
-      <button onclick="sendChatMessage()">ส่ง</button>
-    </div>
   </div>
 </div>
 
@@ -531,8 +505,8 @@
       man_s4_p: "ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)",
       man_s5_h: "5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Smart Voice Control)",
       man_s5_p: "กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทยเพื่อควบคุมระบบ:",
-      man_s6_h: "6. AI Chat & 3D Viewer",
-      man_s6_p: "ผู้ช่วยแชทบอทอัจฉริยะและช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่หมุนได้ 360 องศา",
+      man_s6_h: "6. 3D Viewer & Hardware Model",
+      man_s6_p: "ช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่สามารถใช้เมาส์หมุนดูรอบทิศทางได้ 360 องศา",
       man_v_nav: "การนำทาง", man_v_ctrl: "การควบคุม",
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
@@ -576,8 +550,8 @@
       man_s4_p: "Set recipient email for automatic alerts during overloads or voltage faults, featuring emergency simulation and SOS cut-off.",
       man_s5_h: "5. Smart Voice Control",
       man_s5_p: "Tap the microphone button and speak Thai voice commands:",
-      man_s6_h: "6. AI Chat & 3D Viewer",
-      man_s6_p: "Smart AI assistant chatbot and an interactive 3D IoT device model viewer right at the top header that rotates 360 degrees.",
+      man_s6_h: "6. 3D Viewer & Hardware Model",
+      man_s6_p: "Interactive 3D IoT device model viewer right at the top header that rotates 360 degrees.",
       man_v_nav: "Navigation", man_v_ctrl: "Control",
       man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the live dashboard."
     }
@@ -610,7 +584,7 @@
     }
   }
 
-  /* --- Three.js 3D Viewer (ESP32 Model) --- */
+  /* --- Three.js 3D Viewer (ESP32 Model) ที่ปรับปรุงการเรนเดอร์ --- */
   let scene3d, camera3d, renderer3d, boardGroup;
   let isDragging3d = false;
   let previousMousePosition = { x: 0, y: 0 };
@@ -625,9 +599,10 @@
 
     renderer3d = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer3d.setSize(container.clientWidth, container.clientHeight);
+    renderer3d.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer3d.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     scene3d.add(ambientLight);
     const pointLight = new THREE.PointLight(0xffffff, 1);
     pointLight.position.set(5, 5, 5);
@@ -670,6 +645,23 @@
 
     window.addEventListener('mouseup', () => { isDragging3d = false; });
 
+    // รองรับการสัมผัสบนมือถือ
+    container.addEventListener('touchstart', (e) => {
+      isDragging3d = true;
+      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging3d) return;
+      const deltaX = e.touches[0].clientX - previousMousePosition.x;
+      const deltaY = e.touches[0].clientY - previousMousePosition.y;
+      boardGroup.rotation.y += deltaX * 0.01;
+      boardGroup.rotation.x += deltaY * 0.01;
+      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    });
+
+    window.addEventListener('touchend', () => { isDragging3d = false; });
+
     animate3D();
   }
 
@@ -681,112 +673,21 @@
     renderer3d.render(scene3d, camera3d);
   }
 
-  /* --- Smart AI Chatbot Integration (ปลอดภัย ไม่โดน GitHub บล็อก) --- */
-  function openChatbot() { document.getElementById('chatbotModal').style.display = 'flex'; }
-  function closeChatbot() { document.getElementById('chatbotModal').style.display = 'none'; }
-  function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
-
-  function sendChatMessage() {
-    const input = document.getElementById('chatInput');
-    const text = input.value.trim();
-    if (!text) return;
-
-    const chatMessages = document.getElementById('chatMessages');
-    chatMessages.innerHTML += `<div class="chat-msg user">${text}</div>`;
-    input.value = '';
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    setTimeout(() => {
-      let reply = "ขออภัยครับ AI Chat รองรับการวิเคราะห์เฉพาะระบบ PowerPulse IoT, ค่าไฟฟ้า, แรงดัน/กระแส, และสถานการณ์จำลองในระบบครับ ลองพิมพ์ถามเรื่อง 'ค่าไฟ', 'ถ้ากระแสไฟ 20A', หรือ 'วิธีประหยัดไฟ' ได้เลยครับ 😊";
-      const lower = text.toLowerCase();
-      const textNum = parseFloat(text.replace(/[^0-9.]/g, '')) || 0;
-
-      const currentEnergy = latestRealtimeData.energy || 0;
-      const currentVolt = latestRealtimeData.voltage || 0;
-      const currentAmps = latestRealtimeData.current || 0;
-      const currentPower = latestRealtimeData.power || 0;
-      const rate = customRate;
-
-      if ((lower.includes('กระแส') || lower.includes('แอมป์') || lower.includes('a') || lower.includes('โหลด')) && (text.includes('20') || text.includes('15') || text.includes('30') || text.includes('ถ้า') || text.includes('สมมติ') || textNum > 15)) {
-        const targetAmps = textNum > 0 ? textNum : 20;
-        const estWatts = targetAmps * currentVolt;
-        reply = `⚠️ **การจำลองสถานการณ์ (Simulation Analysis):**\n` +
-                `- หากกระแสไฟฟ้าพุ่งสูงถึง **${targetAmps} A** (กำลังไฟ ~${estWatts.toFixed(0)} W) ซึ่งเกินขีดจำกัดปลอดภัยที่ 15.00 A\n` +
-                `- **ระบบจะตอบสนองโดย:** แจ้งเตือนสภาวะ Overload ทันที, ส่งเสียง Buzzer เตือนภัย, เปลี่ยนหน้าจอเป็นสถานะฉุกเฉิน, ส่งอีเมลแจ้งเตือนไปยังผู้ดูแลระบบ และเปิดใช้งานปุ่มตัดไฟฉุกเฉิน (Emergency Cut-off) อัตโนมัติเพื่อป้องกันสายไฟไหม้ครับ`;
-      }
-      else if ((lower.includes('แรงดัน') || lower.includes('volt') || lower.includes('v') || lower.includes('ไฟตก') || lower.includes('ไฟเกิน')) && (textNum > 0 || text.includes('ตก') || text.includes('เกิน'))) {
-        const targetVolt = textNum > 0 ? textNum : 190;
-        let alertType = "ปกติ";
-        if (targetVolt < 215) alertType = "ไฟตกต่ำกว่ามาตรฐาน (Low Voltage ⚠️)";
-        if (targetVolt > 245) alertType = "ไฟเกินกระชาก (High Voltage ⚠️)";
-        reply = `⚡ **การจำลองสถานการณ์แรงดัน (${targetVolt} V):**\n` +
-                `- สถานะกริดไฟฟ้า: **${alertType}**\n` +
-                `- **ระบบจะตอบสนองโดย:** บันทึกสถิติความผิดปกติลงระบบ แจ้งเตือนผ่านหน้าจอแดชบอร์ด และส่งอีเมลเตือนความเสี่ยงให้อัตโนมัติครับ`;
-      }
-      else if (lower.includes('เดือน') || lower.includes('monthly') || lower.includes('สิ้นเดือน') || lower.includes('จ่ายเท่าไหร่')) {
-        const estimatedMonthlyKwh = currentEnergy > 0 ? currentEnergy * 30 : 150;
-        const estimatedMonthlyCost = estimatedMonthlyKwh * rate;
-        reply = `📊 **พยากรณ์ค่าไฟฟ้ารายเดือน (30 วัน):**\n- พลังงานคาดการณ์: ~${estimatedMonthlyKwh.toFixed(1)} kWh\n- ค่าไฟโดยประมาณ: ~${estimatedMonthlyCost.toFixed(2)} บาท (อิงเรท ${rate} ฿/หน่วย รวม VAT 7% แล้ว)`;
-      } 
-      else if (lower.includes('สัปดาห์') || lower.includes('week') || lower.includes('7 วัน')) {
-        const weeklyKwh = currentEnergy > 0 ? currentEnergy * 7 : 35;
-        const weeklyCost = weeklyKwh * rate;
-        reply = `📅 **พยากรณ์ค่าไฟฟ้ารายสัปดาห์ (7 วัน):**\n- พลังงานคาดการณ์: ~${weeklyKwh.toFixed(1)} kWh\n- ค่าไฟโดยประมาณ: ~${weeklyCost.toFixed(2)} บาทครับ`;
-      } 
-      else if (lower.includes('ค่าไฟ') || lower.includes('cost') || lower.includes('เงิน') || lower.includes('บาท') || lower.includes('หน่วย')) {
-        const total = (currentEnergy * rate).toFixed(2);
-        reply = `💰 **สรุปค่าไฟฟ้าปัจจุบัน:**\n- พลังงานสะสม: ${currentEnergy.toFixed(2)} kWh\n- ค่าไฟรวมสุทธิ: ${total} บาท (อัตรา ${rate} บาท/หน่วย)`;
-      } 
-      else if (lower.includes('ประหยัด') || lower.includes('ลดค่าไฟ') || lower.includes('ทำยังไงให้ประหยัด')) {
-        reply = `💡 **คำแนะนำการประหยัดพลังงานจาก AI Chat:**\n` +
-                `- ตั้งอุณหภูมิเครื่องปรับอากาศไว้ที่ 26°C ช่วยประหยัดไฟได้ถึง 10%\n` +
-                `- ถอดปลั๊กเครื่องใช้ไฟฟ้าที่ไม่ได้ใช้งานเพื่อตัดไฟสแตนด์บาย (Phantom Load)\n` +
-                `- หลีกเลี่ยงการเปิดเครื่องใช้ไฟฟ้ากำลังไฟสูงพร้อมกันในช่วง Peak Time ครับ`;
-      }
-      else if (lower.includes('วิธี') || lower.includes('ใช้ยังไง') || lower.includes('คำสั่งเสียง') || lower.includes('ดาวน์โหลด') || lower.includes('csv')) {
-        reply = `📖 **แนะนำการใช้งานระบบ PowerPulse IoT:**\n` +
-                `- **สั่งงานด้วยเสียง:** กดปุ่ม "สั่งงานด้วยเสียง" แล้วพูด เช่น "หน้าหลัก", "ประวัติ", "เปิดเสียง", "ปิดเสียง"\n` +
-                `- **ดาวน์โหลด CSV:** ไปที่แท็บ 'ประวัติ' แล้วกดปุ่มดาวน์โหลดรายงานครับ`;
-      }
-      else if (lower.includes('kwh') || lower.includes('หน่วยคือ') || lower.includes('overload') || lower.includes('คืออะไร') || lower.includes('iot')) {
-        reply = `📚 **เกร็ดความรู้ทางวิศวกรรมในระบบ:**\n` +
-                `- **kWh (Kilowatt-hour):** หน่วยวัดพลังงานไฟฟ้าที่ใช้ไป (กำลังไฟฟ้า 1,000 วัตต์ เปิดใช้งานใน 1 ชั่วโมง)\n` +
-                `- **Overload:** ภาวะที่มีการใช้กระแสไฟฟ้าเกินพิกัดความปลอดภัย ซึ่งระบบเราจำกัดไว้ที่ 15A\n` +
-                `- **IoT (Internet of Things):** เทคโนโลยีการเชื่อมต่อเซนเซอร์วัดค่าไฟฟ้าเข้ากับคลาวด์และแสดงผลบนเว็บเรียลไทม์ครับ`;
-      }
-      else if (lower.includes('เธอคือใคร') || lower.includes('ชื่ออะไร') || lower.includes(' ai ') || lower.includes('เก่ง')) {
-        reply = `🤖 ผมคือ **AI Chat** ผู้ช่วยอัจฉริยะประจำโปรเจกต์ **PowerPulse IoT** ครับ ถูกออกแบบมาเพื่อมอนิเตอร์ วิเคราะห์ และช่วยเหลือคุณจัดการพลังงานไฟฟ้าอย่างชาญฉลาด!`;
-      }
-      else if (lower.includes('สถานะ') || lower.includes('status') || lower.includes('ระบบ') || lower.includes('ภาพรวม') || lower.includes('online')) {
-        reply = `🖥️ **รายงานสถานะ PowerPulse IoT:**\n- ระบบเชื่อมต่อออนไลน์ (Online)\n- แรงดัน: ${currentVolt.toFixed(1)}V | กระแส: ${currentAmps.toFixed(2)}A\n- พลังงานสะสม: ${currentEnergy.toFixed(2)}kWh | สุขภาพกริด: ปลอดภัยดีเยี่ยม`;
-      } 
-      else if (lower.includes('สวัสดี') || lower.includes('hello') || lower.includes('hi')) {
-        reply = `สวัสดีครับ! AI Chat ยินดีให้บริการ สอบถามข้อมูลค่าไฟ ตรวจสอบแรงดัน วิธีประหยัดไฟ หรือทดลองพิมพ์จำลองสถานการณ์ได้เลยครับ!`;
-      }
-
-      chatMessages.innerHTML += `<div class="chat-msg bot">${reply}</div>`;
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 400);
-  }
-
   function startGuidedTour() {
     alert("🚀 เริ่มต้นระบบแนะนำการใช้งานอัตโนมัติ (Guided Tour)\nระบบจะพาคุณทัวร์ฟีเจอร์หลักทีละหน้าจอครับ!");
     switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
     setTimeout(() => {
-      alert("📍 [Step 1/4 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้าแบบเรียลไทม์ พร้อมกราฟ 24 ชั่วโมง");
+      alert("📍 [Step 1/3 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้าแบบเรียลไทม์ พร้อมกราฟ 24 ชั่วโมง");
       switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
     }, 4000);
     setTimeout(() => {
-      alert("📍 [Step 2/4 - หน้าประวัติ & Peak Tracker]\nเก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมภาษี และดาวน์โหลด CSV ได้");
+      alert("📍 [Step 2/3 - หน้าประวัติ & Peak Tracker]\nเก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมภาษี และดาวน์โหลด CSV ได้");
       switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
     }, 9000);
     setTimeout(() => {
-      alert("📍 [Step 3/4 - หน้าระบบ]\nตั้งค่าอีเมลรับแจ้งเตือน มีแผนที่พิกัด และ 3D Viewer ด้านบนหัวเว็บ");
+      alert("📍 [Step 3/3 - หน้าระบบ & 3D Viewer]\nตั้งค่าอีเมลรับแจ้งเตือน มีแผนที่พิกัด และโมเดล 3D แสดงผลเด่นชัดที่หัวเว็บ");
       switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
     }, 14000);
-    setTimeout(() => {
-      alert("🎉 จบสิ้นการทัวร์ระบบ PowerPulse IoT เรียบร้อยแล้วครับ!");
-    }, 19000);
   }
 
   function toggleTheme() {
