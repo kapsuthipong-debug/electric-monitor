@@ -72,6 +72,7 @@
     .btn-reset { background-color: var(--danger-color); color: white; }
     .btn-voice { background-color: #8a2be2; color: white; }
     .btn-demo { background-color: var(--primary-color); color: white; }
+    .btn-sos { background-color: #e63946; color: white; }
     
     .panel { background: var(--card-bg); padding: 18px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-bottom: 18px; border: 1px solid var(--border-color); }
     .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
@@ -311,6 +312,15 @@
       <button class="btn btn-demo" onclick="triggerDemo()"><i class="fa-solid fa-flask"></i> <span data-i18n="btn_demo">ทดสอบ Simulation (15.5A)</span></button>
     </div>
 
+    <!-- ฟีเจอร์ใหม่: ปุ่มรายงานปัญหาด่วน / SOS Panel -->
+    <div class="panel">
+      <div class="panel-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> <span data-i18n="sos_title">แผงควบคุมเหตุฉุกเฉินด่วน (Emergency SOS Panel)</span></div>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="sos_desc">ปุ่มด่วนสำหรับสั่งตัดกระแสไฟฟ้าฉุกเฉินและส่งอีเมลแจ้งเตือนเหตุด่วนไปยังผู้ดูแลระบบทันที</p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="btn btn-sos" onclick="triggerEmergencyCutoff()"><i class="fa-solid fa-power-off"></i> <span data-i18n="btn_sos_cut">ตัดไฟฉุกเฉิน (Emergency Cut-off)</span></button>
+      </div>
+    </div>
+
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-desktop"></i> <span data-i18n="title_tools">เครื่องมือการแสดงผล</span></div>
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
@@ -403,6 +413,9 @@
       opt_home: "บ้านอยู่อาศัย (~4.39 บาท)", opt_dorm: "หอพัก / อพาร์ตเมนต์ (~7.00 บาท)", opt_shop: "ร้านค้า / กิจการขนาดเล็ก (~4.80 บาท)", title_calc: "เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า",
       lbl_watt: "กำลังไฟ (วัตต์):", lbl_hrs: "เปิดใช้งาน (ชั่วโมง/วัน):", btn_calc: "คำนวณค่าไฟ", title_demo: "โหมดจำลองสถานการณ์เตือนภัย",
       desc_demo: "จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase 5 วินาที พร้อมส่งอีเมลแจ้งเตือนอัตโนมัติ", btn_demo: "ทดสอบ Simulation (15.5A)", title_tools: "เครื่องมือการแสดงผล",
+      sos_title: "แผงควบคุมเหตุฉุกเฉินด่วน (Emergency SOS Panel)",
+      sos_desc: "ปุ่มด่วนสำหรับสั่งตัดกระแสไฟฟ้าฉุกเฉินและส่งอีเมลแจ้งเตือนเหตุด่วนไปยังผู้ดูแลระบบทันที",
+      btn_sos_cut: "ตัดไฟฉุกเฉิน (Emergency Cut-off)",
       btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ", btn_voice: "สั่งงานด้วยเสียง",
       voice_listening: "กำลังฟังคำสั่ง...",
       mail_title: "ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)",
@@ -434,6 +447,9 @@
       opt_home: "Residential (~4.39 THB)", opt_dorm: "Dormitory (~7.00 THB)", opt_shop: "Small Business (~4.80 THB)", title_calc: "Appliance Bill Calculator",
       lbl_watt: "Power (Watts):", lbl_hrs: "Usage (Hours/Day):", btn_calc: "Calculate", title_demo: "Alarm Simulation Mode",
       desc_demo: "Simulate current spike to 15.50 A on Firebase for 5 seconds with auto email alert.", btn_demo: "Run Simulation (15.5A)", title_tools: "Display Tools",
+      sos_title: "Emergency SOS Panel",
+      sos_desc: "Quick action buttons for emergency power cut-off and instant admin alert email.",
+      btn_sos_cut: "Emergency Cut-off",
       btn_theme: "Toggle Dark/Light", btn_qr: "Show QR Code", qr_title: "Scan to Open Web App", btn_voice: "Voice Control",
       voice_listening: "Listening...",
       mail_title: "Email Alert Settings",
@@ -578,44 +594,14 @@
       });
   }
 
-  async function fetchRealtimeData() {
-    try {
-      const res = await fetch(`${FIREBASE_BASE}/electricity.json`);
-      const data = await res.json();
-      if (data) {
-        const v = data.voltage || 0; const i = data.current || 0; const w = data.power || 0; const energy = data.energy || 0;
-        document.getElementById('voltage').innerText = `${v.toFixed(1)} V`;
-        document.getElementById('current').innerText = `${i.toFixed(2)} A`;
-        document.getElementById('power').innerText = `${w.toFixed(1)} W`;
-        document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
-        updateChart(w);
-
-        const totalCost = energy * customRate;
-        const baseCost = totalCost / 1.07;
-        const vatCost = totalCost - baseCost;
-        document.getElementById('totalCost').innerText = `${totalCost.toFixed(2)} ฿`;
-        document.getElementById('breakdown-text').innerText = `ฐาน: ${baseCost.toFixed(2)} ฿ | VAT: ${vatCost.toFixed(2)} ฿`;
-
-        const nowStr = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
-        if (i > maxCurrentToday) { maxCurrentToday = i; maxCurrentTimeToday = nowStr; }
-        document.getElementById('peak-today').innerText = `พีควันนี้: ${maxCurrentToday.toFixed(2)} A (${maxCurrentTimeToday})`;
-
-        lastDataTime = Date.now();
-        saveDailyHistory(energy, totalCost, maxCurrentToday, maxCurrentTimeToday);
-      }
-    } catch (e) { console.error("Fetch Error:", e); }
-  }
-
   async function triggerDemo() {
     alert("Simulation Mode: 15.50 A for 5 seconds (พร้อมส่งอีเมลแจ้งเตือน)");
     
-    // 1. ส่งค่ากระแสไฟเกินไปที่ Firebase
     await fetch(`${FIREBASE_BASE}/electricity.json`, { 
       method: 'PATCH', 
       body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) 
     });
 
-    // 2. สั่งส่งอีเมลแจ้งเตือนผ่าน EmailJS อัตโนมัติทันที
     const email = document.getElementById('alertEmailInput').value.trim();
     if (email) {
       const templateParams = {
@@ -623,22 +609,36 @@
         message_body: "⚠️ [PowerPulse IoT Simulation] ตรวจพบกระแสไฟฟ้าเกินพิกัด (15.50 A) ระบบตัดไฟอัตโนมัติ",
         time_alert: new Date().toLocaleString('th-TH')
       };
-
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-        .then((response) => {
-           console.log('Simulation Email Sent!', response.status);
-        }, (error) => {
-           console.error('Simulation Email Failed:', error);
-        });
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
     }
 
-    // 3. จำลองให้ค่ากลับมาปกติหลังผ่านไป 5 วินาที
     setTimeout(async () => {
       await fetch(`${FIREBASE_BASE}/electricity.json`, { 
         method: 'PATCH', 
         body: JSON.stringify({ current: 1.50, voltage: 220.0, power: 330.0 }) 
       });
     }, 5000);
+  }
+
+  // ฟังก์ชันใหม่สำหรับปุ่มตัดไฟฉุกเฉิน (Emergency Cut-off)
+  async function triggerEmergencyCutoff() {
+    if (confirm("⚠️ ยืนยันการสั่งตัดกระแสไฟฟ้าฉุกเฉิน (Emergency Cut-off)?")) {
+      await fetch(`${FIREBASE_BASE}/electricity.json`, { 
+        method: 'PATCH', 
+        body: JSON.stringify({ current: 0.0, power: 0.0 }) 
+      });
+
+      const email = document.getElementById('alertEmailInput').value.trim();
+      if (email) {
+        const templateParams = {
+          to_email: email,
+          message_body: "🚨 [PowerPulse IoT EMERGENCY] มีการสั่งตัดกระแสไฟฟ้าฉุกเฉินจากผู้ควบคุมระบบผ่าน Web Dashboard",
+          time_alert: new Date().toLocaleString('th-TH')
+        };
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      }
+      alert("🚨 สั่งตัดไฟฉุกเฉินสำเร็จ! ส่งสัญญาณและอีเมลแจ้งเตือนเรียบร้อย");
+    }
   }
 
   async function saveDailyHistory(energy, totalCost, peakI, peakTime) {
@@ -775,6 +775,34 @@
     };
   } else {
     window.startVoiceCommand = function() { alert("⚠️ เบราว์เซอร์ของคุณไม่รองรับระบบสั่งงานด้วยเสียง"); };
+  }
+
+  async function fetchRealtimeData() {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/electricity.json`);
+      const data = await res.json();
+      if (data) {
+        const v = data.voltage || 0; const i = data.current || 0; const w = data.power || 0; const energy = data.energy || 0;
+        document.getElementById('voltage').innerText = `${v.toFixed(1)} V`;
+        document.getElementById('current').innerText = `${i.toFixed(2)} A`;
+        document.getElementById('power').innerText = `${w.toFixed(1)} W`;
+        document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
+        updateChart(w);
+
+        const totalCost = energy * customRate;
+        const baseCost = totalCost / 1.07;
+        const vatCost = totalCost - baseCost;
+        document.getElementById('totalCost').innerText = `${totalCost.toFixed(2)} ฿`;
+        document.getElementById('breakdown-text').innerText = `ฐาน: ${baseCost.toFixed(2)} ฿ | VAT: ${vatCost.toFixed(2)} ฿`;
+
+        const nowStr = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+        if (i > maxCurrentToday) { maxCurrentToday = i; maxCurrentTimeToday = nowStr; }
+        document.getElementById('peak-today').innerText = `พีควันนี้: ${maxCurrentToday.toFixed(2)} A (${maxCurrentTimeToday})`;
+
+        lastDataTime = Date.now();
+        saveDailyHistory(energy, totalCost, maxCurrentToday, maxCurrentTimeToday);
+      }
+    } catch (e) { console.error("Fetch Error:", e); }
   }
 
   setInterval(() => {
