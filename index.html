@@ -12,6 +12,9 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- EmailJS SDK -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <!-- Leaflet Map CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <style>
     :root {
@@ -284,7 +287,7 @@
   <div id="tab-system" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-envelope" style="color: var(--primary-color);"></i> <span data-i18n="mail_title">ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_desc">กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด หรือแรงดันไฟฟ้าผิดปกติ (&lt;215V หรือ &gt;245V)</p>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_desc">กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด หรือแรงดันไฟฟ้าผิดปกติ (<215V หรือ >245V)</p>
       
       <div class="calc-grid">
         <div class="input-group" style="grid-column: 1 / -1;">
@@ -324,6 +327,13 @@
       </div>
     </div>
 
+    <!-- ฟีเจอร์ใหม่: แผนที่แสดงจุดติดตั้งอุปกรณ์ IoT -->
+    <div class="panel">
+      <div class="panel-title"><i class="fa-solid fa-map-location-dot" style="color: var(--primary-color);"></i> <span data-i18n="map_title">จุดติดตั้งอุปกรณ์ IoT (Device Geo-Location)</span></div>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="map_desc">แสดงตำแหน่งพิกัดและสถานะเรียลไทม์ของบอร์ด ESP32 ที่ติดตั้งหน้างาน</p>
+      <div id="iotMap" style="width: 100%; height: 300px; border-radius: 12px; z-index: 1;"></div>
+    </div>
+
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-desktop"></i> <span data-i18n="title_tools">เครื่องมือการแสดงผล</span></div>
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
@@ -333,22 +343,20 @@
     </div>
   </div>
 
-  <!-- TAB 5: คู่มือการใช้งาน (Manual - TH & EN with Fixed Thai Voice Tags) -->
+  <!-- TAB 5: คู่มือการใช้งาน (Manual - TH & EN) -->
   <div id="tab-manual" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-book-open" style="color: var(--primary-color);"></i> <span data-i18n="man_title">คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)</span></div>
       <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 16px;" data-i18n="man_subtitle">คู่มือการใช้งานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)</p>
 
-      <!-- Step 1 -->
       <div class="manual-step">
         <div class="step-num">1</div>
         <div class="step-desc">
           <h4 data-i18n="man_s1_h">1. การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Real-time Dashboard)</h4>
-          <p data-i18n="man_s1_p">แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทุกๆ 3 วินาที พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (&lt;215V หรือ &gt;245V)</p>
+          <p data-i18n="man_s1_p">แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทุกๆ 3 วินาที พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)</p>
         </div>
       </div>
 
-      <!-- Step 2 -->
       <div class="manual-step">
         <div class="step-num">2</div>
         <div class="step-desc">
@@ -357,7 +365,6 @@
         </div>
       </div>
 
-      <!-- Step 3 -->
       <div class="manual-step">
         <div class="step-num">3</div>
         <div class="step-desc">
@@ -366,7 +373,6 @@
         </div>
       </div>
 
-      <!-- Step 4 -->
       <div class="manual-step">
         <div class="step-num">4</div>
         <div class="step-desc">
@@ -375,7 +381,6 @@
         </div>
       </div>
 
-      <!-- Step 5 (Voice Control with Fixed Thai Tags) -->
       <div class="manual-step">
         <div class="step-num">5</div>
         <div class="step-desc">
@@ -417,6 +422,8 @@
   let currentLang = 'th';
   let powerChart;
   let qrInitialized = false;
+  let mapInitialized = false;
+  let iotMap, deviceMarker;
 
   const EMAILJS_SERVICE_ID = "service_3er85fc";
   const EMAILJS_TEMPLATE_ID = "template_zz03wjc";
@@ -438,6 +445,8 @@
       sos_title: "แผงควบคุมเหตุฉุกเฉินด่วน (Emergency SOS Panel)",
       sos_desc: "ปุ่มด่วนสำหรับสั่งตัดกระแสไฟฟ้าฉุกเฉินและส่งอีเมลแจ้งเตือนเหตุด่วนไปยังผู้ดูแลระบบทันที",
       btn_sos_cut: "ตัดไฟฉุกเฉิน (Emergency Cut-off)",
+      map_title: "จุดติดตั้งอุปกรณ์ IoT (Device Geo-Location)",
+      map_desc: "แสดงตำแหน่งพิกัดและสถานะเรียลไทม์ของบอร์ด ESP32 ที่ติดตั้งหน้างาน",
       btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ", btn_voice: "สั่งงานด้วยเสียง",
       voice_listening: "กำลังฟังคำสั่ง...",
       mail_title: "ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)",
@@ -476,6 +485,8 @@
       sos_title: "Emergency SOS Panel",
       sos_desc: "Quick action buttons for emergency power cut-off and instant admin alert email.",
       btn_sos_cut: "Emergency Cut-off",
+      map_title: "Device Geo-Location",
+      map_desc: "Displays real-time coordinates and status of deployed ESP32 boards.",
       btn_theme: "Toggle Dark/Light", btn_qr: "Show QR Code", qr_title: "Scan to Open Web App", btn_voice: "Voice Control",
       voice_listening: "Listening...",
       mail_title: "Email Alert Settings",
@@ -521,6 +532,12 @@
       new QRCode(document.getElementById("manual-qrcode"), { text: window.location.href, width: 140, height: 140 });
       qrInitialized = true;
     }
+
+    if(tabId === 'tab-system') {
+      setTimeout(() => {
+        initIoTMap();
+      }, 200);
+    }
   }
 
   function toggleTheme() {
@@ -551,6 +568,34 @@
     powerChart.data.labels.push(timeLabel);
     powerChart.data.datasets[0].data.push(powerValue);
     powerChart.update();
+  }
+
+  function initIoTMap() {
+    if (mapInitialized) {
+      iotMap.invalidateSize();
+      return;
+    }
+    const lat = 13.7563;
+    const lng = 100.5018;
+
+    iotMap = L.map('iotMap').setView([lat, lng], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(iotMap);
+
+    deviceMarker = L.marker([lat, lng]).addTo(iotMap)
+      .bindPopup('<b>PowerPulse IoT #01</b><br>สถานะ: ปกติ (ONLINE)<br>Volt/Current: รอข้อมูล...')
+      .openPopup();
+
+    mapInitialized = true;
+  }
+
+  function updateMapStatus(currentVal, voltageVal) {
+    if (deviceMarker) {
+      const statusText = (currentVal > 15.0 || voltageVal < 215 || voltageVal > 245) ? '🔴 ผิดปกติ/Overload' : '🟢 ปกติ (Online)';
+      deviceMarker.setPopupContent(`<b>PowerPulse IoT #01</b><br>สถานะ: ${statusText}<br>Volt: ${voltageVal.toFixed(1)}V | Current: ${currentVal.toFixed(2)}A`);
+    }
   }
 
   function updateRate() {
@@ -639,6 +684,7 @@
         document.getElementById('power').innerText = `${w.toFixed(1)} W`;
         document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
         updateChart(w);
+        updateMapStatus(i, v);
 
         let currentVoltStatus = "NORMAL";
         let voltMsg = "";
