@@ -284,7 +284,7 @@
   <div id="tab-system" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-envelope" style="color: var(--primary-color);"></i> <span data-i18n="mail_title">ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_desc">กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด (Overload)</p>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_desc">กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด หรือแรงดันไฟฟ้าผิดปกติ (&lt;215V หรือ &gt;245V)</p>
       
       <div class="calc-grid">
         <div class="input-group" style="grid-column: 1 / -1;">
@@ -302,17 +302,20 @@
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-paper-plane" style="color: #8a2be2;"></i> <span data-i18n="mail_test_title">ทดสอบส่งอีเมลแจ้งเตือน (Test Email Alert)</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_test_desc">กดปุ่มด้านล่างเพื่อทดสอบส่งอีเมลจำลองเหตุการณ์ไฟเกินไปยังอีเมลที่บันทึกไว้ทันที</p>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_test_desc">กดปุ่มด้านล่างเพื่อทดสอบส่งอีเมลจำลองเหตุการณ์ไปยังอีเมลที่บันทึกไว้ทันที</p>
       <button class="btn btn-voice" onclick="sendTestEmail()"><i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_test_mail">ทดสอบส่งอีเมลแจ้งเตือน</span></button>
     </div>
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-vial"></i> <span data-i18n="title_demo">โหมดจำลองสถานการณ์เตือนภัย</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase 5 วินาที พร้อมส่งอีเมลแจ้งเตือนอัตโนมัติ</p>
-      <button class="btn btn-demo" onclick="triggerDemo()"><i class="fa-solid fa-flask"></i> <span data-i18n="btn_demo">ทดสอบ Simulation (15.5A)</span></button>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือน</p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="btn btn-demo" onclick="triggerDemoOverload()"><i class="fa-solid fa-bolt-lightning"></i> <span data-i18n="btn_demo_over">จำลองไฟเกิน (15.5A)</span></button>
+        <button class="btn btn-demo" style="background-color: var(--warning-color); color: #111;" onclick="triggerDemoLowVolt()"><i class="fa-solid fa-arrow-down"></i> <span data-i18n="btn_demo_low">จำลองไฟตก (205V)</span></button>
+        <button class="btn btn-demo" style="background-color: var(--danger-color);" onclick="triggerDemoHighVolt()"><i class="fa-solid fa-arrow-up"></i> <span data-i18n="btn_demo_high">จำลองไฟเกิน V (250V)</span></button>
+      </div>
     </div>
 
-    <!-- ฟีเจอร์ใหม่: ปุ่มรายงานปัญหาด่วน / SOS Panel -->
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> <span data-i18n="sos_title">แผงควบคุมเหตุฉุกเฉินด่วน (Emergency SOS Panel)</span></div>
       <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="sos_desc">ปุ่มด่วนสำหรับสั่งตัดกระแสไฟฟ้าฉุกเฉินและส่งอีเมลแจ้งเตือนเหตุด่วนไปยังผู้ดูแลระบบทันที</p>
@@ -330,38 +333,58 @@
     </div>
   </div>
 
-  <!-- TAB 5: คู่มือการใช้งาน -->
+  <!-- TAB 5: คู่มือการใช้งาน (Manual - TH & EN) -->
   <div id="tab-manual" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-book-open" style="color: var(--primary-color);"></i> <span data-i18n="man_title">คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)</span></div>
-      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 16px;" data-i18n="man_subtitle">เอกสารแนะนำการใช้งานฟีเจอร์ต่างๆ และคำสั่งเสียงอัจฉริยะสำหรับผู้ใช้งานและคณะกรรมการ</p>
+      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 16px;" data-i18n="man_subtitle">คู่มือการใช้งานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)</p>
 
+      <!-- Step 1 -->
       <div class="manual-step">
         <div class="step-num">1</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s1_h">การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Dashboard)</h4>
-          <p data-i18n="man_s1_p">แสดงค่าแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 อัปเดตอัตโนมัติทุก 3 วินาที พร้อมกราฟเส้นแสดงแนวโน้ม 24 ชั่วโมง</p>
+          <h4 data-i18n="man_s1_h">การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Real-time Dashboard)</h4>
+          <p data-i18n="man_s1_p">แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทุกๆ 3 วินาที พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (&lt;215V หรือ &gt;245V)</p>
         </div>
       </div>
 
+      <!-- Step 2 -->
       <div class="manual-step">
         <div class="step-num">2</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s2_h">การใช้งานระบบสั่งงานด้วยเสียง (Voice Control)</h4>
-          <p><span data-i18n="man_s2_p1">กดปุ่มสั่งงานด้วยเสียงในหน้าหลัก แล้วพูดคำสั่งเพื่อควบคุมระบบได้ทันที:</span></p>
-          <div style="margin-top: 6px; font-size: 13px; color: var(--text-sub);">
-            • <span data-i18n="man_nav_cmd">ไปหน้าต่างๆ</span>: <span class="voice-command-tag">"หน้าหลัก" / "ประวัติ" / "คำนวณ" / "ระบบ" / "คู่มือ"</span><br>
-            • <span data-i18n="man_ctrl_cmd">ควบคุมระบบ</span>: <span class="voice-command-tag">"ปิดเสียง" / "เปิดเสียง" / "รีเซ็ตข้อมูล" / "ทดสอบเตือนภัย"</span><br>
-            • <span data-i18n="man_tool_cmd">เครื่องมืออื่นๆ</span>: <span class="voice-command-tag">"เปลี่ยนธีม" / "เปลี่ยนภาษา" / "ดาวน์โหลดประวัติ"</span>
-          </div>
+          <h4 data-i18n="man_s2_h">ประวัติการใช้ไฟและ Peak Tracker (History & Export)</h4>
+          <p data-i18n="man_s2_p">เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมอัตโนมัติพร้อมภาษี VAT 7% และสามารถกดดาวน์โหลดไฟล์ CSV ไปใช้งานต่อได้</p>
         </div>
       </div>
 
+      <!-- Step 3 -->
       <div class="manual-step">
         <div class="step-num">3</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s3_h">การตั้งค่าอีเมลแจ้งเตือนและความปลอดภัย</h4>
-          <p data-i18n="man_s3_p">ไปที่หน้า "ระบบ" เพื่อบันทึกอีเมลผู้รับและทดสอบระบบส่งอีเมลแจ้งเตือนอัตโนมัติเมื่อเกิดเหตุการณ์ฉุกเฉิน</p>
+          <h4 data-i18n="man_s3_h">เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)</h4>
+          <p data-i18n="man_s3_p">สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที</p>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="manual-step">
+        <div class="step-num">4</div>
+        <div class="step-desc">
+          <h4 data-i18n="man_s4_h">ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)</h4>
+          <p data-i18n="man_s4_p">ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)</p>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="manual-step">
+        <div class="step-num">5</div>
+        <div class="step-desc">
+          <h4 data-i18n="man_s5_h">ระบบสั่งงานด้วยเสียงอัจฉริยะ (Voice Control)</h4>
+          <p><span data-i18n="man_s5_p">กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทย เช่น:</span></p>
+          <div style="margin-top: 6px; font-size: 13px; color: var(--text-sub);">
+            • <span class="voice-command-tag">"หน้าหลัก" / "ประวัติ" / "คำนวณ" / "ระบบ" / "คู่มือ"</span><br>
+            • <span class="voice-command-tag">"ปิดเสียง" / "เปิดเสียง" / "เปลี่ยนธีม" / "เปลี่ยนภาษา" / "ทดสอบเตือนภัย"</span>
+          </div>
         </div>
       </div>
     </div>
@@ -395,7 +418,6 @@
   let powerChart;
   let qrInitialized = false;
 
-  // ตั้งค่า EmailJS ที่ถูกต้องครบถ้วน
   const EMAILJS_SERVICE_ID = "service_3er85fc";
   const EMAILJS_TEMPLATE_ID = "template_zz03wjc";
   const EMAILJS_PUBLIC_KEY = "BuscMCQrAQ5TAq5F_";
@@ -412,28 +434,31 @@
       loading: "กำลังโหลดข้อมูล...", title_tariff: "ตั้งค่าอัตราค่าไฟฟ้า", lbl_rate: "อัตราค่าไฟ (บาท/หน่วย):", lbl_preset: "เลือกประเภทสถานที่:",
       opt_home: "บ้านอยู่อาศัย (~4.39 บาท)", opt_dorm: "หอพัก / อพาร์ตเมนต์ (~7.00 บาท)", opt_shop: "ร้านค้า / กิจการขนาดเล็ก (~4.80 บาท)", title_calc: "เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า",
       lbl_watt: "กำลังไฟ (วัตต์):", lbl_hrs: "เปิดใช้งาน (ชั่วโมง/วัน):", btn_calc: "คำนวณค่าไฟ", title_demo: "โหมดจำลองสถานการณ์เตือนภัย",
-      desc_demo: "จำลองกระแสไฟพุ่งสูง 15.50 A บน Firebase 5 วินาที พร้อมส่งอีเมลแจ้งเตือนอัตโนมัติ", btn_demo: "ทดสอบ Simulation (15.5A)", title_tools: "เครื่องมือการแสดงผล",
+      desc_demo: "จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือน", btn_demo_over: "จำลองไฟเกิน (15.5A)", btn_demo_low: "จำลองไฟตก (205V)", btn_demo_high: "จำลองไฟเกิน V (250V)", title_tools: "เครื่องมือการแสดงผล",
       sos_title: "แผงควบคุมเหตุฉุกเฉินด่วน (Emergency SOS Panel)",
       sos_desc: "ปุ่มด่วนสำหรับสั่งตัดกระแสไฟฟ้าฉุกเฉินและส่งอีเมลแจ้งเตือนเหตุด่วนไปยังผู้ดูแลระบบทันที",
       btn_sos_cut: "ตัดไฟฉุกเฉิน (Emergency Cut-off)",
       btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ", btn_voice: "สั่งงานด้วยเสียง",
       voice_listening: "กำลังฟังคำสั่ง...",
       mail_title: "ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)",
-      mail_desc: "กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด (Overload)",
+      mail_desc: "กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด หรือแรงดันไฟฟ้าผิดปกติ (<215V หรือ >245V)",
       mail_label: "อีเมลผู้รับแจ้งเตือน (Recipient Email):",
       btn_save_mail: "บันทึกอีเมลผู้รับ",
       mail_test_title: "ทดสอบส่งอีเมลแจ้งเตือน (Test Email Alert)",
-      mail_test_desc: "กดปุ่มด้านล่างเพื่อทดสอบส่งอีเมลจำลองเหตุการณ์ไฟเกินไปยังอีเมลที่บันทึกไว้ทันที",
+      mail_test_desc: "กดปุ่มด้านล่างเพื่อทดสอบส่งอีเมลจำลองเหตุการณ์ไปยังอีเมลที่บันทึกไว้ทันที",
       btn_test_mail: "ทดสอบส่งอีเมลแจ้งเตือน",
       man_title: "คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)",
-      man_subtitle: "เอกสารแนะนำการใช้งานฟีเจอร์ต่างๆ และคำสั่งเสียงอัจฉริยะสำหรับผู้ใช้งานและคณะกรรมการ",
-      man_s1_h: "การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Dashboard)",
-      man_s1_p: "แสดงค่าแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 อัปเดตอัตโนมัติทุก 3 วินาที พร้อมกราฟเส้นแสดงแนวโน้ม 24 ชั่วโมง",
-      man_s2_h: "การใช้งานระบบสั่งงานด้วยเสียง (Voice Control)",
-      man_s2_p1: "กดปุ่มสั่งงานด้วยเสียงในหน้าหลัก แล้วพูดคำสั่งภาษาไทยเพื่อควบคุมระบบได้ทันที:",
-      man_nav_cmd: "ไปหน้าต่างๆ", man_ctrl_cmd: "ควบคุมระบบ", man_tool_cmd: "เครื่องมืออื่นๆ",
-      man_s3_h: "การตั้งค่าอีเมลแจ้งเตือนและความปลอดภัย",
-      man_s3_p: "ไปที่หน้า 'ระบบ' เพื่อบันทึกอีเมลผู้รับและทดสอบระบบส่งอีเมลแจ้งเตือนอัตโนมัติเมื่อเกิดเหตุการณ์ฉุกเฉิน",
+      man_subtitle: "คู่มือการใช้งานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)",
+      man_s1_h: "1. การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Real-time Dashboard)",
+      man_s1_p: "แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทุกๆ 3 วินาที พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)",
+      man_s2_h: "2. ประวัติการใช้ไฟและ Peak Tracker (History & Export)",
+      man_s2_p: "เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมอัตโนมัติพร้อมภาษี VAT 7% และสามารถกดดาวน์โหลดไฟล์ CSV ไปใช้งานต่อได้",
+      man_s3_h: "3. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)",
+      man_s3_p: "สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที",
+      man_s4_h: "4. ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)",
+      man_s4_p: "ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)",
+      man_s5_h: "5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Voice Control)",
+      man_s5_p: "กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทย เช่น:",
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
     en: {
@@ -446,28 +471,31 @@
       loading: "Loading data...", title_tariff: "Electricity Tariff Settings", lbl_rate: "Rate (THB/kWh):", lbl_preset: "Select Location Type:",
       opt_home: "Residential (~4.39 THB)", opt_dorm: "Dormitory (~7.00 THB)", opt_shop: "Small Business (~4.80 THB)", title_calc: "Appliance Bill Calculator",
       lbl_watt: "Power (Watts):", lbl_hrs: "Usage (Hours/Day):", btn_calc: "Calculate", title_demo: "Alarm Simulation Mode",
-      desc_demo: "Simulate current spike to 15.50 A on Firebase for 5 seconds with auto email alert.", btn_demo: "Run Simulation (15.5A)", title_tools: "Display Tools",
+      desc_demo: "Simulate emergency situations on Firebase to test alert systems.", btn_demo_over: "Simulate Overload (15.5A)", btn_demo_low: "Simulate Low Volt (205V)", btn_demo_high: "Simulate High Volt (250V)", title_tools: "Display Tools",
       sos_title: "Emergency SOS Panel",
       sos_desc: "Quick action buttons for emergency power cut-off and instant admin alert email.",
       btn_sos_cut: "Emergency Cut-off",
       btn_theme: "Toggle Dark/Light", btn_qr: "Show QR Code", qr_title: "Scan to Open Web App", btn_voice: "Voice Control",
       voice_listening: "Listening...",
       mail_title: "Email Alert Settings",
-      mail_desc: "Enter recipient email to receive automatic alerts when overload occurs.",
+      mail_desc: "Enter recipient email to receive automatic alerts when overload or abnormal voltage (<215V or >245V) occurs.",
       mail_label: "Recipient Email:",
       btn_save_mail: "Save Email",
       mail_test_title: "Test Email Alert",
-      mail_test_desc: "Click below to send a simulated overload alert email to your saved address.",
+      mail_test_desc: "Click below to send a simulated alert email to your saved address.",
       btn_test_mail: "Send Test Email",
       man_title: "PowerPulse IoT User Manual & Guide",
-      man_subtitle: "Documentation and guide for features and smart voice commands.",
-      man_s1_h: "Real-time Electricity Monitoring (Dashboard)",
-      man_s1_p: "Displays Voltage (V), Current (A), Power (W), and Energy (kWh) from ESP32, updated every 3 seconds with a 24-hour trend chart.",
-      man_s2_h: "Using Voice Control System",
-      man_s2_p1: "Tap the Voice Control button on the dashboard and speak commands to control the system:",
-      man_nav_cmd: "Navigation", man_ctrl_cmd: "System Control", man_tool_cmd: "Tools & Display",
-      man_s3_h: "Email Alert & Security Settings",
-      man_s3_p: "Go to the 'System' tab to save recipient emails and test automatic email alerts during emergencies.",
+      man_subtitle: "Comprehensive guide for all system features in Thai and English.",
+      man_s1_h: "1. Real-time Electricity Monitoring (Dashboard)",
+      man_s1_p: "Displays Voltage (V), Current (A), Power (W), and Energy (kWh) from ESP32 every 3 seconds with a 24-hour chart and abnormal voltage detection (<215V or >245V).",
+      man_s2_h: "2. Daily History & Peak Tracker (History & Export)",
+      man_s2_p: "Records daily energy consumption history, automatically calculates total bills with 7% VAT, and allows exporting CSV reports.",
+      man_s3_h: "3. Tariff Settings & Appliance Calculator",
+      man_s3_p: "Select electricity rates based on location types (Residential, Dormitory, Shop) or calculate appliance power costs in advance.",
+      man_s4_h: "4. Email Alerts & Simulation Mode",
+      man_s4_p: "Set recipient email for automatic alerts during overloads or voltage faults, featuring emergency simulation and SOS cut-off.",
+      man_s5_h: "5. Smart Voice Control",
+      man_s5_p: "Tap the microphone button and speak Thai voice commands such as navigation, theme toggling, or alarm testing.",
       man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the live dashboard."
     }
   };
@@ -580,64 +608,140 @@
 
     const templateParams = {
       to_email: email,
-      message_body: "⚠️ [PowerPulse IoT Test] ตรวจพบกระแสไฟฟ้าเกินพิกัด (15.50 A) ระบบความปลอดภัยทำงานอัตโนมัติ",
+      message_body: "⚠️ [PowerPulse IoT Test] ทดสอบระบบแจ้งเตือนความปลอดภัยเรียบร้อยดี",
       time_alert: new Date().toLocaleString('th-TH')
     };
 
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
       .then((response) => {
-         console.log('SUCCESS!', response.status, response.text);
-         alert("✅ ส่งอีเมลทดสอบไปยัง " + email + " สำเร็จแล้ว! กรุณาตรวจสอบในกล่องข้อความ (Inbox) หรือ Spam ของ Gmail");
+         alert("✅ ส่งอีเมลทดสอบไปยัง " + email + " สำเร็จแล้ว!");
       }, (error) => {
-         console.error('FAILED...', error);
          alert("❌ ส่งอีเมลไม่สำเร็จ: " + JSON.stringify(error));
       });
   }
 
-  async function triggerDemo() {
-    alert("Simulation Mode: 15.50 A for 5 seconds (พร้อมส่งอีเมลแจ้งเตือน)");
-    
+  // ตัวแปรเช็กสถานะการแจ้งเตือนแรงดันเพื่อไม่ให้เมลส่งซ้ำรัวๆ ทุก 3 วิ
+  let lastVoltageAlertStatus = "NORMAL";
+
+  async function fetchRealtimeData() {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/electricity.json`);
+      const data = await res.json();
+      if (data) {
+        const v = data.voltage || 0; 
+        const i = data.current || 0; 
+        const w = data.power || 0; 
+        const energy = data.energy || 0;
+
+        document.getElementById('voltage').innerText = `${v.toFixed(1)} V`;
+        document.getElementById('current').innerText = `${i.toFixed(2)} A`;
+        document.getElementById('power').innerText = `${w.toFixed(1)} W`;
+        document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
+        updateChart(w);
+
+        // ตรวจสอบเงื่อนไข Volt ต่ำกว่า 215V หรือ สูงกว่า 245V
+        let currentVoltStatus = "NORMAL";
+        let voltMsg = "";
+        if (v > 0 && v < 215) {
+          currentVoltStatus = "LOW";
+          voltMsg = `⚠️ [PowerPulse IoT Alert] ตรวจพบระบบ Volt ต่ำกว่าปกติ! (${v.toFixed(1)} V)`;
+        } else if (v > 245) {
+          currentVoltStatus = "HIGH";
+          voltMsg = `⚠️ [PowerPulse IoT Alert] ตรวจพบระบบ Volt สูงกว่าปกติ! (${v.toFixed(1)} V)`;
+        }
+
+        // หากสถานะแรงดันเปลี่ยนเป็นผิดปกติ และมีการบันทึกอีเมลไว้ ให้ส่งเมลอัตโนมัติ
+        if (currentVoltStatus !== "NORMAL" && currentVoltStatus !== lastVoltageAlertStatus) {
+          lastVoltageAlertStatus = currentVoltStatus;
+          const email = document.getElementById('alertEmailInput').value.trim();
+          if (email) {
+            const templateParams = {
+              to_email: email,
+              message_body: voltMsg,
+              time_alert: new Date().toLocaleString('th-TH')
+            };
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+          }
+        } else if (currentVoltStatus === "NORMAL") {
+          lastVoltageAlertStatus = "NORMAL";
+        }
+
+        const totalCost = energy * customRate;
+        const baseCost = totalCost / 1.07;
+        const vatCost = totalCost - baseCost;
+        document.getElementById('totalCost').innerText = `${totalCost.toFixed(2)} ฿`;
+        document.getElementById('breakdown-text').innerText = `ฐาน: ${baseCost.toFixed(2)} ฿ | VAT: ${vatCost.toFixed(2)} ฿`;
+
+        const nowStr = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+        if (i > maxCurrentToday) { maxCurrentToday = i; maxCurrentTimeToday = nowStr; }
+        document.getElementById('peak-today').innerText = `พีควันนี้: ${maxCurrentToday.toFixed(2)} A (${maxCurrentTimeToday})`;
+
+        lastDataTime = Date.now();
+        saveDailyHistory(energy, totalCost, maxCurrentToday, maxCurrentTimeToday);
+      }
+    } catch (e) { console.error("Fetch Error:", e); }
+  }
+
+  // โหมดจำลองไฟเกิน 15.5A
+  async function triggerDemoOverload() {
+    alert("Simulation: ไฟเกิน (15.50 A)");
     await fetch(`${FIREBASE_BASE}/electricity.json`, { 
       method: 'PATCH', 
       body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) 
     });
+    sendSimulationEmail("⚠️ [PowerPulse IoT Simulation] ตรวจพบกระแสไฟฟ้าเกินพิกัด (15.50 A)");
+    setTimeout(resetDemoState, 5000);
+  }
 
+  // โหมดจำลองไฟตก (<215V)
+  async function triggerDemoLowVolt() {
+    alert("Simulation: ไฟตก (205.0 V)");
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { 
+      method: 'PATCH', 
+      body: JSON.stringify({ current: 2.0, voltage: 205.0, power: 440.0 }) 
+    });
+    sendSimulationEmail("⚠️ [PowerPulse IoT Simulation] ตรวจพบระบบ Volt ต่ำกว่าปกติ (205.0 V)");
+    setTimeout(resetDemoState, 5000);
+  }
+
+  // โหมดจำลองไฟเกิน (>245V)
+  async function triggerDemoHighVolt() {
+    alert("Simulation: ไฟเกิน V (250.0 V)");
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { 
+      method: 'PATCH', 
+      body: JSON.stringify({ current: 2.0, voltage: 250.0, power: 550.0 }) 
+    });
+    sendSimulationEmail("⚠️ [PowerPulse IoT Simulation] ตรวจพบระบบ Volt สูงกว่าปกติ (250.0 V)");
+    setTimeout(resetDemoState, 5000);
+  }
+
+  function sendSimulationEmail(msg) {
     const email = document.getElementById('alertEmailInput').value.trim();
     if (email) {
       const templateParams = {
         to_email: email,
-        message_body: "⚠️ [PowerPulse IoT Simulation] ตรวจพบกระแสไฟฟ้าเกินพิกัด (15.50 A) ระบบตัดไฟอัตโนมัติ",
+        message_body: msg,
         time_alert: new Date().toLocaleString('th-TH')
       };
       emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
     }
-
-    setTimeout(async () => {
-      await fetch(`${FIREBASE_BASE}/electricity.json`, { 
-        method: 'PATCH', 
-        body: JSON.stringify({ current: 1.50, voltage: 220.0, power: 330.0 }) 
-      });
-    }, 5000);
   }
 
-  // ฟังก์ชันใหม่สำหรับปุ่มตัดไฟฉุกเฉิน (Emergency Cut-off)
+  async function resetDemoState() {
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { 
+      method: 'PATCH', 
+      body: JSON.stringify({ current: 1.50, voltage: 220.0, power: 330.0 }) 
+    });
+  }
+
   async function triggerEmergencyCutoff() {
     if (confirm("⚠️ ยืนยันการสั่งตัดกระแสไฟฟ้าฉุกเฉิน (Emergency Cut-off)?")) {
       await fetch(`${FIREBASE_BASE}/electricity.json`, { 
         method: 'PATCH', 
         body: JSON.stringify({ current: 0.0, power: 0.0 }) 
       });
-
-      const email = document.getElementById('alertEmailInput').value.trim();
-      if (email) {
-        const templateParams = {
-          to_email: email,
-          message_body: "🚨 [PowerPulse IoT EMERGENCY] มีการสั่งตัดกระแสไฟฟ้าฉุกเฉินจากผู้ควบคุมระบบผ่าน Web Dashboard",
-          time_alert: new Date().toLocaleString('th-TH')
-        };
-        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-      }
-      alert("🚨 สั่งตัดไฟฉุกเฉินสำเร็จ! ส่งสัญญาณและอีเมลแจ้งเตือนเรียบร้อย");
+      sendSimulationEmail("🚨 [PowerPulse IoT EMERGENCY] มีการสั่งตัดกระแสไฟฟ้าฉุกเฉินจาก Web Dashboard");
+      alert("🚨 สั่งตัดไฟฉุกเฉินสำเร็จ!");
     }
   }
 
@@ -757,8 +861,8 @@
         }
       } 
       else if (command.includes("ทดสอบ") || command.includes("เตือนภัย") || command.includes("จำลอง")) {
-        triggerDemo();
-        alert(`🎙️ AI รับคำสั่ง: "${command}"\n⚠️ เริ่มจำลองสถานการณ์เตือนภัยและส่งอีเมล!`);
+        triggerDemoOverload();
+        alert(`🎙️ AI รับคำสั่ง: "${command}"\n⚠️ เริ่มจำลองสถานการณ์เตือนภัย!`);
       } 
       else {
         alert(`🎙️ AI ได้ยินว่า: "${command}"\n❌ ไม่พบคำสั่งนี้`);
@@ -775,34 +879,6 @@
     };
   } else {
     window.startVoiceCommand = function() { alert("⚠️ เบราว์เซอร์ของคุณไม่รองรับระบบสั่งงานด้วยเสียง"); };
-  }
-
-  async function fetchRealtimeData() {
-    try {
-      const res = await fetch(`${FIREBASE_BASE}/electricity.json`);
-      const data = await res.json();
-      if (data) {
-        const v = data.voltage || 0; const i = data.current || 0; const w = data.power || 0; const energy = data.energy || 0;
-        document.getElementById('voltage').innerText = `${v.toFixed(1)} V`;
-        document.getElementById('current').innerText = `${i.toFixed(2)} A`;
-        document.getElementById('power').innerText = `${w.toFixed(1)} W`;
-        document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
-        updateChart(w);
-
-        const totalCost = energy * customRate;
-        const baseCost = totalCost / 1.07;
-        const vatCost = totalCost - baseCost;
-        document.getElementById('totalCost').innerText = `${totalCost.toFixed(2)} ฿`;
-        document.getElementById('breakdown-text').innerText = `ฐาน: ${baseCost.toFixed(2)} ฿ | VAT: ${vatCost.toFixed(2)} ฿`;
-
-        const nowStr = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
-        if (i > maxCurrentToday) { maxCurrentToday = i; maxCurrentTimeToday = nowStr; }
-        document.getElementById('peak-today').innerText = `พีควันนี้: ${maxCurrentToday.toFixed(2)} A (${maxCurrentTimeToday})`;
-
-        lastDataTime = Date.now();
-        saveDailyHistory(energy, totalCost, maxCurrentToday, maxCurrentTimeToday);
-      }
-    } catch (e) { console.error("Fetch Error:", e); }
   }
 
   setInterval(() => {
