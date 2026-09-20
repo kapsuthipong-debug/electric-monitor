@@ -148,7 +148,7 @@
     </div>
 
     <div class="header-actions">
-      <button class="tool-btn" onclick="openChatbot()" title="Energy AI Assistant" style="background: var(--primary-color); color: white;"><i class="fa-solid fa-robot"></i> AI Chat</button>
+      <button class="tool-btn" onclick="openChatbot()" title="Energy AI Assistant" style="background: var(--primary-color); color: white;"><i class="fa-solid fa-robot"></i> Gemini AI</button>
       <button class="tool-btn" onclick="toggleLang()"><i class="fa-solid fa-language"></i> <span id="lang-btn-text">EN</span></button>
       <div id="status-badge" class="status-badge offline">
         <div class="status-dot"></div>
@@ -430,8 +430,8 @@
       <div class="manual-step">
         <div class="step-num">6</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s6_h">6. Energy AI Assistant & 3D Viewer</h4>
-          <p data-i18n="man_s6_p">ผู้ช่วยแชทบอทอัจฉริยะที่คอยตอบคำถามและจำลองสถานการณ์การใช้ไฟ และช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่หมุนได้ 360 องศา</p>
+          <h4 data-i18n="man_s6_h">6. Gemini AI Assistant & 3D Viewer</h4>
+          <p data-i18n="man_s6_p">ผู้ช่วยแชทบอทอัจฉริยะพลังขับเคลื่อนโดย Google Gemini และช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่หมุนได้ 360 องศา</p>
         </div>
       </div>
     </div>
@@ -458,14 +458,14 @@
 <div id="chatbotModal" class="chatbot-modal">
   <div class="chatbot-box">
     <div class="chatbot-header">
-      <span><i class="fa-solid fa-robot"></i> Energy AI Assistant</span>
+      <span><i class="fa-solid fa-robot"></i> Gemini AI Assistant</span>
       <span style="cursor:pointer; font-size: 18px;" onclick="closeChatbot()">&times;</span>
     </div>
     <div class="chatbot-messages" id="chatMessages">
-      <div class="chat-msg bot">สวัสดีครับ! ผมคือ Energy AI ผู้ช่วยอัจฉริยะ สอบถามข้อมูลค่าไฟ แรงดัน หรือสถานะระบบได้เลยครับ 😊</div>
+      <div class="chat-msg bot">สวัสดีครับ! ผมคือ Gemini AI ผู้ช่วยอัจฉริยะประจำระบบ PowerPulse IoT สอบถามข้อมูลค่าไฟหรือวิเคราะห์ระบบได้เลยครับ 😊</div>
     </div>
     <div class="chatbot-input-area">
-      <input type="text" id="chatInput" placeholder="พิมพ์คำถาม เช่น ค่าไฟเท่าไหร่..." onkeypress="handleChatKey(event)">
+      <input type="text" id="chatInput" placeholder="พิมพ์คำถาม เช่น ถ้ากระแสไฟ 20A..." onkeypress="handleChatKey(event)">
       <button onclick="sendChatMessage()">ส่ง</button>
     </div>
   </div>
@@ -523,7 +523,7 @@
       man_subtitle: "คู่มือการใช้งานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)",
       man_s1_h: "1. การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Real-time Dashboard)",
       man_s1_p: "แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทุกๆ 3 วินาที พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)",
-      man_s2_h: "2. ประวัติการใช้ไฟและ Peak Tracker (History & Export)",
+      man_s2_h: "2. ประวัติการใช้ไฟและPeak Tracker (History & Export)",
       man_s2_p: "เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมอัตโนมัติพร้อมภาษี VAT 7% และสามารถกดดาวน์โหลดไฟล์ CSV ไปใช้งานต่อได้",
       man_s3_h: "3. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)",
       man_s3_p: "สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที",
@@ -531,8 +531,8 @@
       man_s4_p: "ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)",
       man_s5_h: "5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Smart Voice Control)",
       man_s5_p: "กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทยเพื่อควบคุมระบบ:",
-      man_s6_h: "6. Energy AI Assistant & 3D Viewer",
-      man_s6_p: "ผู้ช่วยแชทบอทอัจฉริยะและช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่หมุนได้ 360 องศา",
+      man_s6_h: "6. Gemini AI Assistant & 3D Viewer",
+      man_s6_p: "ผู้ช่วยแชทบอทอัจฉริยะพลังขับเคลื่อนโดย Google Gemini และช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่หมุนได้ 360 องศา",
       man_v_nav: "การนำทาง", man_v_ctrl: "การควบคุม",
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
@@ -576,8 +576,8 @@
       man_s4_p: "Set recipient email for automatic alerts during overloads or voltage faults, featuring emergency simulation and SOS cut-off.",
       man_s5_h: "5. Smart Voice Control",
       man_s5_p: "Tap the microphone button and speak Thai voice commands:",
-      man_s6_h: "6. Energy AI Assistant & 3D Viewer",
-      man_s6_p: "AI assistant chatbot and an interactive 3D IoT device model viewer right at the top header that rotates 360 degrees.",
+      man_s6_h: "6. Gemini AI Assistant & 3D Viewer",
+      man_s6_p: "Google Gemini-powered AI assistant chatbot and an interactive 3D IoT device model viewer right at the top header that rotates 360 degrees.",
       man_v_nav: "Navigation", man_v_ctrl: "Control",
       man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the live dashboard."
     }
@@ -681,12 +681,12 @@
     renderer3d.render(scene3d, camera3d);
   }
 
-  /* --- Energy AI Chatbot ฉบับอัดแน่นสูงสุดสมบูรณ์ --- */
+  /* --- Gemini AI Chatbot Integration --- */
   function openChatbot() { document.getElementById('chatbotModal').style.display = 'flex'; }
   function closeChatbot() { document.getElementById('chatbotModal').style.display = 'none'; }
   function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
-  
-  function sendChatMessage() {
+
+  async function sendChatMessage() {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     if (!text) return;
@@ -696,77 +696,56 @@
     input.value = '';
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    setTimeout(() => {
-      let reply = "ขออภัยครับ Energy AI รองรับการวิเคราะห์เฉพาะระบบ PowerPulse IoT, ค่าไฟฟ้า, แรงดัน/กระแส, และสถานการณ์จำลองในระบบครับ ลองพิมพ์ถามเรื่อง 'ค่าไฟ', 'ถ้ากระแสไฟ 20A', หรือ 'วิธีประหยัดไฟ' ได้เลยครับ 😊";
-      const lower = text.toLowerCase();
-      const textNum = parseFloat(text.replace(/[^0-9.]/g, '')) || 0;
+    const loadingId = 'loading-' + Date.now();
+    chatMessages.innerHTML += `<div class="chat-msg bot" id="${loadingId}">กำลังคิดวิเคราะห์ด้วย Gemini AI...</div>`;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 
-      const currentEnergy = latestRealtimeData.energy || 0;
-      const currentVolt = latestRealtimeData.voltage || 0;
-      const currentAmps = latestRealtimeData.current || 0;
-      const currentPower = latestRealtimeData.power || 0;
-      const rate = customRate;
+    // นำ Gemini API Key ของคุณมาใส่ตรงนี้ (เช่น "AIzaSy...")
+    const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"; 
 
-      if ((lower.includes('กระแส') || lower.includes('แอมป์') || lower.includes('a') || lower.includes('โหลด')) && (text.includes('20') || text.includes('15') || text.includes('30') || text.includes('ถ้า') || text.includes('สมมติ') || textNum > 15)) {
-        const targetAmps = textNum > 0 ? textNum : 20;
-        const estWatts = targetAmps * currentVolt;
-        reply = `⚠️ **การจำลองสถานการณ์ (Simulation Analysis):**\n` +
-                `- หากกระแสไฟฟ้าพุ่งสูงถึง **${targetAmps} A** (กำลังไฟ ~${estWatts.toFixed(0)} W) ซึ่งเกินขีดจำกัดปลอดภัยที่ 15.00 A\n` +
-                `- **ระบบจะตอบสนองโดย:** แจ้งเตือนสภาวะ Overload ทันที, ส่งเสียง Buzzer เตือนภัย, เปลี่ยนหน้าจอเป็นสถานะฉุกเฉิน, ส่งอีเมลแจ้งเตือนไปยังผู้ดูแลระบบ และเปิดใช้งานปุ่มตัดไฟฉุกเฉิน (Emergency Cut-off) อัตโนมัติเพื่อป้องกันสายไฟไหม้ครับ`;
-      }
-      else if ((lower.includes('แรงดัน') || lower.includes('volt') || lower.includes('v') || lower.includes('ไฟตก') || lower.includes('ไฟเกิน')) && (textNum > 0 || text.includes('ตก') || text.includes('เกิน'))) {
-        const targetVolt = textNum > 0 ? textNum : 190;
-        let alertType = "ปกติ";
-        if (targetVolt < 215) alertType = "ไฟตกต่ำกว่ามาตรฐาน (Low Voltage ⚠️)";
-        if (targetVolt > 245) alertType = "ไฟเกินกระชาก (High Voltage ⚠️)";
-        reply = `⚡ **การจำลองสถานการณ์แรงดัน (${targetVolt} V):**\n` +
-                `- สถานะกริดไฟฟ้า: **${alertType}**\n` +
-                `- **ระบบจะตอบสนองโดย:** บันทึกสถิติความผิดปกติลงระบบ แจ้งเตือนผ่านหน้าจอแดชบอร์ด และส่งอีเมลเตือนความเสี่ยงให้อัตโนมัติครับ`;
-      }
-      else if (lower.includes('เดือน') || lower.includes('monthly') || lower.includes('สิ้นเดือน') || lower.includes('จ่ายเท่าไหร่')) {
-        const estimatedMonthlyKwh = currentEnergy > 0 ? currentEnergy * 30 : 150;
-        const estimatedMonthlyCost = estimatedMonthlyKwh * rate;
-        reply = `📊 **พยากรณ์ค่าไฟฟ้ารายเดือน (30 วัน):**\n- พลังงานคาดการณ์: ~${estimatedMonthlyKwh.toFixed(1)} kWh\n- ค่าไฟโดยประมาณ: ~${estimatedMonthlyCost.toFixed(2)} บาท (อิงเรท ${rate} ฿/หน่วย รวม VAT 7% แล้ว)`;
-      } 
-      else if (lower.includes('สัปดาห์') || lower.includes('week') || lower.includes('7 วัน')) {
-        const weeklyKwh = currentEnergy > 0 ? currentEnergy * 7 : 35;
-        const weeklyCost = weeklyKwh * rate;
-        reply = `📅 **พยากรณ์ค่าไฟฟ้ารายสัปดาห์ (7 วัน):**\n- พลังงานคาดการณ์: ~${weeklyKwh.toFixed(1)} kWh\n- ค่าไฟโดยประมาณ: ~${weeklyCost.toFixed(2)} บาทครับ`;
-      } 
-      else if (lower.includes('ค่าไฟ') || lower.includes('cost') || lower.includes('เงิน') || lower.includes('บาท') || lower.includes('หน่วย')) {
-        const total = (currentEnergy * rate).toFixed(2);
-        reply = `💰 **สรุปค่าไฟฟ้าปัจจุบัน:**\n- พลังงานสะสม: ${currentEnergy.toFixed(2)} kWh\n- ค่าไฟรวมสุทธิ: ${total} บาท (อัตรา ${rate} บาท/หน่วย)`;
-      } 
-      else if (lower.includes('ประหยัด') || lower.includes('ลดค่าไฟ') || lower.includes('ทำยังไงให้ประหยัด')) {
-        reply = `💡 **คำแนะนำการประหยัดพลังงานจาก Energy AI:**\n` +
-                `- ตั้งอุณหภูมิเครื่องปรับอากาศไว้ที่ 26°C ช่วยประหยัดไฟได้ถึง 10%\n` +
-                `- ถอดปลั๊กเครื่องใช้ไฟฟ้าที่ไม่ได้ใช้งานเพื่อตัดไฟสแตนด์บาย (Phantom Load)\n` +
-                `- หลีกเลี่ยงการเปิดเครื่องใช้ไฟฟ้ากำลังไฟสูงพร้อมกันในช่วง Peak Time ครับ`;
-      }
-      else if (lower.includes('วิธี') || lower.includes('ใช้ยังไง') || lower.includes('คำสั่งเสียง') || lower.includes('ดาวน์โหลด') || lower.includes('csv')) {
-        reply = `📖 **แนะนำการใช้งานระบบ PowerPulse IoT:**\n` +
-                `- **สั่งงานด้วยเสียง:** กดปุ่ม "สั่งงานด้วยเสียง" แล้วพูด เช่น "หน้าหลัก", "ประวัติ", "เปิดเสียง", "ปิดเสียง"\n` +
-                `- **ดาวน์โหลด CSV:** ไปที่แท็บ 'ประวัติ' แล้วกดปุ่มดาวน์โหลดรายงานครับ`;
-      }
-      else if (lower.includes('kwh') || lower.includes('หน่วยคือ') || lower.includes('overload') || lower.includes('คืออะไร') || lower.includes('iot')) {
-        reply = `📚 **เกร็ดความรู้ทางวิศวกรรมในระบบ:**\n` +
-                `- **kWh (Kilowatt-hour):** หน่วยวัดพลังงานไฟฟ้าที่ใช้ไป (กำลังไฟฟ้า 1,000 วัตต์ เปิดใช้งานใน 1 ชั่วโมง)\n` +
-                `- **Overload:** ภาวะที่มีการใช้กระแสไฟฟ้าเกินพิกัดความปลอดภัย ซึ่งระบบเราจำกัดไว้ที่ 15A\n` +
-                `- **IoT (Internet of Things):** เทคโนโลยีการเชื่อมต่อเซนเซอร์วัดค่าไฟฟ้าเข้ากับคลาวด์และแสดงผลบนเว็บเรียลไทม์ครับ`;
-      }
-      else if (lower.includes('เธอคือใคร') || lower.includes('ชื่ออะไร') || lower.includes(' ai ') || lower.includes('เก่ง')) {
-        reply = `🤖 ผมคือ **Energy AI** ผู้ช่วยอัจฉริยะประจำโปรเจกต์ **PowerPulse IoT** ครับ ถูกออกแบบมาเพื่อมอนิเตอร์ วิเคราะห์ และช่วยเหลือคุณจัดการพลังงานไฟฟ้าอย่างชาญฉลาด!`;
-      }
-      else if (lower.includes('สถานะ') || lower.includes('status') || lower.includes('ระบบ') || lower.includes('ภาพรวม') || lower.includes('online')) {
-        reply = `🖥️ **รายงานสถานะ PowerPulse IoT:**\n- ระบบเชื่อมต่อออนไลน์ (Online)\n- แรงดัน: ${currentVolt.toFixed(1)}V | กระแส: ${currentAmps.toFixed(2)}A\n- พลังงานสะสม: ${currentEnergy.toFixed(2)}kWh | สุขภาพกริด: ปลอดภัยดีเยี่ยม`;
-      } 
-      else if (lower.includes('สวัสดี') || lower.includes('hello') || lower.includes('hi')) {
-        reply = `สวัสดีครับ! Energy AI ยินดีให้บริการ สอบถามข้อมูลค่าไฟ ตรวจสอบแรงดัน วิธีประหยัดไฟ หรือทดลองพิมพ์จำลองสถานการณ์ได้เลยครับ!`;
-      }
+    const currentEnergy = latestRealtimeData.energy || 0;
+    const currentVolt = latestRealtimeData.voltage || 0;
+    const currentAmps = latestRealtimeData.current || 0;
+    const currentPower = latestRealtimeData.power || 0;
+    const rate = customRate;
 
-      chatMessages.innerHTML += `<div class="chat-msg bot">${reply}</div>`;
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 400);
+    const systemPrompt = `คุณคือ Energy AI ผู้ช่วยวิศวกรที่ปรึกษาอัจฉริยะประจำระบบ "PowerPulse IoT" (ระบบมอนิเตอร์และควบคุมค่าไฟฟ้าอัจฉริยะ)
+    ข้อมูลสถานะระบบปัจจุบันขณะนี้:
+    - แรงดันไฟฟ้า (Voltage): ${currentVolt.toFixed(1)} V
+    - กระแสไฟฟ้า (Current): ${currentAmps.toFixed(2)} A (พิกัดปลอดภัยสูงสุด 15.00 A)
+    - กำลังไฟฟ้า (Power): ${currentPower.toFixed(1)} W
+    - พลังงานสะสม (Energy): ${currentEnergy.toFixed(2)} kWh
+    - อัตราค่าไฟฟ้าปัจจุบัน: ${rate} บาท/หน่วย
+    
+    หน้าที่ของคุณ: ตอบคำถามและวิเคราะห์ปัญหาให้ผู้ใช้งานหรือคณะกรรมการฟังอย่างฉลาด ชัดเจน เป็นทางการ และจำกัดขอบเขตให้อยู่ในเรื่องพลังงาน ระบบ IoT และความปลอดภัยทางไฟฟ้า หากมีการถามสถานการณ์สมมติ (What-if) ให้วิเคราะห์ผลกระทบทางวิศวกรรมให้สมจริง`;
+
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [
+            { role: "user", parts: [{ text: systemPrompt + "\n\nคำถามจากผู้ใช้: " + text }] }
+          ]
+        })
+      });
+
+      const data = await response.json();
+      document.getElementById(loadingId).remove();
+
+      if (data.candidates && data.candidates[0].content.parts[0].text) {
+        const replyText = data.candidates[0].content.parts[0].text;
+        chatMessages.innerHTML += `<div class="chat-msg bot">${replyText.replace(/\n/g, '<br>')}</div>`;
+      } else {
+        chatMessages.innerHTML += `<div class="chat-msg bot">ขออภัยครับ กรุณาตรวจสอบ Gemini API Key ในโค้ดให้ถูกต้องก่อนใช้งาน</div>`;
+      }
+    } catch (error) {
+      console.error(error);
+      document.getElementById(loadingId).remove();
+      chatMessages.innerHTML += `<div class="chat-msg bot">ขออภัยครับ ไม่สามารถเชื่อมต่อเครือข่ายอินเทอร์เน็ตเพื่อเรียกใช้งาน Gemini AI ได้ในขณะนี้</div>`;
+    }
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
   function startGuidedTour() {
