@@ -344,10 +344,9 @@
 
   <!-- TAB 5: คู่มือการใช้งาน (Manual - TH & EN with Guided Tour Button) -->
   <div id="tab-manual" class="tab-content">
-    <!-- ฟีเจอร์ใหม่: ปุ่มกดเริ่มทัวร์ระบบสำหรับกรรมการ -->
     <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.1), rgba(42,157,143,0.1)); border: 1px solid var(--primary-color);">
       <div class="panel-title"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary-color);"></i> <span data-i18n="tour_title">โหมดแนะนำการใช้งานระบบอัตโนมัติ (Guided Tour)</span></div>
-      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="tour_desc">สำหรับกรรมการหรือผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบพาชมฟีเจอร์เด่นทั้งหมดทีละขั้นตอน</p>
+      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="tour_desc">สำหรับผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบพาชมฟีเจอร์เด่นทั้งหมดทีละขั้นตอน</p>
       <button class="btn btn-demo" onclick="startGuidedTour()"><i class="fa-solid fa-play"></i> <span data-i18n="tour_btn">🚀 เริ่มต้นใช้งานทัวร์ระบบ (Start Tour)</span></button>
     </div>
 
@@ -454,7 +453,7 @@
       map_title: "จุดติดตั้งอุปกรณ์ IoT (Device Geo-Location)",
       map_desc: "แสดงตำแหน่งพิกัดและสถานะเรียลไทม์ของบอร์ด ESP32 ที่ติดตั้งหน้างาน",
       tour_title: "โหมดแนะนำการใช้งานระบบอัตโนมัติ (Guided Tour)",
-      tour_desc: "สำหรับกรรมการหรือผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบพาชมฟีเจอร์เด่นทั้งหมดทีละขั้นตอน",
+      tour_desc: "สำหรับผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบพาชมฟีเจอร์เด่นทั้งหมดทีละขั้นตอน",
       tour_btn: "🚀 เริ่มต้นใช้งานทัวร์ระบบ (Start Tour)",
       btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ", btn_voice: "สั่งงานด้วยเสียง",
       voice_listening: "กำลังฟังคำสั่ง...",
@@ -497,7 +496,7 @@
       map_title: "Device Geo-Location",
       map_desc: "Displays real-time coordinates and status of deployed ESP32 boards.",
       tour_title: "Automated System Guided Tour",
-      tour_desc: "For committee or new users, click below to let the system walk you through all key features step-by-step.",
+      tour_desc: "For new users, click below to let the system walk you through all key features step-by-step.",
       tour_btn: "🚀 Start System Tour",
       btn_theme: "Toggle Dark/Light", btn_qr: "Show QR Code", qr_title: "Scan to Open Web App", btn_voice: "Voice Control",
       voice_listening: "Listening...",
@@ -552,33 +551,28 @@
     }
   }
 
-  // ฟังก์ชันระบบ Guided Tour แบบอัตโนมัติทีละขั้นตอนสำหรับกรรมการ
   function startGuidedTour() {
     alert("🚀 เริ่มต้นระบบแนะนำการใช้งานอัตโนมัติ (Guided Tour)\nระบบจะพาคุณทัวร์ฟีเจอร์หลักทีละหน้าจอครับ!");
     
-    // สเตปที่ 1: พาไปหน้าหลัก (Dashboard)
     switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
     
     setTimeout(() => {
-      alert("📍 [Step 1/4 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟแบบเรียลไทม์ พร้อมกราฟ 24 ชั่วโมง");
-      // สเตปที่ 2: พาไปหน้าประวัติ (History)
+      alert("📍 [Step 1/4 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้าแบบเรียลไทม์ พร้อมกราฟ 24 ชั่วโมง");
       switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
     }, 4000);
 
     setTimeout(() => {
       alert("📍 [Step 2/4 - หน้าประวัติ & Peak Tracker]\nเก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมภาษี และดาวน์โหลด CSV ได้");
-      // สเตปที่ 3: พาไปหน้าระบบ (System & Alert)
       switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
     }, 9000);
 
     setTimeout(() => {
       alert("📍 [Step 3/4 - หน้าระบบ & แจ้งเตือนภัย]\nตั้งค่าอีเมลรับแจ้งเตือนเมื่อเกิด Overload หรือ Volt ต่ำ/สูง และมีแผนที่พิกัด IoT Map");
-      // สเตปที่ 4: กลับมาหน้าคู่มือ
       switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
     }, 14000);
 
     setTimeout(() => {
-      alert("🎉 จบสิ้นการทัวร์ระบบ PowerPulse IoT เรียบร้อยแล้วครับ พร้อมสำหรับการนำเสนอผลงานจริง!");
+      alert("🎉 จบสิ้นการทัวร์ระบบ PowerPulse IoT เรียบร้อยแล้วครับ!");
     }, 19000);
   }
 
