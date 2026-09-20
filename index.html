@@ -98,9 +98,6 @@
     .step-desc p { font-size: 13px; color: var(--text-sub); line-height: 1.4; }
     .voice-command-tag { background: rgba(138, 43, 226, 0.1); color: #8a2be2; padding: 4px 8px; border-radius: 6px; font-family: monospace; font-weight: 600; font-size: 12px; display: inline-block; margin: 2px 0; }
 
-    /* มินิเกม Voltage Dodger สไตล์เรโทร */
-    #gameCanvas { background: #111; display: block; margin: 10px auto; border-radius: 8px; max-width: 100%; border: 2px solid var(--primary-color); }
-
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
     .modal-content { background: var(--card-bg); padding: 22px; border-radius: var(--border-radius); text-align: center; max-width: 300px; width: 90%; position: relative; color: var(--text-main); }
     .close-btn { position: absolute; right: 15px; top: 10px; font-size: 20px; cursor: pointer; color: var(--text-sub); }
@@ -289,7 +286,7 @@
     </div>
   </div>
 
-  <!-- TAB 4: ระบบ (เพิ่มมินิเกม Voltage Dodger ไว้ด้านล่างสุด) -->
+  <!-- TAB 4: ระบบ -->
   <div id="tab-system" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-envelope" style="color: var(--primary-color);"></i> <span data-i18n="mail_title">ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)</span></div>
@@ -346,19 +343,9 @@
         <button class="tool-btn" onclick="openQRModal()"><i class="fa-solid fa-qrcode"></i> <span data-i18n="btn_qr">แสดง QR Code</span></button>
       </div>
     </div>
-
-    <!-- มินิเกม Voltage Dodger: ขับยานหลบภัยกระแสไฟฟ้ากระชาก (ด้านล่างสุดของหน้าระบบ) -->
-    <div class="panel" style="border: 2px dashed var(--primary-color);">
-      <div class="panel-title"><i class="fa-solid fa-gamepad" style="color: var(--primary-color);"></i> <span data-i18n="game_title">มินิเกม: Voltage Dodger (ESP32 Runner)</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;" data-i18n="game_desc">คลิกหน้าจอหรือกด Spacebar เพื่อกระโดดหลบลูกไฟกระแสไฟกระชาก สะสม Grid Stability Score!</p>
-      <canvas id="gameCanvas" width="480" height="200"></canvas>
-      <div style="text-align: center; margin-top: 8px;">
-        <button class="btn btn-demo" style="max-width: 200px; margin: 0 auto;" onclick="startVoltageGame()"><i class="fa-solid fa-play"></i> <span data-i18n="game_btn">เริ่มเกม / กระโดด (Play/Jump)</span></button>
-      </div>
-    </div>
   </div>
 
-  <!-- TAB 5: คู่มือการใช้งาน (อัปเดตคู่มือ TH & EN และโหมดแนะนำการใช้งาน Guided Tour) -->
+  <!-- TAB 5: คู่มือการใช้งาน -->
   <div id="tab-manual" class="tab-content">
     <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.1), rgba(42,157,143,0.1)); border: 1px solid var(--primary-color);">
       <div class="panel-title"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary-color);"></i> <span data-i18n="tour_title">โหมดแนะนำการใช้งานระบบอัตโนมัติ (Guided Tour)</span></div>
@@ -411,14 +398,6 @@
             • <span data-i18n="man_v_nav">การนำทาง</span>: <span class="voice-command-tag">"หน้าหลัก" / "ประวัติ" / "คำนวณ" / "ระบบ" / "คู่มือ"</span><br>
             • <span data-i18n="man_v_ctrl">การควบคุม</span>: <span class="voice-command-tag">"ปิดเสียง" / "เปิดเสียง" / "เปลี่ยนธีม" / "เปลี่ยนภาษา" / "ทดสอบเตือนภัย"</span>
           </div>
-        </div>
-      </div>
-
-      <div class="manual-step">
-        <div class="step-num">6</div>
-        <div class="step-desc">
-          <h4 data-i18n="man_s6_h">6. มินิเกม Voltage Dodger (Arcade Mini-Game)</h4>
-          <p data-i18n="man_s6_p">มินิเกมสุดเพลินสำหรับผู้ใช้งานและกรรมการ บังคับตัวละคร ESP32 กระโดดหลบกระแสไฟกระชากเพื่อทำคะแนน Grid Stability Score สูงสุด</p>
         </div>
       </div>
     </div>
@@ -476,9 +455,6 @@
       btn_sos_cut: "ตัดไฟฉุกเฉิน (Emergency Cut-off)",
       map_title: "จุดติดตั้งอุปกรณ์ IoT (Device Geo-Location)",
       map_desc: "แสดงตำแหน่งพิกัดและสถานะเรียลไทม์ของบอร์ด ESP32 ที่ติดตั้งหน้างาน",
-      game_title: "มินิเกม: Voltage Dodger (ESP32 Runner)",
-      game_desc: "คลิกหน้าจอหรือกด Spacebar เพื่อกระโดดหลบลูกไฟกระแสไฟกระชาก สะสม Grid Stability Score!",
-      game_btn: "เริ่มเกม / กระโดด (Play/Jump)",
       tour_title: "โหมดแนะนำการใช้งานระบบอัตโนมัติ (Guided Tour)",
       tour_desc: "สำหรับผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบพาชมฟีเจอร์เด่นทั้งหมดทีละขั้นตอน",
       tour_btn: "🚀 เริ่มต้นใช้งานทัวร์ระบบ (Start Tour)",
@@ -503,8 +479,6 @@
       man_s4_p: "ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)",
       man_s5_h: "5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Smart Voice Control)",
       man_s5_p: "กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทยเพื่อควบคุมระบบ:",
-      man_s6_h: "6. มินิเกม Voltage Dodger (Arcade Mini-Game)",
-      man_s6_p: "มินิเกมสุดเพลินสำหรับผู้ใช้งานและกรรมการ บังคับตัวละคร ESP32 กระโดดหลบกระแสไฟกระชากเพื่อทำคะแนน Grid Stability Score สูงสุด",
       man_v_nav: "การนำทาง", man_v_ctrl: "การควบคุม",
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
@@ -524,9 +498,6 @@
       btn_sos_cut: "Emergency Cut-off",
       map_title: "Device Geo-Location",
       map_desc: "Displays real-time coordinates and status of deployed ESP32 boards.",
-      game_title: "Mini-Game: Voltage Dodger (ESP32 Runner)",
-      game_desc: "Click screen or press Spacebar to jump over power surges and collect Grid Stability Score!",
-      game_btn: "Play / Jump",
       tour_title: "Automated System Guided Tour",
       tour_desc: "For new users, click below to let the system walk you through all key features step-by-step.",
       tour_btn: "🚀 Start System Tour",
@@ -551,8 +522,6 @@
       man_s4_p: "Set recipient email for automatic alerts during overloads or voltage faults, featuring emergency simulation and SOS cut-off.",
       man_s5_h: "5. Smart Voice Control",
       man_s5_p: "Tap the microphone button and speak Thai voice commands:",
-      man_s6_h: "6. Voltage Dodger Mini-Game",
-      man_s6_p: "An entertaining retro arcade mini-game where you guide the ESP32 character to dodge power surges and achieve high Grid Stability Scores.",
       man_v_nav: "Navigation", man_v_ctrl: "Control",
       man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the live dashboard."
     }
@@ -581,7 +550,6 @@
     if(tabId === 'tab-system') {
       setTimeout(() => {
         initIoTMap();
-        initGame();
       }, 200);
     }
   }
@@ -592,17 +560,17 @@
     switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
     
     setTimeout(() => {
-      alert("📍 [Step 1/4 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้าแบบเรียลไทม์ พร้อมกราฟ 24 ชั่วโมง");
+      alert("📍 [Step 1/3 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้าแบบเรียลไทม์ พร้อมกราฟ 24 ชั่วโมง");
       switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
     }, 4000);
 
     setTimeout(() => {
-      alert("📍 [Step 2/4 - หน้าประวัติ & Peak Tracker]\nเก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมภาษี และดาวน์โหลด CSV ได้");
+      alert("📍 [Step 2/3 - หน้าประวัติ & Peak Tracker]\nเก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมภาษี และดาวน์โหลด CSV ได้");
       switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
     }, 9000);
 
     setTimeout(() => {
-      alert("📍 [Step 3/4 - หน้าระบบ & มินิเกม Voltage Dodger]\nตั้งค่าอีเมลรับแจ้งเตือนเมื่อเกิด Overload หรือ Volt ต่ำ/สูง มีแผนที่พิกัด และมินิเกมสุดเพลินด้านล่างสุด");
+      alert("📍 [Step 3/3 - หน้าระบบ & แจ้งเตือนภัย]\nตั้งค่าอีเมลรับแจ้งเตือนเมื่อเกิด Overload หรือ Volt ต่ำ/สูง และมีแผนที่พิกัด IoT Map");
       switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
     }, 14000);
 
@@ -610,151 +578,6 @@
       alert("🎉 จบสิ้นการทัวร์ระบบ PowerPulse IoT เรียบร้อยแล้วครับ!");
     }, 19000);
   }
-
-  /* --- โค้ดมินิเกม Voltage Dodger --- */
-  let canvas, ctx;
-  let gameRunning = false;
-  let score = 0;
-  let dino = { x: 40, y: 140, w: 24, h: 24, vy: 0, gravity: 0.6, jump: -10, grounded: true };
-  let obstacles = [];
-  let gameInterval;
-
-  function initGame() {
-    canvas = document.getElementById("gameCanvas");
-    if(!canvas) return;
-    ctx = canvas.getContext("2d");
-    drawStartScreen();
-  }
-
-  function drawStartScreen() {
-    ctx.fillStyle = "#111";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ffb703";
-    ctx.font = "16px Prompt";
-    ctx.textAlign = "center";
-    ctx.fillText("⚡ Voltage Dodger (ESP32 Runner) ⚡", canvas.width/2, 70);
-    ctx.fillStyle = "#fff";
-    ctx.font = "12px Prompt";
-    ctx.fillText("คลิกปุ่มด้านล่างหรือกด Spacebar เพื่อเริ่มเกมและกระโดด", canvas.width/2, 110);
-    ctx.fillText("คะแนน Grid Stability Score จะสะสมเรื่อยๆ", canvas.width/2, 135);
-  }
-
-  function startVoltageGame() {
-    if (gameRunning) {
-      // กระโดด
-      if (dino.grounded) {
-        dino.vy = dino.jump;
-        dino.grounded = false;
-      }
-      return;
-    }
-
-    gameRunning = true;
-    score = 0;
-    obstacles = [];
-    dino.y = 140;
-    dino.vy = 0;
-    dino.grounded = true;
-
-    clearInterval(gameInterval);
-    gameInterval = setInterval(updateGame, 1000 / 60);
-  }
-
-  function updateGame() {
-    // อัปเดตตัวละคร (ESP32)
-    dino.vy += dino.gravity;
-    dino.y += dino.vy;
-    if (dino.y > 140) {
-      dino.y = 140;
-      dino.vy = 0;
-      dino.grounded = true;
-    }
-
-    // สุ่มสิ่งกีดขวาง (Overvoltage / Low Voltage Surge)
-    if (Math.random() < 0.02) {
-      obstacles.push({ x: canvas.width, y: 144, w: 16, h: 20, speed: 4 });
-    }
-
-    // ขยับสิ่งกีดขวาง
-    for (let i = obstacles.length - 1; i >= 0; i--) {
-      obstacles[i].x -= obstacles[i].speed;
-
-      // ชนกัน (Collision Detection)
-      if (
-        dino.x < obstacles[i].x + obstacles[i].w &&
-        dino.x + dino.w > obstacles[i].x &&
-        dino.y < obstacles[i].y + obstacles[i].h &&
-        dino.y + dino.h > obstacles[i].y
-      ) {
-        gameRunning = false;
-        clearInterval(gameInterval);
-        drawGameOver();
-        return;
-      }
-
-      // ลบตัวที่พ้นจอ
-      if (obstacles[i].x + obstacles[i].w < 0) {
-        obstacles.splice(i, 1);
-        score += 10;
-      }
-    }
-
-    // วาดภาพเกม
-    ctx.fillStyle = "#111";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // วาดพื้นเส้นกริดไฟฟ้า
-    ctx.strokeStyle = "#2a9d8f";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(0, 164);
-    ctx.lineTo(canvas.width, 164);
-    ctx.stroke();
-
-    // วาดตัวละคร ESP32
-    ctx.fillStyle = "#4361ee";
-    ctx.fillRect(dino.x, dino.y, dino.w, dino.h);
-    ctx.fillStyle = "#fff";
-    ctx.font = "10px Prompt";
-    ctx.fillText("ESP", dino.x + 2, dino.y + 15);
-
-    // วาดสิ่งกีดขวาง (ลูกไฟกระแสไฟกระชาก)
-    ctx.fillStyle = "#e63946";
-    obstacles.forEach(obs => {
-      ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
-    });
-
-    // แสดงคะแนน Grid Stability Score
-    ctx.fillStyle = "#ffb703";
-    ctx.font = "14px Prompt";
-    ctx.textAlign = "left";
-    ctx.fillText("Grid Stability Score: " + score, 15, 25);
-  }
-
-  function drawGameOver() {
-    ctx.fillStyle = "rgba(0,0,0,0.8)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#e63946";
-    ctx.font = "18px Prompt";
-    ctx.textAlign = "center";
-    ctx.fillText("⚠️ OVERLOAD / GRID FAILURE! ⚠️", canvas.width/2, 75);
-    ctx.fillStyle = "#fff";
-    ctx.font = "14px Prompt";
-    ctx.fillText("คะแนน Grid Stability Score: " + score, canvas.width/2, 105);
-    ctx.fillStyle = "#2a9d8f";
-    ctx.fillText("คลิกปุ่มด้านล่างเพื่อเริ่มเล่นใหม่อีกครั้ง", canvas.width/2, 135);
-  }
-
-  // กด Spacebar เพื่อกระโดด
-  window.addEventListener('keydown', function(e) {
-    if (e.code === 'Space' && gameRunning) {
-      if (dino.grounded) {
-        dino.vy = dino.jump;
-        dino.grounded = false;
-      }
-      e.preventDefault();
-    }
-  });
 
   function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
