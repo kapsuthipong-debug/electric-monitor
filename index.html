@@ -333,7 +333,7 @@
     </div>
   </div>
 
-  <!-- TAB 5: คู่มือการใช้งาน (Manual - TH & EN) -->
+  <!-- TAB 5: คู่มือการใช้งาน (Manual - TH & EN with Fixed Thai Voice Tags) -->
   <div id="tab-manual" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-book-open" style="color: var(--primary-color);"></i> <span data-i18n="man_title">คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)</span></div>
@@ -343,7 +343,7 @@
       <div class="manual-step">
         <div class="step-num">1</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s1_h">การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Real-time Dashboard)</h4>
+          <h4 data-i18n="man_s1_h">1. การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Real-time Dashboard)</h4>
           <p data-i18n="man_s1_p">แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทุกๆ 3 วินาที พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (&lt;215V หรือ &gt;245V)</p>
         </div>
       </div>
@@ -352,7 +352,7 @@
       <div class="manual-step">
         <div class="step-num">2</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s2_h">ประวัติการใช้ไฟและ Peak Tracker (History & Export)</h4>
+          <h4 data-i18n="man_s2_h">2. ประวัติการใช้ไฟและ Peak Tracker (History & Export)</h4>
           <p data-i18n="man_s2_p">เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมอัตโนมัติพร้อมภาษี VAT 7% และสามารถกดดาวน์โหลดไฟล์ CSV ไปใช้งานต่อได้</p>
         </div>
       </div>
@@ -361,7 +361,7 @@
       <div class="manual-step">
         <div class="step-num">3</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s3_h">เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)</h4>
+          <h4 data-i18n="man_s3_h">3. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)</h4>
           <p data-i18n="man_s3_p">สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที</p>
         </div>
       </div>
@@ -370,20 +370,20 @@
       <div class="manual-step">
         <div class="step-num">4</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s4_h">ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)</h4>
+          <h4 data-i18n="man_s4_h">4. ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)</h4>
           <p data-i18n="man_s4_p">ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)</p>
         </div>
       </div>
 
-      <!-- Step 5 -->
+      <!-- Step 5 (Voice Control with Fixed Thai Tags) -->
       <div class="manual-step">
         <div class="step-num">5</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s5_h">ระบบสั่งงานด้วยเสียงอัจฉริยะ (Voice Control)</h4>
-          <p><span data-i18n="man_s5_p">กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทย เช่น:</span></p>
+          <h4 data-i18n="man_s5_h">5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Smart Voice Control)</h4>
+          <p data-i18n="man_s5_p">กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทยเพื่อควบคุมระบบ:</p>
           <div style="margin-top: 6px; font-size: 13px; color: var(--text-sub);">
-            • <span class="voice-command-tag">"หน้าหลัก" / "ประวัติ" / "คำนวณ" / "ระบบ" / "คู่มือ"</span><br>
-            • <span class="voice-command-tag">"ปิดเสียง" / "เปิดเสียง" / "เปลี่ยนธีม" / "เปลี่ยนภาษา" / "ทดสอบเตือนภัย"</span>
+            • <span data-i18n="man_v_nav">การนำทาง</span>: <span class="voice-command-tag">"หน้าหลัก" / "ประวัติ" / "คำนวณ" / "ระบบ" / "คู่มือ"</span><br>
+            • <span data-i18n="man_v_ctrl">การควบคุม</span>: <span class="voice-command-tag">"ปิดเสียง" / "เปิดเสียง" / "เปลี่ยนธีม" / "เปลี่ยนภาษา" / "ทดสอบเตือนภัย"</span>
           </div>
         </div>
       </div>
@@ -457,8 +457,9 @@
       man_s3_p: "สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที",
       man_s4_h: "4. ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)",
       man_s4_p: "ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)",
-      man_s5_h: "5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Voice Control)",
-      man_s5_p: "กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทย เช่น:",
+      man_s5_h: "5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Smart Voice Control)",
+      man_s5_p: "กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทยเพื่อควบคุมระบบ:",
+      man_v_nav: "การนำทาง", man_v_ctrl: "การควบคุม",
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
     en: {
@@ -495,7 +496,8 @@
       man_s4_h: "4. Email Alerts & Simulation Mode",
       man_s4_p: "Set recipient email for automatic alerts during overloads or voltage faults, featuring emergency simulation and SOS cut-off.",
       man_s5_h: "5. Smart Voice Control",
-      man_s5_p: "Tap the microphone button and speak Thai voice commands such as navigation, theme toggling, or alarm testing.",
+      man_s5_p: "Tap the microphone button and speak Thai voice commands:",
+      man_v_nav: "Navigation", man_v_ctrl: "Control",
       man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the live dashboard."
     }
   };
@@ -620,7 +622,6 @@
       });
   }
 
-  // ตัวแปรเช็กสถานะการแจ้งเตือนแรงดันเพื่อไม่ให้เมลส่งซ้ำรัวๆ ทุก 3 วิ
   let lastVoltageAlertStatus = "NORMAL";
 
   async function fetchRealtimeData() {
@@ -639,7 +640,6 @@
         document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
         updateChart(w);
 
-        // ตรวจสอบเงื่อนไข Volt ต่ำกว่า 215V หรือ สูงกว่า 245V
         let currentVoltStatus = "NORMAL";
         let voltMsg = "";
         if (v > 0 && v < 215) {
@@ -650,7 +650,6 @@
           voltMsg = `⚠️ [PowerPulse IoT Alert] ตรวจพบระบบ Volt สูงกว่าปกติ! (${v.toFixed(1)} V)`;
         }
 
-        // หากสถานะแรงดันเปลี่ยนเป็นผิดปกติ และมีการบันทึกอีเมลไว้ ให้ส่งเมลอัตโนมัติ
         if (currentVoltStatus !== "NORMAL" && currentVoltStatus !== lastVoltageAlertStatus) {
           lastVoltageAlertStatus = currentVoltStatus;
           const email = document.getElementById('alertEmailInput').value.trim();
@@ -682,7 +681,6 @@
     } catch (e) { console.error("Fetch Error:", e); }
   }
 
-  // โหมดจำลองไฟเกิน 15.5A
   async function triggerDemoOverload() {
     alert("Simulation: ไฟเกิน (15.50 A)");
     await fetch(`${FIREBASE_BASE}/electricity.json`, { 
@@ -693,7 +691,6 @@
     setTimeout(resetDemoState, 5000);
   }
 
-  // โหมดจำลองไฟตก (<215V)
   async function triggerDemoLowVolt() {
     alert("Simulation: ไฟตก (205.0 V)");
     await fetch(`${FIREBASE_BASE}/electricity.json`, { 
@@ -704,7 +701,6 @@
     setTimeout(resetDemoState, 5000);
   }
 
-  // โหมดจำลองไฟเกิน (>245V)
   async function triggerDemoHighVolt() {
     alert("Simulation: ไฟเกิน V (250.0 V)");
     await fetch(`${FIREBASE_BASE}/electricity.json`, { 
