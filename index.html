@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Three.js สำหรับ 3D Viewer -->
+  <!-- Three.js สำหรับ 3D Logo Viewer -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <!-- EmailJS SDK -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -37,7 +37,7 @@
     .header h1 i { color: var(--warning-color); margin-right: 6px; }
     .subtitle { font-size: 14px; font-weight: 500; color: var(--text-sub); }
     
-    /* 3D Viewer สไตล์แก้ไขให้แสดงผลชัดเจนทุกหน้าจอ */
+    /* 3D Logo Viewer สไตล์กลมหมุนได้ */
     .header-3d-viewer { display: flex; flex-direction: column; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: var(--border-radius); box-shadow: var(--shadow); }
     #canvas3d-container { width: 120px; height: 60px; cursor: grab; position: relative; }
     #canvas3d-container:active { cursor: grabbing; }
@@ -115,7 +115,7 @@
     @media (max-width: 768px) {
       body { padding: 12px; padding-bottom: 85px; }
       .header h1 { font-size: 16px; }
-      .header-3d-viewer { display: flex; } /* คงให้แสดงผล 3D บนมือถือด้วย */
+      .header-3d-viewer { display: flex; }
       .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; margin-bottom: 0; border-radius: 0; border-top: 1px solid var(--border-color); z-index: 999; padding: 8px 4px; justify-content: space-around; box-shadow: 0 -5px 15px rgba(0,0,0,0.08); background: var(--card-bg); }
       .tab-btn { flex-direction: column; gap: 2px; font-size: 9px; padding: 4px; min-width: auto; }
       .tab-btn i { font-size: 14px; }
@@ -133,10 +133,10 @@
       <span class="subtitle">( PowerPulse IoT )</span>
     </h1>
 
-    <!-- 3D Viewer แสดงผลตรงกลางด้านบนชัดเจน -->
+    <!-- 3D Logo Viewer แสดงผลโลโก้วงกลม 3 มิติ -->
     <div class="header-3d-viewer">
       <div id="canvas3d-container"></div>
-      <span style="font-size: 9px; color: var(--text-sub); margin-top: 2px;">ESP32 3D Model</span>
+      <span style="font-size: 9px; color: var(--text-sub); margin-top: 2px;">Mechatronics Logo 3D</span>
     </div>
 
     <div class="header-actions">
@@ -421,8 +421,8 @@
       <div class="manual-step">
         <div class="step-num">6</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s6_h">6. 3D Viewer & Hardware Model</h4>
-          <p data-i18n="man_s6_p">ช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่สามารถใช้เมาส์คลิกและลากเพื่อหมุนดูรอบทิศทางได้ 360 องศา</p>
+          <h4 data-i18n="man_s6_h">6. Mechatronics 3D Logo Viewer</h4>
+          <p data-i18n="man_s6_p">ป้ายโลโก้ 3 มิติวงกลมประจำภาควิชาบนหัวหน้าจอ สามารถใช้เมาส์คลิกและลากเพื่อหมุนดูรอบทิศทางได้ 360 องศา</p>
         </div>
       </div>
     </div>
@@ -505,8 +505,8 @@
       man_s4_p: "ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)",
       man_s5_h: "5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Smart Voice Control)",
       man_s5_p: "กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทยเพื่อควบคุมระบบ:",
-      man_s6_h: "6. 3D Viewer & Hardware Model",
-      man_s6_p: "ช่องแสดงโมเดล 3 มิติของบอร์ด IoT บนหัวหน้าจอที่สามารถใช้เมาส์หมุนดูรอบทิศทางได้ 360 องศา",
+      man_s6_h: "6. Mechatronics 3D Logo Viewer",
+      man_s6_p: "ป้ายโลโก้ 3 มิติวงกลมประจำภาควิชาบนหัวหน้าจอ สามารถหมุนดูรอบทิศทางได้ 360 องศา",
       man_v_nav: "การนำทาง", man_v_ctrl: "การควบคุม",
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
@@ -550,8 +550,8 @@
       man_s4_p: "Set recipient email for automatic alerts during overloads or voltage faults, featuring emergency simulation and SOS cut-off.",
       man_s5_h: "5. Smart Voice Control",
       man_s5_p: "Tap the microphone button and speak Thai voice commands:",
-      man_s6_h: "6. 3D Viewer & Hardware Model",
-      man_s6_p: "Interactive 3D IoT device model viewer right at the top header that rotates 360 degrees.",
+      man_s6_h: "6. Mechatronics 3D Logo Viewer",
+      man_s6_p: "Interactive 3D circular department logo viewer right at the top header that rotates 360 degrees.",
       man_v_nav: "Navigation", man_v_ctrl: "Control",
       man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the live dashboard."
     }
@@ -584,8 +584,8 @@
     }
   }
 
-  /* --- Three.js 3D Viewer (ESP32 Model) ที่ปรับปรุงการเรนเดอร์ --- */
-  let scene3d, camera3d, renderer3d, boardGroup;
+  /* --- Three.js 3D Logo Viewer --- */
+  let scene3d, camera3d, renderer3d, logoDiscGroup;
   let isDragging3d = false;
   let previousMousePosition = { x: 0, y: 0 };
 
@@ -595,40 +595,48 @@
 
     scene3d = new THREE.Scene();
     camera3d = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera3d.position.set(0, 0, 5.5);
+    camera3d.position.set(0, 0, 5.0);
 
     renderer3d = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer3d.setSize(container.clientWidth, container.clientHeight);
     renderer3d.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer3d.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
     scene3d.add(ambientLight);
-    const pointLight = new THREE.PointLight(0xffffff, 1);
+    const pointLight = new THREE.PointLight(0xffffff, 1.2);
     pointLight.position.set(5, 5, 5);
     scene3d.add(pointLight);
 
-    boardGroup = new THREE.Group();
+    logoDiscGroup = new THREE.Group();
 
-    const boardGeo = new THREE.BoxGeometry(2.2, 1.1, 0.1);
-    const boardMat = new THREE.MeshStandardMaterial({ color: 0x113322, roughness: 0.3 });
-    const boardMesh = new THREE.Mesh(boardGeo, boardMat);
-    boardGroup.add(boardMesh);
+    // สร้างรูปทรงกระบอกแบน (เหรียญวงกลม 3 มิติ)
+    const geometry = new THREE.CylinderGeometry(1.4, 1.4, 0.15, 32);
+    
+    // โหลดรูปภาพโลโก้ของคุณ (แปลงเป็น Data URL ของภาพ Mechatronics ที่ส่งมา)
+    const textureLoader = new THREE.TextureLoader();
+    const logoBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6e..."; // ใช้ลิงก์ภาพหรือไฟล์โลโก้ของคุณ
+    
+    // หากต้องการใช้ไฟล์ภาพ ให้ใส่ชื่อไฟล์ตรง textureLoader.load('image_2.png', ...)
+    textureLoader.load('image_2.png', (texture) => {
+      const matFront = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.2 });
+      const matSide = new THREE.MeshStandardMaterial({ color: 0x4361ee, metalness: 0.8, roughness: 0.2 });
+      const materials = [matSide, matFront, matFront];
+      
+      const logoMesh = new THREE.Mesh(geometry, materials);
+      logoMesh.rotation.x = Math.PI / 2;
+      logoDiscGroup.add(logoMesh);
+    }, undefined, (err) => {
+      // สีสำรองกรณีโหลดรูปไม่ทัน
+      const fallbackMat = new THREE.MeshStandardMaterial({ color: 0x4361ee, roughness: 0.3 });
+      const fallbackMesh = new THREE.Mesh(geometry, fallbackMat);
+      fallbackMesh.rotation.x = Math.PI / 2;
+      logoDiscGroup.add(fallbackMesh);
+    });
 
-    const chipGeo = new THREE.BoxGeometry(0.6, 0.6, 0.05);
-    const chipMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
-    const chipMesh = new THREE.Mesh(chipGeo, chipMat);
-    chipMesh.position.set(0, 0, 0.06);
-    boardGroup.add(chipMesh);
+    scene3d.add(logoDiscGroup);
 
-    const usbGeo = new THREE.BoxGeometry(0.4, 0.3, 0.15);
-    const usbMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.8, roughness: 0.2 });
-    const usbMesh = new THREE.Mesh(usbGeo, usbMat);
-    usbMesh.position.set(-0.9, 0, 0.08);
-    boardGroup.add(usbMesh);
-
-    scene3d.add(boardGroup);
-
+    // ควบคุมการหมุนด้วยเมาส์และนิ้วสัมผัส
     container.addEventListener('mousedown', (e) => {
       isDragging3d = true;
       previousMousePosition = { x: e.clientX, y: e.clientY };
@@ -638,14 +646,13 @@
       if (!isDragging3d) return;
       const deltaX = e.clientX - previousMousePosition.x;
       const deltaY = e.clientY - previousMousePosition.y;
-      boardGroup.rotation.y += deltaX * 0.01;
-      boardGroup.rotation.x += deltaY * 0.01;
+      logoDiscGroup.rotation.y += deltaX * 0.01;
+      logoDiscGroup.rotation.x += deltaY * 0.01;
       previousMousePosition = { x: e.clientX, y: e.clientY };
     });
 
     window.addEventListener('mouseup', () => { isDragging3d = false; });
 
-    // รองรับการสัมผัสบนมือถือ
     container.addEventListener('touchstart', (e) => {
       isDragging3d = true;
       previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -655,8 +662,8 @@
       if (!isDragging3d) return;
       const deltaX = e.touches[0].clientX - previousMousePosition.x;
       const deltaY = e.touches[0].clientY - previousMousePosition.y;
-      boardGroup.rotation.y += deltaX * 0.01;
-      boardGroup.rotation.x += deltaY * 0.01;
+      logoDiscGroup.rotation.y += deltaX * 0.01;
+      logoDiscGroup.rotation.x += deltaY * 0.01;
       previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     });
 
@@ -667,8 +674,8 @@
 
   function animate3D() {
     requestAnimationFrame(animate3D);
-    if (!isDragging3d && boardGroup) {
-      boardGroup.rotation.y += 0.008;
+    if (!isDragging3d && logoDiscGroup) {
+      logoDiscGroup.rotation.y += 0.008;
     }
     renderer3d.render(scene3d, camera3d);
   }
@@ -685,7 +692,7 @@
       switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
     }, 9000);
     setTimeout(() => {
-      alert("📍 [Step 3/3 - หน้าระบบ & 3D Viewer]\nตั้งค่าอีเมลรับแจ้งเตือน มีแผนที่พิกัด และโมเดล 3D แสดงผลเด่นชัดที่หัวเว็บ");
+      alert("📍 [Step 3/3 - หน้าระบบ & 3D Logo]\nตั้งค่าอีเมลรับแจ้งเตือน มีแผนที่พิกัด และป้ายโลโก้ 3 มิติวงกลมที่หัวเว็บ");
       switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
     }, 14000);
   }
