@@ -592,17 +592,44 @@
     powerChart.data.labels.push(timeLabel); powerChart.data.datasets[0].data.push(powerValue); powerChart.update();
   }
 
-  function initIoTMap() {
+  // 🛠️ กำหนดพิกัดเริ่มต้นจริงของคุณตรงนี้ (เปลี่ยนตัวเลขได้เลยครับ)
+  const defaultLat = 13.7563; 
+  const defaultLng = 100.5018;
+
+  function initIoTMap(initialLat = defaultLat, initialLng = defaultLng) {
     if (mapInitialized) { iotMap.invalidateSize(); return; }
-    iotMap = L.map('iotMap').setView([13.7563, 100.5018], 14);
+    
+    iotMap = L.map('iotMap').setView([initialLat, initialLng], 15);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap contributors' }).addTo(iotMap);
-    deviceMarker = L.marker([13.7563, 100.5018]).addTo(iotMap).bindPopup('<b>PowerPulse IoT #01</b><br>สถานะ: ปกติ (ONLINE)').openPopup();
+    
+    deviceMarker = L.marker([initialLat, initialLng]).addTo(iotMap).bindPopup('<b>PowerPulse IoT #01</b><br>กำลังโหลดสถานะ...').openPopup();
     mapInitialized = true;
   }
 
-  function updateMapStatus(currentVal, voltageVal) {
+  function updateMapLocationAndStatus(lat, lng, currentVal, voltageVal) {
+    const targetLat = lat || defaultLat;
+    const targetLng = lng || defaultLng;
+
+    if (!mapInitialized) {
+      initIoTMap(targetLat, targetLng);
+    } else if (deviceMarker) {
+      const newLatLng = new L.LatLng(targetLat, targetLng);
+      deviceMarker.setLatLng(newLatLng);
+    }
+
+    // เช็คสถานะ Online / Offline จากเวลาล่าสุดที่ข้อมูลส่งมา (เกิน 10 วิถือว่าออฟไลน์)
+    const isOffline = (Date.now() - lastDataTime > 10000);
+    let statusText = '';
+    
+    if (isOffline) {
+      statusText = '🔴 ออฟไลน์ (Offline)';
+    } else if (currentVal > 15.0 || voltageVal < 215 || voltageVal > 245) {
+      statusText = '🟡 ผิดปกติ/Overload';
+    } else {
+      statusText = '🟢 ออนไลน์ (Online - ปกติ)';
+    }
+
     if (deviceMarker) {
-      const statusText = (currentVal > 15.0 || voltageVal < 215 || voltageVal > 245) ? '🔴 ผิดปกติ/Overload' : '🟢 ปกติ (Online)';
       deviceMarker.setPopupContent(`<b>PowerPulse IoT #01</b><br>สถานะ: ${statusText}<br>Volt: ${voltageVal.toFixed(1)}V | Current: ${currentVal.toFixed(2)}A`);
     }
   }
@@ -681,6 +708,9 @@
       const data = await res.json();
       if (data) {
         const v = data.voltage || 0, i = data.current || 0, w = data.power || 0, energy = data.energy || 0;
+        const deviceLat = data.lat; // รองรับพิกัด lat จาก Firebase (ถ้ามี)
+        const deviceLng = data.lng; // รองรับพิกัด lng จาก Firebase (ถ้ามี)
+
         latestRealtimeData = { voltage: v, current: i, power: w, energy: energy };
 
         document.getElementById('voltage').innerText = `${v.toFixed(1)} V`;
@@ -688,7 +718,9 @@
         document.getElementById('power').innerText = `${w.toFixed(1)} W`;
         document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
         updateChart(w);
-        updateMapStatus(i, v);
+
+        // อัปเดตสถานะและพิกัดบนแผนที่แบบเรียลไทม์
+        updateMapLocationAndStatus(deviceLat, deviceLng, i, v);
 
         const totalCost = energy * customRate;
         document.getElementById('totalCost').innerText = `${totalCost.toFixed(2)} ฿`;
@@ -780,7 +812,6 @@
     currentMuteState = !currentMuteState;
     await fetch(`${FIREBASE_BASE}/electricity/buzzerMute.json`, { method: 'PUT', body: JSON.stringify(currentMuteState) });
     
-    // แสดงข้อความแจ้งเตือนระบุสถานะชัดเจน
     if (currentMuteState) {
       alert("ตอนนี้กำลังสั่ง: ปิดเสียง BUZZER แล้ว");
     } else {
