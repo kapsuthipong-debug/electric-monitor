@@ -652,6 +652,29 @@
       .then(() => alert("✅ ส่งอีเมลทดสอบสำเร็จ!"), (err) => alert("❌ ส่งอีเมลไม่สำเร็จ: " + JSON.stringify(err)));
   }
 
+  async function sendAlertEmailNotification(subject, details) {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/settings/alertEmail.json`);
+      const email = await res.json();
+      if (!email) {
+        console.warn("ยังไม่ได้ตั้งค่าอีเมลผู้รับในระบบ");
+        return;
+      }
+      const messageBody = `⚠️ [PowerPulse IoT Alert]\nหัวข้อ: ${subject}\nรายละเอียด: ${details}\nเวลา: ${new Date().toLocaleString('th-TH')}`;
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_email: email,
+        message_body: messageBody,
+        time_alert: new Date().toLocaleString('th-TH')
+      }).then(() => {
+        console.log("ส่งอีเมลแจ้งเตือนสำเร็จ");
+      }).catch((err) => {
+        console.error("ส่งอีเมลไม่สำเร็จ: ", err);
+      });
+    } catch (e) {
+      console.error("เกิดข้อผิดพลาดในการดึงอีเมล: ", e);
+    }
+  }
+
   async function fetchRealtimeData() {
     try {
       const res = await fetch(`${FIREBASE_BASE}/electricity.json`);
@@ -679,28 +702,44 @@
   }
 
   async function triggerDemoOverload() {
-    alert("Simulation: ไฟเกิน (15.50 A)");
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) });
-    setTimeout(resetDemoState, 5000);
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { 
+      method: 'PATCH', 
+      body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) 
+    });
+    alert("Simulation: ไฟเกิน (15.50 A) อัปเดตลงฐานข้อมูลและกำลังส่งอีเมลแจ้งเตือน...");
+    await sendAlertEmailNotification("ตรวจพบกระแสไฟเกินพิกัด (Overload)", "กระแสไฟฟ้าขึ้นสูงถึง 15.50 A");
+    fetchRealtimeData();
   }
+
   async function triggerDemoLowVolt() {
-    alert("Simulation: ไฟตก (205.0 V)");
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 205.0, power: 440.0 }) });
-    setTimeout(resetDemoState, 5000);
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { 
+      method: 'PATCH', 
+      body: JSON.stringify({ current: 2.0, voltage: 205.0, power: 440.0 }) 
+    });
+    alert("Simulation: ไฟตก (205.0 V) อัปเดตลงฐานข้อมูลและกำลังส่งอีเมลแจ้งเตือน...");
+    await sendAlertEmailNotification("ตรวจพบแรงดันไฟฟ้าตกผิดปกติ (Low Voltage)", "แรงดันไฟฟ้าลดลงเหลือ 205.0 V");
+    fetchRealtimeData();
   }
+
   async function triggerDemoHighVolt() {
-    alert("Simulation: ไฟเกิน V (250.0 V)");
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 250.0, power: 550.0 }) });
-    setTimeout(resetDemoState, 5000);
-  }
-  async function resetDemoState() {
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 1.50, voltage: 220.0, power: 330.0 }) });
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { 
+      method: 'PATCH', 
+      body: JSON.stringify({ current: 2.0, voltage: 250.0, power: 550.0 }) 
+    });
+    alert("Simulation: ไฟเกิน V (250.0 V) อัปเดตลงฐานข้อมูลและกำลังส่งอีเมลแจ้งเตือน...");
+    await sendAlertEmailNotification("ตรวจพบแรงดันไฟฟ้าเกินผิดปกติ (High Voltage)", "แรงดันไฟฟ้าพุ่งสูงถึง 250.0 V");
+    fetchRealtimeData();
   }
 
   async function triggerEmergencyCutoff() {
     if (confirm("⚠️ ยืนยันการสั่งตัดกระแสไฟฟ้าฉุกเฉิน (Emergency Cut-off)?")) {
-      await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 0.0, power: 0.0 }) });
-      alert("🚨 สั่งตัดไฟฉุกเฉินสำเร็จ!");
+      await fetch(`${FIREBASE_BASE}/electricity.json`, { 
+        method: 'PATCH', 
+        body: JSON.stringify({ current: 0.0, power: 0.0 }) 
+      });
+      alert("🚨 สั่งตัดไฟฉุกเฉินอัปเดตลงฐานข้อมูลและส่งอีเมลแจ้งเตือนแล้ว!");
+      await sendAlertEmailNotification("เหตุฉุกเฉิน: สั่งตัดกระแสไฟฟ้า (Emergency Cut-off)", "ระบบได้ทำการตัดกระแสไฟฟ้าฉุกเฉินเรียบร้อยแล้ว");
+      fetchRealtimeData();
     }
   }
 
