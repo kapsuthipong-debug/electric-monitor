@@ -34,9 +34,9 @@
     body { background-color: var(--bg-color); color: var(--text-main); padding: 16px; padding-bottom: 90px; min-height: 100vh; }
     .container { max-width: 1000px; margin: 0 auto; }
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
-    .header h1 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; }
+    .header h1 { font-size: 1.1rem; font-weight: 700; line-height: 1.3; }
     .header h1 i { color: var(--warning-color); margin-right: 6px; }
-    .subtitle { font-size: 0.875rem; font-weight: 500; color: var(--text-sub); }
+    .subtitle { font-size: 0.85rem; font-weight: 500; color: var(--text-sub); display: block; margin-top: 2px; }
 
     .header-actions { display: flex; align-items: center; gap: 6px; }
     
@@ -93,7 +93,7 @@
     .step-desc h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
     .step-desc p { font-size: 0.85rem; color: var(--text-sub); line-height: 1.4; }
 
-    /* Modal เลือกภาษา (ปรับให้คำว่า สวัสดี อยู่บรรทัดบนสุด)[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span) */
+    /* Modal เลือกภาษา */
     .lang-modal { display: flex; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .lang-modal-content { background: #ffffff; color: #1e293b; padding: 35px 25px; border-radius: 24px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: scaleUp 0.3s ease; }
     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -114,7 +114,7 @@
 
     @media (max-width: 768px) {
       body { padding: 12px; padding-bottom: 95px; }
-      .header h1 { font-size: 1rem; }
+      .header h1 { font-size: 0.95rem; }
       .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; margin-bottom: 0; border-radius: 0; border-top: 1px solid var(--border-color); z-index: 999; padding: 8px 4px; justify-content: space-around; box-shadow: 0 -5px 15px rgba(0,0,0,0.08); background: var(--card-bg); }
       .tab-btn { flex: 1; min-width: auto; font-size: 0.6rem; padding: 4px; }
       .tab-btn i { font-size: 0.8rem; }
@@ -125,7 +125,7 @@
 </head>
 <body>
 
-<!-- หน้าต่างป๊อปอัปเลือกภาษา (ปรับให้ สวัสดี อยู่บรรทัดบนสุด)[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span) -->
+<!-- หน้าต่างป๊อปอัปเลือกภาษา -->
 <div id="languageModal" class="lang-modal">
   <div class="lang-modal-content">
     <div class="lang-icon-box">
@@ -148,8 +148,8 @@
 <div class="container">
   <div class="header">
     <h1>
-      <i class="fa-solid fa-bolt"></i> <span data-i18n="title">ระบบวัดค่าไฟฟ้า</span><br>
-      <span class="subtitle">( PowerPulse IoT )</span>
+      <i class="fa-solid fa-bolt"></i> <span data-i18n="title">ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส อัจฉริยะ</span>
+      <span class="subtitle">( Power Pulse )</span>
     </h1>
 
     <div class="header-actions">
@@ -245,7 +245,7 @@
     </div>
   </div>
 
-  <!-- TAB 2: ประวัติ & รายงาน (ปรับปรุง UI รายงานสุขภาพและข้อความตามต้องการ)[span_9](start_span)[span_9](end_span) -->
+  <!-- TAB 2: ประวัติ & รายงาน -->
   <div id="tab-history" class="tab-content">
     <div class="grid">
       <div class="card">
@@ -266,11 +266,14 @@
       </div>
     </div>
 
-    <!-- 1. ประวัติรายวัน & Peak Tracker -->
+    <!-- 1. ประวัติรายวัน & Peak Tracker (เพิ่มปุ่มลบข้อมูลประวัติรายวัน) -->
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="history_title">ประวัติรายวัน & Peak Tracker</span></div>
-        <button class="tool-btn" onclick="exportCSV()"><i class="fa-solid fa-file-excel"></i> <span data-i18n="btn_export">ดาวน์โหลด CSV</span></button>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="tool-btn" style="background: rgba(230,57,70,0.1); color: var(--danger-color); border-color: rgba(230,57,70,0.2);" onclick="clearDailyHistory()"><i class="fa-solid fa-trash"></i> <span data-i18n="btn_clear_history">ล้างประวัติรายวัน</span></button>
+          <button class="tool-btn" onclick="exportCSV()"><i class="fa-solid fa-file-excel"></i> <span data-i18n="btn_export">ดาวน์โหลด CSV</span></button>
+        </div>
       </div>
       <div class="table-container">
         <table>
@@ -290,11 +293,14 @@
       </div>
     </div>
 
-    <!-- 2. บันทึกเหตุการณ์ความผิดปกติ (Fault Log) -->
+    <!-- 2. บันทึกเหตุการณ์ความผิดปกติ (Fault Log) (เพิ่มปุ่มดาวน์โหลดประวัติเหตุการณ์) -->
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> <span data-i18n="fault_title">ประวัติเหตุการณ์ความผิดปกติ (Event Log / Fault History)</span></div>
-        <button class="tool-btn" onclick="clearFaultLogs()"><i class="fa-solid fa-trash"></i> <span data-i18n="btn_clear_faults">ล้างประวัติเหตุการณ์</span></button>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="tool-btn" style="background: rgba(42,157,143,0.1); color: var(--success-color); border-color: rgba(42,157,143,0.2);" onclick="exportFaultCSV()"><i class="fa-solid fa-file-arrow-down"></i> <span data-i18n="btn_export_fault">ดาวน์โหลดประวัติเหตุการณ์</span></button>
+          <button class="tool-btn" onclick="clearFaultLogs()"><i class="fa-solid fa-trash"></i> <span data-i18n="btn_clear_faults">ล้างประวัติเหตุการณ์</span></button>
+        </div>
       </div>
       <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 14px;" data-i18n="fault_desc">บันทึกเวลาและค่าที่วัดได้เมื่อเกิดเหตุการณ์ไฟตก (<215V), ไฟเกิน (>245V) หรือกระแสไฟเกินพิกัด (>15A)</p>
       <div class="table-container">
@@ -313,16 +319,16 @@
       </div>
     </div>
 
-    <!-- 3. รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report) ปรับ UI ใหม่[span_10](start_span)[span_10](end_span) -->
+    <!-- 3. รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report) (เอา AI Recommendations ออกแล้ว) -->
     <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.06), rgba(42,157,143,0.06)); border: 1px solid var(--primary-color);">
       <div class="panel-title" style="margin-bottom: 6px;">
         <i class="fa-solid fa-file-invoice" style="color: var(--primary-color); font-size: 1.1rem;"></i> 
         <span data-i18n="report_title" style="font-size: 1.05rem;">รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report)</span>
       </div>
-      <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 18px;" data-i18n="report_subtitle">สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า สถิติความผิดปกติ และคำแนะนำในการประหยัดพลังงานอัตโนมัติประจำเดือนนี้</p>
+      <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 18px;" data-i18n="report_subtitle">สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า และสถิติความผิดปกติด้านแรงดันไฟฟ้าหรือกระแสเกินประจำเดือนนี้</p>
       
       <!-- Grid คะแนนเสถียรภาพและสถิติ -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 16px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
         <div style="background: var(--card-bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow);">
           <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(42,157,143,0.12); color: var(--success-color); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
             <i class="fa-solid fa-shield-halved"></i>
@@ -344,18 +350,6 @@
             <div id="rep-fault-breakdown" style="font-size: 0.68rem; color: var(--text-sub); margin-top: 2px;">ไฟตก: 0 | ไฟเกิน: 0 | Overload: 0</div>
           </div>
         </div>
-      </div>
-
-      <!-- กล่องคำแนะนำอัจฉริยะ พร้อมข้อความที่คุณระบุ[span_11](start_span)[span_11](end_span) -->
-      <div style="background: var(--card-bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-          <i class="fa-solid fa-lightbulb" style="color: var(--warning-color); font-size: 1rem;"></i>
-          <span style="font-size: 0.9rem; font-weight: 600;" data-i18n="rep_ai_tips">แนะนำอัจฉริยะเพื่อการประหยัดพลังงาน (AI Recommendations)</span>
-        </div>
-        <ul style="padding-left: 18px; font-size: 0.82rem; color: var(--text-main); line-height: 1.6; display: flex; flex-direction: column; gap: 6px;">
-          <li>ตั้งเวลาปิดแอร์หรือเครื่องใช้ไฟฟ้าในช่วงเวลาที่ไม่ได้ใช้งานเพื่อประหยัดพลังงานสะสมสูงสุด[span_12](start_span)[span_12](end_span)</li>
-          <li>ตรวจสอบอุปกรณ์ทำความร้อนหรือตู้เย็นว่ามีขอบยางเสื่อมสภาพหรือไม่เพื่อลดการกินไฟเกินจำเป็น[span_13](start_span)[span_13](end_span)</li>
-        </ul>
       </div>
     </div>
   </div>
@@ -398,7 +392,7 @@
     </div>
   </div>
 
-  <!-- TAB 4: ระบบ (นำส่วนทดสอบอีเมลและแผง SOS ออกแล้ว)[span_14](start_span)[span_14](end_span) -->
+  <!-- TAB 4: ระบบ -->
   <div id="tab-system" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-envelope" style="color: var(--primary-color);"></i> <span data-i18n="mail_title">ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)</span></div>
@@ -553,21 +547,20 @@
 
   const i18n = {
     th: {
-      title: "ระบบวัดค่าไฟฟ้า", tab_dash: "หน้าหลัก", tab_history: "ประวัติ & รายงาน", tab_calc: "คำนวณ", tab_system: "ระบบ", tab_manual: "คู่มือ",
+      title: "ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส อัจฉริยะ", tab_dash: "หน้าหลัก", tab_history: "ประวัติ & รายงาน", tab_calc: "คำนวณ", tab_system: "ระบบ", tab_manual: "คู่มือ",
       analyzing: "กำลังวิเคราะห์พฤติกรรมการใช้ไฟ...", v_normal: "สถานะไฟฟ้า: ปกติสมบูรณ์", lbl_voltage: "แรงดันไฟฟ้า", quality_ok: "คุณภาพไฟ: ปกติ",
       lbl_current: "กระแสไฟฟ้า", max_limit: "จำกัดสูงสุด: 15.00 A", lbl_power: "กำลังไฟฟ้า", load_light: "โหลด: พัดลม/หลอดไฟ",
       lbl_energy: "พลังงานสะสม", chart_title: "กราฟแสดงการใช้กำลังไฟฟ้า (Watt)", btn_mute: "เปิด/ปิด Buzzer", btn_reset: "Reset ค่าพลังงาน",
       lbl_total_cost: "ค่าไฟสะสมรวม", lbl_breakdown: "แจกแจงค่าไฟ", sub_vat: "รวมค่า Ft + VAT 7% แล้ว", history_title: "ประวัติรายวัน & Peak Tracker",
-      btn_export: "ดาวน์โหลด CSV", th_date: "วันที่", th_kwh: "พลังงาน (kWh)", th_peak_i: "กระแสสูงสุด", th_peak_t: "เวลา Peak", th_cost: "ค่าไฟ (บาท)",
+      btn_export: "ดาวน์โหลด CSV", btn_clear_history: "ล้างประวัติรายวัน", btn_export_fault: "ดาวน์โหลดประวัติเหตุการณ์", th_date: "วันที่", th_kwh: "พลังงาน (kWh)", th_peak_i: "กระแสสูงสุด", th_peak_t: "เวลา Peak", th_cost: "ค่าไฟ (บาท)",
       loading: "กำลังโหลดข้อมูล...",
       fault_title: "ประวัติเหตุการณ์ความผิดปกติ (Event Log / Fault History)",
       btn_clear_faults: "ล้างประวัติเหตุการณ์",
       fault_desc: "บันทึกเวลาและค่าที่วัดได้เมื่อเกิดเหตุการณ์ไฟตก (<215V), ไฟเกิน (>245V) หรือกระแสไฟเกินพิกัด (>15A)",
       th_fault_time: "เวลาที่เกิดเหตุ", th_fault_type: "ประเภทเหตุการณ์", th_fault_val: "ค่าที่วัดได้", no_faults: "ยังไม่มีบันทึกเหตุการณ์ความผิดปกติในระบบ",
       report_title: "รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report)",
-      report_subtitle: "สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า สถิติความผิดปกติ และคำแนะนำในการประหยัดพลังงานอัตโนมัติประจำเดือนนี้",
-      rep_score_lbl: "คะแนนเสถียรภาพระบบ", rep_fault_lbl: "จำนวนครั้งที่ผิดปกติเดือนนี้", rep_ai_tips: "แนะนำอัจฉริยะเพื่อการประหยัดพลังงาน (AI Recommendations)",
-      tip_default: "ระบบกำลังวิเคราะห์พฤติกรรมการใช้ไฟเพื่อแนะนำแนวทางประหยัดพลังงานที่ดีที่สุด...",
+      report_subtitle: "สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า และสถิติความผิดปกติด้านแรงดันไฟฟ้าหรือกระแสเกินประจำเดือนนี้",
+      rep_score_lbl: "คะแนนเสถียรภาพระบบ", rep_fault_lbl: "จำนวนครั้งที่ผิดปกติเดือนนี้",
       title_tariff: "ตั้งค่าอัตราค่าไฟฟ้า", lbl_rate: "อัตราค่าไฟ (บาท/หน่วย):", lbl_preset: "เลือกประเภทสถานที่:",
       opt_home: "บ้านอยู่อาศัย (~4.39 บาท)", opt_dorm: "หอพัก / อพาร์ตเมนต์ (~7.00 บาท)", opt_shop: "ร้านค้า / กิจการขนาดเล็ก (~4.80 บาท)", title_calc: "เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า",
       lbl_watt: "กำลังไฟ (วัตต์):", lbl_hrs: "เปิดใช้งาน (ชั่วโมง/วัน):", btn_calc: "คำนวณค่าไฟ", title_demo: "โหมดจำลองสถานการณ์เตือนภัย",
@@ -598,21 +591,20 @@
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
     en: {
-      title: "Electricity Monitor", tab_dash: "Dashboard", tab_history: "History & Reports", tab_calc: "Calculator", tab_system: "System", tab_manual: "Manual",
+      title: "Smart Single-Phase Electricity Fault Alert System", tab_dash: "Dashboard", tab_history: "History & Reports", tab_calc: "Calculator", tab_system: "System", tab_manual: "Manual",
       analyzing: "Analyzing power consumption...", v_normal: "Grid Status: Normal (220V)", lbl_voltage: "Voltage", quality_ok: "Power Quality: Optimal",
       lbl_current: "Current", max_limit: "Max Limit: 15.00 A", lbl_power: "Active Power", load_light: "Load: Fan/Lighting",
       lbl_energy: "Accumulated Energy", chart_title: "Active Power Chart (Watt)", btn_mute: "Mute/Unmute Buzzer", btn_reset: "Reset Energy",
       lbl_total_cost: "Total Electricity Cost", lbl_breakdown: "Bill Breakdown", sub_vat: "Includes Ft + VAT 7%", history_title: "Daily History & Peak Tracker",
-      btn_export: "Export CSV", th_date: "Date", th_kwh: "Energy (kWh)", th_peak_i: "Peak Current", th_peak_t: "Peak Time", th_cost: "Cost (THB)",
+      btn_export: "Export CSV", btn_clear_history: "Clear Daily History", btn_export_fault: "Export Fault Log", th_date: "Date", th_kwh: "Energy (kWh)", th_peak_i: "Peak Current", th_peak_t: "Peak Time", th_cost: "Cost (THB)",
       loading: "Loading data...",
       fault_title: "Event Log & Fault History",
       btn_clear_faults: "Clear Fault History",
       fault_desc: "Records timestamp and measured values during Low Voltage (<215V), High Voltage (>245V), or Overload (>15A).",
       th_fault_time: "Timestamp", th_fault_type: "Fault Type", th_fault_val: "Measured Value", no_faults: "No fault events recorded.",
       report_title: "Monthly Health Report",
-      report_subtitle: "Overview of grid stability, fault statistics, and automated energy-saving recommendations for this month.",
-      rep_score_lbl: "Grid Stability Score", rep_fault_lbl: "Fault Count This Month", rep_ai_tips: "AI Energy-Saving Recommendations",
-      tip_default: "Analyzing power usage to suggest the best energy-saving tips...",
+      report_subtitle: "Overview of grid stability and fault statistics for this month.",
+      rep_score_lbl: "Grid Stability Score", rep_fault_lbl: "Fault Count This Month",
       title_tariff: "Electricity Tariff Settings", lbl_rate: "Rate (THB/kWh):", lbl_preset: "Select Location Type:",
       opt_home: "Residential (~4.39 THB)", opt_dorm: "Dormitory (~7.00 THB)", opt_shop: "Small Business (~4.80 THB)", title_calc: "Appliance Bill Calculator",
       lbl_watt: "Power (Watts):", lbl_hrs: "Usage (Hours/Day):", btn_calc: "Calculate", title_demo: "Alarm Simulation Mode",
@@ -914,8 +906,17 @@
           const item = data[date];
           tbody.innerHTML += `<tr><td><strong>${date}</strong></td><td>${(item.energy || 0).toFixed(2)} kWh</td><td>${(item.peakCurrent || 0).toFixed(2)} A</td><td>${item.peakTime || '-'}</td><td>${(item.totalCost || 0).toFixed(2)} ฿</td></tr>`;
         });
+      } else {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-sub);">ยังไม่มีข้อมูลประวัติรายวัน</td></tr>`;
       }
     } catch (e) { console.error(e); }
+  }
+
+  async function clearDailyHistory() {
+    if (confirm(currentLang === 'th' ? "⚠️ ยืนยันการล้างประวัติรายทั้งหมด?" : "Clear all daily history?")) {
+      await fetch(`${FIREBASE_BASE}/history.json`, { method: 'DELETE' });
+      fetchHistory();
+    }
   }
 
   async function fetchFaultLogs() {
@@ -986,6 +987,19 @@
     });
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `PowerPulse_History.csv`; a.click();
+  }
+
+  async function exportFaultCSV() {
+    const res = await fetch(`${FIREBASE_BASE}/fault_logs.json`);
+    const data = await res.json();
+    if (!data) return alert("No Fault Data");
+    let csv = "\uFEFFTimestamp,FaultType,MeasuredValue\n";
+    Object.keys(data).forEach(key => {
+      const item = data[key];
+      csv += `"${item.timestamp}","${item.type}","${item.value}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `PowerPulse_FaultLogs.csv`; a.click();
   }
 
   async function toggleBuzzerMute() {
