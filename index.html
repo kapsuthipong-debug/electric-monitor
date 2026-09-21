@@ -22,7 +22,10 @@
       --border-color: #e9ecef; --primary-color: #4361ee; --danger-color: #e63946;
       --warning-color: #ffb703; --success-color: #2a9d8f; --border-radius: 16px;
       --shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      --font-scale: 1rem;
     }
+    html { font-size: var(--font-scale); }
+
     [data-theme="dark"] {
       --bg-color: #0f172a; --card-bg: #1e293b; --text-main: #f8fafc; --text-sub: #94a3b8;
       --border-color: #334155; --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
@@ -31,15 +34,15 @@
     body { background-color: var(--bg-color); color: var(--text-main); padding: 16px; padding-bottom: 90px; min-height: 100vh; }
     .container { max-width: 1000px; margin: 0 auto; }
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
-    .header h1 { font-size: 20px; font-weight: 700; line-height: 1.2; }
+    .header h1 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; }
     .header h1 i { color: var(--warning-color); margin-right: 6px; }
-    .subtitle { font-size: 14px; font-weight: 500; color: var(--text-sub); }
+    .subtitle { font-size: 0.875rem; font-weight: 500; color: var(--text-sub); }
 
-    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .header-actions { display: flex; align-items: center; gap: 6px; }
     
     .tab-bar { display: flex; background: var(--card-bg); padding: 6px; border-radius: 14px; margin-bottom: 20px; gap: 4px; border: 1px solid var(--border-color); box-shadow: var(--shadow); overflow-x: auto; }
-    .tab-btn { flex: 1; min-width: 75px; padding: 10px 4px; border: none; background: transparent; color: var(--text-sub); border-radius: 10px; font-size: 10px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; transition: 0.2s; }
-    .tab-btn i { font-size: 14px; }
+    .tab-btn { flex: 1; min-width: 75px; padding: 10px 4px; border: none; background: transparent; color: var(--text-sub); border-radius: 10px; font-size: 0.7rem; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; transition: 0.2s; }
+    .tab-btn i { font-size: 0.9rem; }
     .tab-btn.active { background: var(--primary-color); color: white; box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3); }
     
     .tab-content { display: none; }
@@ -47,23 +50,23 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     
     .insight-card { background: var(--card-bg); border-left: 5px solid var(--primary-color); padding: 14px 18px; border-radius: var(--border-radius); margin-bottom: 18px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border: 1px solid var(--border-color); }
-    .insight-info { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
-    .badge-score { background-color: var(--primary-color); color: white; padding: 4px 10px; border-radius: 10px; font-weight: 700; font-size: 13px; }
+    .insight-info { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 500; }
+    .badge-score { background-color: var(--primary-color); color: white; padding: 4px 10px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; }
     
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 18px; }
     .card { background: var(--card-bg); padding: 16px; border-radius: var(--border-radius); box-shadow: var(--shadow); display: flex; align-items: center; gap: 14px; border: 1px solid var(--border-color); }
-    .card-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .card-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
     .icon-v { background: rgba(67, 97, 238, 0.1); color: #4361ee; }
     .icon-i { background: rgba(255, 146, 43, 0.1); color: #ff922b; }
     .icon-w { background: rgba(204, 93, 232, 0.1); color: #cc5de8; }
     .icon-e { background: rgba(32, 201, 151, 0.1); color: #20c997; }
-    .card-info h3 { font-size: 12px; color: var(--text-sub); font-weight: 500; margin-bottom: 2px; }
-    .card-info .value { font-size: 20px; font-weight: 700; }
-    .card-info .sub-text { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+    .card-info h3 { font-size: 0.75rem; color: var(--text-sub); font-weight: 500; margin-bottom: 2px; }
+    .card-info .value { font-size: 1.25rem; font-weight: 700; }
+    .card-info .sub-text { font-size: 0.7rem; color: var(--text-sub); margin-top: 2px; }
     
     .chart-container { position: relative; width: 100%; height: 220px; margin-top: 10px; }
     .controls { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
-    .btn { flex: 1; min-width: 140px; padding: 14px 16px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow); transition: 0.2s; }
+    .btn { flex: 1; min-width: 140px; padding: 14px 16px; border: none; border-radius: 12px; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow); transition: 0.2s; }
     .btn:active { transform: scale(0.98); }
     .btn-mute { background-color: var(--warning-color); color: #111; }
     .btn-reset { background-color: var(--danger-color); color: white; }
@@ -73,50 +76,49 @@
     
     .panel { background: var(--card-bg); padding: 18px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-bottom: 18px; border: 1px solid var(--border-color); }
     .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
-    .panel-title { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .panel-title { font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
     
     .table-container { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; }
-    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border-color); font-size: 13px; }
-    th { color: var(--text-sub); font-size: 11px; text-transform: uppercase; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; }
+    th { color: var(--text-sub); font-size: 0.75rem; text-transform: uppercase; }
     
     .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 10px; }
     .input-group { display: flex; flex-direction: column; gap: 4px; }
-    .input-group label { font-size: 12px; color: var(--text-sub); font-weight: 500; }
-    .input-group input, .input-group select { padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-main); font-size: 14px; outline: none; }
-    .tool-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .input-group label { font-size: 0.75rem; color: var(--text-sub); font-weight: 500; }
+    .input-group input, .input-group select { padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-main); font-size: 0.9rem; outline: none; }
+    .tool-btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
     
     .manual-step { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
-    .step-num { background: var(--primary-color); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
-    .step-desc h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-    .step-desc p { font-size: 13px; color: var(--text-sub); line-height: 1.4; }
-    .voice-command-tag { background: rgba(138, 43, 226, 0.1); color: #8a2be2; padding: 4px 8px; border-radius: 6px; font-family: monospace; font-weight: 600; font-size: 12px; display: inline-block; margin: 2px 0; }
+    .step-num { background: var(--primary-color); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-desc h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
+    .step-desc p { font-size: 0.85rem; color: var(--text-sub); line-height: 1.4; }
 
-    /* Modal เลือกภาษาแบบในภาพตัวอย่าง */
+    /* Modal เลือกภาษาตอนเปิดเว็บ */
     .lang-modal { display: flex; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .lang-modal-content { background: #ffffff; color: #1e293b; padding: 35px 25px; border-radius: 24px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: scaleUp 0.3s ease; }
     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .lang-icon-box { font-size: 36px; color: #ffb703; margin-bottom: 15px; }
-    .lang-modal-content h3 { font-size: 18px; font-weight: 700; color: #1e293b; line-height: 1.4; margin-bottom: 6px; }
-    .lang-modal-content .sub-title { font-size: 14px; font-weight: 600; color: #64748b; margin-bottom: 20px; }
-    .lang-modal-content p { font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 20px; }
+    .lang-icon-box { font-size: 2.2rem; color: #ffb703; margin-bottom: 15px; }
+    .lang-modal-content h3 { font-size: 1.1rem; font-weight: 700; color: #1e293b; line-height: 1.4; margin-bottom: 6px; }
+    .lang-modal-content .sub-title { font-size: 0.9rem; font-weight: 600; color: #64748b; margin-bottom: 20px; }
+    .lang-modal-content p { font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 20px; }
     .lang-btn-group { display: flex; gap: 12px; }
-    .btn-choice { flex: 1; padding: 14px 10px; border: none; border-radius: 14px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .btn-choice { flex: 1; padding: 14px 10px; border: none; border-radius: 14px; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
     .btn-choice:active { transform: scale(0.97); }
     .btn-th { background-color: #4361ee; color: white; }
     .btn-en { background-color: #2a9d8f; color: white; }
 
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
     .modal-content { background: var(--card-bg); padding: 22px; border-radius: var(--border-radius); text-align: center; max-width: 300px; width: 90%; position: relative; color: var(--text-main); }
-    .close-btn { position: absolute; right: 15px; top: 10px; font-size: 20px; cursor: pointer; color: var(--text-sub); }
+    .close-btn { position: absolute; right: 15px; top: 10px; font-size: 1.25rem; cursor: pointer; color: var(--text-sub); }
     #qrcode, #manual-qrcode { display: flex; justify-content: center; margin: 12px 0; }
 
     @media (max-width: 768px) {
       body { padding: 12px; padding-bottom: 95px; }
-      .header h1 { font-size: 16px; }
+      .header h1 { font-size: 1rem; }
       .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; margin-bottom: 0; border-radius: 0; border-top: 1px solid var(--border-color); z-index: 999; padding: 8px 4px; justify-content: space-around; box-shadow: 0 -5px 15px rgba(0,0,0,0.08); background: var(--card-bg); }
-      .tab-btn { flex: 1; min-width: auto; font-size: 9px; padding: 4px; }
-      .tab-btn i { font-size: 13px; }
+      .tab-btn { flex: 1; min-width: auto; font-size: 0.6rem; padding: 4px; }
+      .tab-btn i { font-size: 0.8rem; }
       .grid { grid-template-columns: 1fr 1fr; }
       .controls { flex-direction: column; }
     }
@@ -124,7 +126,7 @@
 </head>
 <body>
 
-<!-- หน้าต่างป๊อปอัปเลือกภาษาตอนเปิดเว็บ (ตามภาพตัวอย่าง)[cite: 3] -->
+<!-- หน้าต่างป๊อปอัปเลือกภาษาตอนเปิดเว็บ -->
 <div id="languageModal" class="lang-modal">
   <div class="lang-modal-content">
     <div class="lang-icon-box">
@@ -152,15 +154,18 @@
     </h1>
 
     <div class="header-actions">
+      <!-- ปุ่มปรับขนาดตัวอักษร -->
+      <button class="tool-btn" onclick="cycleFontSize()" title="ปรับขนาดตัวอักษร">
+        <i class="fa-solid fa-text-height"></i> <span id="font-size-label">ขนาด: ปกติ</span>
+      </button>
+      <!-- ปุ่มเปลี่ยนภาษา -->
       <button class="tool-btn" onclick="toggleLang()"><i class="fa-solid fa-language"></i> <span id="lang-btn-text">EN</span></button>
     </div>
   </div>
 
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('tab-dash', this)"><i class="fa-solid fa-chart-line"></i> <span data-i18n="tab_dash">หน้าหลัก</span></button>
-    <button class="tab-btn" onclick="switchTab('tab-history', this)"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="tab_history">ประวัติ</span></button>
-    <button class="tab-btn" onclick="switchTab('tab-faults', this)"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="tab_faults">บันทึกเหตุการณ์</span></button>
-    <button class="tab-btn" onclick="switchTab('tab-report', this)"><i class="fa-solid fa-file-invoice"></i> <span data-i18n="tab_report">รายงานสุขภาพ</span></button>
+    <button class="tab-btn" onclick="switchTab('tab-history', this)"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="tab_history">ประวัติ & รายงาน</span></button>
     <button class="tab-btn" onclick="switchTab('tab-calc', this)"><i class="fa-solid fa-sliders"></i> <span data-i18n="tab_calc">คำนวณ</span></button>
     <button class="tab-btn" onclick="switchTab('tab-system', this)"><i class="fa-solid fa-gear"></i> <span data-i18n="tab_system">ระบบ</span></button>
     <button class="tab-btn" onclick="switchTab('tab-manual', this)"><i class="fa-solid fa-book-open"></i> <span data-i18n="tab_manual">คู่มือ</span></button>
@@ -170,10 +175,10 @@
   <div id="tab-dash" class="tab-content active">
     <div class="insight-card">
       <div class="insight-info">
-        <i class="fa-solid fa-circle-info" style="color: var(--primary-color); font-size: 18px;"></i>
+        <i class="fa-solid fa-circle-info" style="color: var(--primary-color); font-size: 1.1rem;"></i>
         <div>
           <div id="actionable-text" data-i18n="analyzing">กำลังวิเคราะห์พฤติกรรมการใช้ไฟ...</div>
-          <div style="font-size: 11px; color: var(--text-sub);" id="system-health-text" data-i18n="v_normal">สถานะไฟฟ้า: ปกติสมบูรณ์</div>
+          <div style="font-size: 0.7rem; color: var(--text-sub);" id="system-health-text" data-i18n="v_normal">สถานะไฟฟ้า: ปกติสมบูรณ์</div>
         </div>
       </div>
       <div class="badge-score" id="eco-grade">GRADE A</div>
@@ -235,13 +240,13 @@
       <button class="btn btn-voice" onclick="startVoiceCommand()">
         <i class="fa-solid fa-microphone"></i> <span data-i18n="btn_voice">สั่งงานด้วยเสียง</span>
       </button>
-      <div id="voice-status" style="width: 100%; text-align: center; margin-top: 5px; font-size: 13px; color: #8a2be2; font-weight: 600; display: none;">
+      <div id="voice-status" style="width: 100%; text-align: center; margin-top: 5px; font-size: 0.8rem; color: #8a2be2; font-weight: 600; display: none;">
         <i class="fa-solid fa-ear-listen fa-beat"></i> <span data-i18n="voice_listening">กำลังฟังคำสั่ง...</span>
       </div>
     </div>
   </div>
 
-  <!-- TAB 2: ประวัติ -->
+  <!-- TAB 2: ประวัติ & รายงาน (รวมประวัติรายวัน, บันทึกเหตุการณ์, และรายงานสุขภาพไว้ที่นี่) -->
   <div id="tab-history" class="tab-content">
     <div class="grid">
       <div class="card">
@@ -256,11 +261,13 @@
         <div class="card-icon icon-h"><i class="fa-solid fa-receipt"></i></div>
         <div class="card-info">
           <h3 data-i18n="lbl_breakdown">แจกแจงค่าไฟ</h3>
-          <div class="value" style="font-size: 15px;" id="breakdown-text">ฐาน: 0 ฿ | VAT: 0 ฿</div>
+          <div class="value" style="font-size: 0.95rem;" id="breakdown-text">ฐาน: 0 ฿ | VAT: 0 ฿</div>
           <div class="sub-text" data-i18n="sub_vat">รวมค่า Ft + VAT 7% แล้ว</div>
         </div>
       </div>
     </div>
+
+    <!-- 1. ประวัติรายวัน & Peak Tracker -->
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="history_title">ประวัติรายวัน & Peak Tracker</span></div>
@@ -283,16 +290,14 @@
         </table>
       </div>
     </div>
-  </div>
 
-  <!-- TAB 3: บันทึกเหตุการณ์ความผิดปกติ (Fault Log) -->
-  <div id="tab-faults" class="tab-content">
+    <!-- 2. บันทึกเหตุการณ์ความผิดปกติ (Fault Log) -->
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> <span data-i18n="fault_title">ประวัติเหตุการณ์ความผิดปกติ (Event Log / Fault History)</span></div>
         <button class="tool-btn" onclick="clearFaultLogs()"><i class="fa-solid fa-trash"></i> <span data-i18n="btn_clear_faults">ล้างประวัติเหตุการณ์</span></button>
       </div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 14px;" data-i18n="fault_desc">บันทึกเวลาและค่าที่วัดได้เมื่อเกิดเหตุการณ์ไฟตก (<215V), ไฟเกิน (>245V) หรือกระแสไฟเกินพิกัด (>15A)</p>
+      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 14px;" data-i18n="fault_desc">บันทึกเวลาและค่าที่วัดได้เมื่อเกิดเหตุการณ์ไฟตก (<215V), ไฟเกิน (>245V) หรือกระแสไฟเกินพิกัด (>15A)</p>
       <div class="table-container">
         <table>
           <thead>
@@ -308,13 +313,11 @@
         </table>
       </div>
     </div>
-  </div>
 
-  <!-- TAB 4: รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report) -->
-  <div id="tab-report" class="tab-content">
+    <!-- 3. รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report) -->
     <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.08), rgba(42,157,143,0.08)); border: 1px solid var(--primary-color);">
       <div class="panel-title"><i class="fa-solid fa-file-invoice" style="color: var(--primary-color);"></i> <span data-i18n="report_title">รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report)</span></div>
-      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 16px;" data-i18n="report_subtitle">สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า สถิติความผิดปกติ และคำแนะนำในการประหยัดพลังงานอัตโนมัติประจำเดือนนี้</p>
+      <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 16px;" data-i18n="report_subtitle">สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า สถิติความผิดปกติ และคำแนะนำในการประหยัดพลังงานอัตโนมัติประจำเดือนนี้</p>
       
       <div class="grid" style="margin-bottom: 14px;">
         <div class="card" style="background: var(--card-bg);">
@@ -336,15 +339,15 @@
       </div>
 
       <div class="panel" style="background: var(--card-bg); margin-bottom: 0;">
-        <div class="panel-title" style="font-size: 14px;"><i class="fa-solid fa-lightbulb" style="color: var(--warning-color);"></i> <span data-i18n="rep_ai_tips">คำแนะนำอัจฉริยะเพื่อการประหยัดพลังงาน (AI Recommendations)</span></div>
-        <ul id="ai-tips-list" style="margin-top: 10px; padding-left: 20px; font-size: 13px; color: var(--text-main); line-height: 1.6;">
+        <div class="panel-title" style="font-size: 0.85rem;"><i class="fa-solid fa-lightbulb" style="color: var(--warning-color);"></i> <span data-i18n="rep_ai_tips">คำแนะนำอัจฉริยะเพื่อการประหยัดพลังงาน (AI Recommendations)</span></div>
+        <ul id="ai-tips-list" style="margin-top: 10px; padding-left: 20px; font-size: 0.8rem; color: var(--text-main); line-height: 1.6;">
           <li data-i18n="tip_default">ระบบกำลังวิเคราะห์พฤติกรรมการใช้ไฟเพื่อแนะนำแนวทางประหยัดพลังงานที่ดีที่สุด...</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- TAB 5: คำนวณ -->
+  <!-- TAB 3: คำนวณ -->
   <div id="tab-calc" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-sliders"></i> <span data-i18n="title_tariff">ตั้งค่าอัตราค่าไฟฟ้า</span></div>
@@ -378,15 +381,15 @@
           <button class="tool-btn" style="padding: 11px; justify-content: center; background: var(--primary-color); color: white;" onclick="calculateAppliance()" data-i18n="btn_calc">คำนวณค่าไฟ</button>
         </div>
       </div>
-      <div id="calc-result" style="margin-top: 12px; font-weight: 600; font-size: 13px; color: var(--primary-color);"></div>
+      <div id="calc-result" style="margin-top: 12px; font-weight: 600; font-size: 0.8rem; color: var(--primary-color);"></div>
     </div>
   </div>
 
-  <!-- TAB 6: ระบบ -->
+  <!-- TAB 4: ระบบ -->
   <div id="tab-system" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-envelope" style="color: var(--primary-color);"></i> <span data-i18n="mail_title">ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_desc">กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด หรือแรงดันไฟฟ้าผิดปกติ (<215V หรือ >245V)</p>
+      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_desc">กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด หรือแรงดันไฟฟ้าผิดปกติ (<215V หรือ >245V)</p>
       
       <div class="calc-grid">
         <div class="input-group" style="grid-column: 1 / -1;">
@@ -399,18 +402,18 @@
           </button>
         </div>
       </div>
-      <div id="email-save-status" style="margin-top: 8px; font-size: 12px; color: var(--success-color); font-weight: 600;"></div>
+      <div id="email-save-status" style="margin-top: 8px; font-size: 0.75rem; color: var(--success-color); font-weight: 600;"></div>
     </div>
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-paper-plane" style="color: #8a2be2;"></i> <span data-i18n="mail_test_title">ทดสอบส่งอีเมลแจ้งเตือน (Test Email Alert)</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_test_desc">กดปุ่มด้านล่างเพื่อทดสอบส่งอีเมลจำลองเหตุการณ์ไปยังอีเมลที่บันทึกไว้ทันที</p>
+      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_test_desc">กดปุ่มด้านล่างเพื่อทดสอบส่งอีเมลจำลองเหตุการณ์ไปยังอีเมลที่บันทึกไว้ทันที</p>
       <button class="btn btn-voice" onclick="sendTestEmail()"><i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_test_mail">ทดสอบส่งอีเมลแจ้งเตือน</span></button>
     </div>
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-vial"></i> <span data-i18n="title_demo">โหมดจำลองสถานการณ์เตือนภัย</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือนและบันทึก Fault Log</p>
+      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือนและบันทึก Fault Log</p>
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
         <button class="btn btn-demo" onclick="triggerDemoOverload()"><i class="fa-solid fa-bolt-lightning"></i> <span data-i18n="btn_demo_over">จำลองไฟเกิน (15.5A)</span></button>
         <button class="btn btn-demo" style="background-color: var(--warning-color); color: #111;" onclick="triggerDemoLowVolt()"><i class="fa-solid fa-arrow-down"></i> <span data-i18n="btn_demo_low">จำลองไฟตก (205V)</span></button>
@@ -420,7 +423,7 @@
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> <span data-i18n="sos_title">แผงควบคุมเหตุฉุกเฉินด่วน (Emergency SOS Panel)</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="sos_desc">ปุ่มด่วนสำหรับสั่งตัดกระแสไฟฟ้าฉุกเฉินและส่งอีเมลแจ้งเตือนเหตุด่วนไปยังผู้ดูแลระบบทันที</p>
+      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 12px;" data-i18n="sos_desc">ปุ่มด่วนสำหรับสั่งตัดกระแสไฟฟ้าฉุกเฉินและส่งอีเมลแจ้งเตือนเหตุด่วนไปยังผู้ดูแลระบบทันที</p>
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
         <button class="btn btn-sos" onclick="triggerEmergencyCutoff()"><i class="fa-solid fa-power-off"></i> <span data-i18n="btn_sos_cut">ตัดไฟฉุกเฉิน (Emergency Cut-off)</span></button>
       </div>
@@ -428,7 +431,7 @@
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-map-location-dot" style="color: var(--primary-color);"></i> <span data-i18n="map_title">จุดติดตั้งอุปกรณ์ IoT (Device Geo-Location)</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="map_desc">แสดงตำแหน่งพิกัดของบอร์ด ESP32 ที่ติดตั้งหน้างาน</p>
+      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 12px;" data-i18n="map_desc">แสดงตำแหน่งพิกัดของบอร์ด ESP32 ที่ติดตั้งหน้างาน</p>
       <div id="iotMap" style="width: 100%; height: 300px; border-radius: 12px; z-index: 1;"></div>
     </div>
 
@@ -441,62 +444,62 @@
     </div>
   </div>
 
-  <!-- TAB 7: คู่มือการใช้งาน -->
+  <!-- TAB 5: คู่มือการใช้งาน -->
   <div id="tab-manual" class="tab-content">
     <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.1), rgba(42,157,143,0.1)); border: 1px solid var(--primary-color);">
       <div class="panel-title"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary-color);"></i> <span data-i18n="tour_title">โหมดแนะนำการใช้งานระบบอัตโนมัติ (Guided Tour)</span></div>
-      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="tour_desc">สำหรับผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบพาชมฟีเจอร์เด่นทั้งหมดทีละขั้นตอน</p>
+      <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px;" data-i18n="tour_desc">สำหรับผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบอธิบายหน้าที่การทำงานของแต่ละหน้าจอทีละขั้นตอน</p>
       <button class="btn btn-demo" onclick="startGuidedTour()"><i class="fa-solid fa-play"></i> <span data-i18n="tour_btn">🚀 เริ่มต้นใช้งานทัวร์ระบบ (Start Tour)</span></button>
     </div>
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-book-open" style="color: var(--primary-color);"></i> <span data-i18n="man_title">คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)</span></div>
-      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 16px;" data-i18n="man_subtitle">คู่มือการใช้งานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)</p>
+      <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 16px;" data-i18n="man_subtitle">คู่มืออธิบายหน้าที่การทำงานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)</p>
 
       <div class="manual-step">
         <div class="step-num">1</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s1_h">1. การมอนิเตอร์ค่าไฟฟ้า (Dashboard)</h4>
-          <p data-i18n="man_s1_p">แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 พร้อมกราฟแสดงแนวโน้มและระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)</p>
+          <h4 data-i18n="man_s1_h">1. หน้าหลัก (Dashboard) - หน้าที่: มอนิเตอร์ค่าไฟฟ้าเรียลไทม์</h4>
+          <p data-i18n="man_s1_p">ทำหน้าที่แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทันที พร้อมกราฟแสดงแนวโน้มและระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)</p>
         </div>
       </div>
 
       <div class="manual-step">
         <div class="step-num">2</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s2_h">2. ประวัติการใช้ไฟและ Peak Tracker (History & Export)</h4>
-          <p data-i18n="man_s2_p">เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมอัตโนมัติพร้อมภาษี VAT 7% และสามารถกดดาวน์โหลดไฟล์ CSV ไปใช้งานต่อได้</p>
+          <h4 data-i18n="man_s2_h">2. หน้าประวัติ & รายงาน (History & Reports) - หน้าที่: ตรวจสอบย้อนหลังและสุขภาพระบบ</h4>
+          <p data-i18n="man_s2_p">ทำหน้าที่เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมพร้อมภาษี VAT 7%, รวมบันทึกเหตุการณ์ความผิดปกติ (Fault Log) และรายงานสุขภาพพร้อมคะแนนเสถียรภาพประจำเดือนไว้ในที่เดียว</p>
         </div>
       </div>
 
       <div class="manual-step">
         <div class="step-num">3</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s3_h">3. บันทึกเหตุการณ์ความผิดปกติและรายงานประจำเดือน</h4>
-          <p data-i18n="man_s3_p">ตรวจสอบประวัติเหตุการณ์ไฟตก ไฟเกิน ย้อนหลังได้ในแท็บ "บันทึกเหตุการณ์" และดูคะแนนเสถียรภาพพร้อมคำแนะนำประหยัดไฟในแท็บ "รายงานสุขภาพ"</p>
+          <h4 data-i18n="man_s3_h">3. หน้าคำนวณ (Calculator) - หน้าที่: ตั้งค่าเรทค่าไฟและคำนวณค่าใช้จ่าย</h4>
+          <p data-i18n="man_s3_p">ทำหน้าที่ให้ผู้ใช้กำหนดอัตราค่าไฟตามประเภทสถานที่ (บ้าน, หอพัก, ร้านค้า) และคำนวณค่าไฟของเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที</p>
         </div>
       </div>
 
       <div class="manual-step">
         <div class="step-num">4</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s4_h">4. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)</h4>
-          <p data-i18n="man_s4_p">สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที</p>
+          <h4 data-i18n="man_s4_h">4. หน้าระบบ (System) - หน้าที่: ตั้งค่าความปลอดภัยและจำลองสถานการณ์</h4>
+          <p data-i18n="man_s4_p">ทำหน้าที่ตั้งค่าอีเมลรับแจ้งเตือนอัตโนมัติ, ทดสอบส่งอีเมล, จำลองสถานการณ์ฉุกเฉิน (ไฟตก/ไฟเกิน/Overload), ควบคุมตัดไฟฉุกเฉิน (SOS) และแสดงพิกัดจุดติดตั้งอุปกรณ์บนแผนที่</p>
         </div>
       </div>
 
       <div class="manual-step">
         <div class="step-num">5</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s5_h">5. ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)</h4>
-          <p data-i18n="man_s5_p">ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)</p>
+          <h4 data-i18n="man_s5_h">5. หน้าคู่มือ (Manual) - หน้าที่: ให้คำแนะนำการใช้งานระบบ</h4>
+          <p data-i18n="man_s5_p">ทำหน้าที่อธิบายขั้นตอนและหน้าที่ของแต่ละหน้าจออย่างละเอียด พร้อมโหมดทัวร์ระบบอัตโนมัติและ QR Code สำหรับเปิดใช้งานบนมือถือ</p>
         </div>
       </div>
     </div>
 
     <div class="panel" style="text-align: center;">
       <div class="panel-title" style="justify-content: center;"><i class="fa-solid fa-qrcode"></i> <span data-i18n="man_qr_title">สแกนเพื่อเปิดใช้งานบนมือถือ</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 10px;" data-i18n="man_qr_sub">ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง</p>
+      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 10px;" data-i18n="man_qr_sub">ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง</p>
       <div id="manual-qrcode" style="display: flex; justify-content: center;"></div>
     </div>
   </div>
@@ -507,7 +510,7 @@
   <div class="modal-content">
     <span class="close-btn" onclick="closeQRModal()">&times;</span>
     <h3 data-i18n="qr_title">สแกนเพื่อเข้าใช้งานเว็บ</h3>
-    <p style="font-size: 12px; color: var(--text-sub);">PowerPulse IoT Web Dashboard</p>
+    <p style="font-size: 0.75rem; color: var(--text-sub);">PowerPulse IoT Web Dashboard</p>
     <div id="qrcode"></div>
   </div>
 </div>
@@ -524,6 +527,26 @@
   let latestRealtimeData = { voltage: 0, current: 0, power: 0, energy: 0 };
   let lastFaultLoggedTime = 0;
 
+  let fontSizes = ['1rem', '1.15rem', '1.3rem', '0.85rem'];
+  let fontLabelsTh = ['ขนาด: ปกติ', 'ขนาด: ใหญ่', 'ขนาด: ใหญ่มาก', 'ขนาด: เล็ก'];
+  let fontLabelsEn = ['Size: Normal', 'Size: Large', 'Size: X-Large', 'Size: Small'];
+  let currentFontIdx = 0;
+
+  function cycleFontSize() {
+    currentFontIdx = (currentFontIdx + 1) % fontSizes.length;
+    document.documentElement.style.setProperty('--font-scale', fontSizes[currentFontIdx]);
+    updateFontLabel();
+  }
+
+  function updateFontLabel() {
+    const labelEl = document.getElementById('font-size-label');
+    if (currentLang === 'th') {
+      labelEl.innerText = fontLabelsTh[currentFontIdx];
+    } else {
+      labelEl.innerText = fontLabelsEn[currentFontIdx];
+    }
+  }
+
   const EMAILJS_SERVICE_ID = "service_3er85fc";
   const EMAILJS_TEMPLATE_ID = "template_zz03wjc";
   const EMAILJS_PUBLIC_KEY = "BuscMCQrAQ5TAq5F_";
@@ -531,7 +554,7 @@
 
   const i18n = {
     th: {
-      title: "ระบบวัดค่าไฟฟ้า", tab_dash: "หน้าหลัก", tab_history: "ประวัติ", tab_faults: "บันทึกเหตุการณ์", tab_report: "รายงานสุขภาพ", tab_calc: "คำนวณ", tab_system: "ระบบ", tab_manual: "คู่มือ",
+      title: "ระบบวัดค่าไฟฟ้า", tab_dash: "หน้าหลัก", tab_history: "ประวัติ & รายงาน", tab_calc: "คำนวณ", tab_system: "ระบบ", tab_manual: "คู่มือ",
       analyzing: "กำลังวิเคราะห์พฤติกรรมการใช้ไฟ...", v_normal: "สถานะไฟฟ้า: ปกติสมบูรณ์", lbl_voltage: "แรงดันไฟฟ้า", quality_ok: "คุณภาพไฟ: ปกติ",
       lbl_current: "กระแสไฟฟ้า", max_limit: "จำกัดสูงสุด: 15.00 A", lbl_power: "กำลังไฟฟ้า", load_light: "โหลด: พัดลม/หลอดไฟ",
       lbl_energy: "พลังงานสะสม", chart_title: "กราฟแสดงการใช้กำลังไฟฟ้า (Watt)", btn_mute: "เปิด/ปิด Buzzer", btn_reset: "Reset ค่าพลังงาน",
@@ -556,7 +579,7 @@
       map_title: "จุดติดตั้งอุปกรณ์ IoT (Device Geo-Location)",
       map_desc: "แสดงตำแหน่งพิกัดของบอร์ด ESP32 ที่ติดตั้งหน้างาน",
       tour_title: "โหมดแนะนำการใช้งานระบบอัตโนมัติ (Guided Tour)",
-      tour_desc: "สำหรับผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบพาชมฟีเจอร์เด่นทั้งหมดทีละขั้นตอน",
+      tour_desc: "สำหรับผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบอธิบายหน้าที่การทำงานของแต่ละหน้าจอทีละขั้นตอน",
       tour_btn: "🚀 เริ่มต้นใช้งานทัวร์ระบบ (Start Tour)",
       btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ", btn_voice: "สั่งงานด้วยเสียง",
       voice_listening: "กำลังฟังคำสั่ง...",
@@ -568,21 +591,21 @@
       mail_test_desc: "กดปุ่มด้านล่างเพื่อทดสอบส่งอีเมลจำลองเหตุการณ์ไปยังอีเมลที่บันทึกไว้ทันที",
       btn_test_mail: "ทดสอบส่งอีเมลแจ้งเตือน",
       man_title: "คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)",
-      man_subtitle: "คู่มือการใช้งานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)",
-      man_s1_h: "1. การมอนิเตอร์ค่าไฟฟ้า (Dashboard)",
-      man_s1_p: "แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 พร้อมกราฟแสดงแนวโน้มและระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)",
-      man_s2_h: "2. ประวัติการใช้ไฟและ Peak Tracker (History & Export)",
-      man_s2_p: "เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมอัตโนมัติพร้อมภาษี VAT 7% และสามารถกดดาวน์โหลดไฟล์ CSV ไปใช้งานต่อได้",
-      man_s3_h: "3. บันทึกเหตุการณ์ความผิดปกติและรายงานประจำเดือน",
-      man_s3_p: "ตรวจสอบประวัติเหตุการณ์ไฟตก ไฟเกิน ย้อนหลังได้ในแท็บ 'บันทึกเหตุการณ์' และดูคะแนนเสถียรภาพพร้อมคำแนะนำประหยัดไฟในแท็บ 'รายงานสุขภาพ'",
-      man_s4_h: "4. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)",
-      man_s4_p: "สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที",
-      man_s5_h: "5. ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)",
-      man_s5_p: "ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)",
+      man_subtitle: "คู่มืออธิบายหน้าที่การทำงานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)",
+      man_s1_h: "1. หน้าหลัก (Dashboard) - หน้าที่: มอนิเตอร์ค่าไฟฟ้าเรียลไทม์",
+      man_s1_p: "ทำหน้าที่แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทันที พร้อมกราฟแสดงแนวโน้มและระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)",
+      man_s2_h: "2. หน้าประวัติ & รายงาน (History & Reports) - หน้าที่: ตรวจสอบย้อนหลังและสุขภาพระบบ",
+      man_s2_p: "ทำหน้าที่เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมพร้อมภาษี VAT 7%, รวมบันทึกเหตุการณ์ความผิดปกติ (Fault Log) และรายงานสุขภาพพร้อมคะแนนเสถียรภาพประจำเดือนไว้ในที่เดียว",
+      man_s3_h: "3. หน้าคำนวณ (Calculator) - หน้าที่: ตั้งค่าเรทค่าไฟและคำนวณค่าใช้จ่าย",
+      man_s3_p: "ทำหน้าที่ให้ผู้ใช้กำหนดอัตราค่าไฟตามประเภทสถานที่ (บ้าน, หอพัก, ร้านค้า) และคำนวณค่าไฟของเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที",
+      man_s4_h: "4. หน้าระบบ (System) - หน้าที่: ตั้งค่าความปลอดภัยและจำลองสถานการณ์",
+      man_s4_p: "ทำหน้าที่ตั้งค่าอีเมลรับแจ้งเตือนอัตโนมัติ, ทดสอบส่งอีเมล, จำลองสถานการณ์ฉุกเฉิน (ไฟตก/ไฟเกิน/Overload), ควบคุมตัดไฟฉุกเฉิน (SOS) และแสดงพิกัดจุดติดตั้งอุปกรณ์บนแผนที่",
+      man_s5_h: "5. หน้าคู่มือ (Manual) - หน้าที่: ให้คำแนะนำการใช้งานระบบ",
+      man_s5_p: "ทำหน้าที่อธิบายขั้นตอนและหน้าที่ของแต่ละหน้าจออย่างละเอียด พร้อมโหมดทัวร์ระบบอัตโนมัติและ QR Code สำหรับเปิดใช้งานบนมือถือ",
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
     en: {
-      title: "Electricity Monitor", tab_dash: "Dashboard", tab_history: "History", tab_faults: "Fault Log", tab_report: "Health Report", tab_calc: "Calculator", tab_system: "System", tab_manual: "Manual",
+      title: "Electricity Monitor", tab_dash: "Dashboard", tab_history: "History & Reports", tab_calc: "Calculator", tab_system: "System", tab_manual: "Manual",
       analyzing: "Analyzing power consumption...", v_normal: "Grid Status: Normal (220V)", lbl_voltage: "Voltage", quality_ok: "Power Quality: Optimal",
       lbl_current: "Current", max_limit: "Max Limit: 15.00 A", lbl_power: "Active Power", load_light: "Load: Fan/Lighting",
       lbl_energy: "Accumulated Energy", chart_title: "Active Power Chart (Watt)", btn_mute: "Mute/Unmute Buzzer", btn_reset: "Reset Energy",
@@ -607,7 +630,7 @@
       map_title: "Device Geo-Location",
       map_desc: "Displays coordinates of deployed ESP32 boards.",
       tour_title: "Automated System Guided Tour",
-      tour_desc: "For new users, click below to let the system walk you through all key features step-by-step.",
+      tour_desc: "For new users, click below to let the system explain each screen's function step-by-step.",
       tour_btn: "🚀 Start System Tour",
       btn_theme: "Toggle Dark/Light", btn_qr: "Show QR Code", qr_title: "Scan to Open Web App", btn_voice: "Voice Control",
       voice_listening: "Listening...",
@@ -619,17 +642,17 @@
       mail_test_desc: "Click below to send a simulated alert email to your saved address.",
       btn_test_mail: "Send Test Email",
       man_title: "PowerPulse IoT User Manual & Guide",
-      man_subtitle: "Comprehensive guide for all system features in Thai and English.",
-      man_s1_h: "1. Electricity Monitoring (Dashboard)",
-      man_s1_p: "Displays Voltage (V), Current (A), Power (W), and Energy (kWh) from ESP32 with charts and abnormal voltage detection (<215V or >245V).",
-      man_s2_h: "2. Daily History & Peak Tracker (History & Export)",
-      man_s2_p: "Records daily energy consumption history, automatically calculates total bills with 7% VAT, and allows exporting CSV reports.",
-      man_s3_h: "3. Fault Log & Monthly Health Report",
-      man_s3_p: "Check past low/high voltage events in the 'Fault Log' tab and view grid stability scores with recommendations in the 'Health Report' tab.",
-      man_s4_h: "4. Tariff Settings & Appliance Calculator",
-      man_s4_p: "Select electricity rates based on location types (Residential, Dormitory, Shop) or calculate appliance power costs in advance.",
-      man_s5_h: "5. Email Alerts & Simulation Mode",
-      man_s5_p: "Set recipient email for automatic alerts during overloads or voltage faults, featuring emergency simulation and SOS cut-off.",
+      man_subtitle: "Comprehensive guide explaining all system features.",
+      man_s1_h: "1. Dashboard - Function: Real-time Electricity Monitoring",
+      man_s1_p: "Displays Voltage (V), Current (A), Power (W), and Energy (kWh) from ESP32 with live charts and abnormal voltage detection.",
+      man_s2_h: "2. History & Reports - Function: Historical Data & System Health",
+      man_s2_p: "Stores daily energy history, bill calculations, fault event logs, and monthly health reports in one place.",
+      man_s3_h: "3. Calculator - Function: Tariff & Cost Calculation",
+      man_s3_p: "Allows setting electricity rates based on location types and calculating appliance bills in advance.",
+      man_s4_h: "4. System - Function: Security & Simulation Settings",
+      man_s4_p: "Configures alert emails, simulates emergencies, controls emergency power cut-off (SOS), and shows device map location.",
+      man_s5_h: "5. Manual - Function: User Guidance & Tour",
+      man_s5_p: "Explains all screen functions with an automated tour and mobile QR code.",
       man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the dashboard."
     }
   };
@@ -641,7 +664,7 @@
       const key = el.getAttribute('data-i18n');
       if (i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
     });
-    // ปิด Modal เลือกภาษา
+    updateFontLabel();
     document.getElementById('languageModal').style.display = 'none';
     fetchMonthlyReport();
   }
@@ -653,6 +676,7 @@
       const key = el.getAttribute('data-i18n');
       if (i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
     });
+    updateFontLabel();
     fetchMonthlyReport();
   }
 
@@ -671,34 +695,41 @@
       setTimeout(() => { initIoTMap(); }, 200);
     }
 
-    if(tabId === 'tab-faults') {
+    if(tabId === 'tab-history') {
+      fetchHistory();
       fetchFaultLogs();
-    }
-
-    if(tabId === 'tab-report') {
       fetchMonthlyReport();
     }
   }
 
+  // ปรับปรุง Guided Tour ให้มีการอธิบายหน้าที่การทำงานของแต่ละหน้าจออย่างละเอียด
   function startGuidedTour() {
-    alert("🚀 เริ่มต้นระบบแนะนำการใช้งานอัตโนมัติ (Guided Tour)\nระบบจะพาคุณทัวร์ฟีเจอร์หลักทีละหน้าจอครับ!");
+    alert("🚀 เริ่มต้นระบบแนะนำการใช้งานอัตโนมัติ (Guided Tour)\nระบบจะพาคุณทัวร์และอธิบายหน้าที่ของแต่ละหน้าจอครับ!");
+    
     switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
     setTimeout(() => {
-      alert("📍 [Step 1/4 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้า พร้อมกราฟเรียลไทม์");
-      switchTab('tab-faults', document.querySelectorAll('.tab-btn')[2]);
-    }, 4000);
+      alert("📍 [1. หน้าหลัก Dashboard]\nหน้าที่: มอนิเตอร์ค่าไฟฟ้าเรียลไทม์ แสดงผลแรงดัน กระแส และกำลังไฟฟ้า พร้อมกราฟแสดงผลแบบสดๆ");
+      switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
+    }, 4500);
+
     setTimeout(() => {
-      alert("📍 [Step 2/4 - บันทึกเหตุการณ์ (Fault Log)]\nตรวจสอบประวัติไฟตก ไฟเกิน และ Overload ย้อนหลังได้ที่นี่");
-      switchTab('tab-report', document.querySelectorAll('.tab-btn')[3]);
-    }, 9000);
+      alert("📍 [2. หน้าประวัติ & รายงาน (History & Reports)]\nหน้าที่: ตรวจสอบข้อมูลย้อนหลัง ดูประวัติรายวัน บันทึกเหตุการณ์ไฟตก/ไฟเกิน (Fault Log) และรายงานสุขภาพระบบไฟฟ้าประจำเดือน");
+      switchTab('tab-calc', document.querySelectorAll('.tab-btn')[2]);
+    }, 10500);
+
     setTimeout(() => {
-      alert("📍 [Step 3/4 - รายงานสุขภาพระบบไฟฟ้า]\nดูคะแนนเสถียรภาพประจำเดือนและคำแนะนำประหยัดพลังงานอัตโนมัติ");
-      switchTab('tab-system', document.querySelectorAll('.tab-btn')[5]);
-    }, 14000);
+      alert("📍 [3. หน้าคำนวณ (Calculator)]\nหน้าที่: ตั้งค่าอัตราค่าไฟฟ้าตามประเภทสถานที่ (บ้าน, หอพัก, ร้านค้า) และคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้า");
+      switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
+    }, 16500);
+
     setTimeout(() => {
-      alert("📍 [Step 4/4 - หน้าระบบ]\nตั้งค่าอีเมลแจ้งเตือน ทดสอบจำลองสถานการณ์ และควบคุมฉุกเฉิน");
-      switchTab('tab-manual', document.querySelectorAll('.tab-btn')[6]);
-    }, 19000);
+      alert("📍 [4. หน้าระบบ (System)]\nหน้าที่: ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย, ทดสอบส่งเมล, จำลองสถานการณ์ฉุกเฉิน, ตัดไฟด่วน (SOS) และดูแผนที่พิกัดอุปกรณ์");
+      switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
+    }, 22500);
+
+    setTimeout(() => {
+      alert("📍 [5. หน้าคู่มือ (Manual)]\nหน้าที่: อธิบายคู่มือการใช้งานฟีเจอร์ทั้งหมด และมี QR Code สำหรับสแกนเปิดใช้งานบนมือถือครับ!");
+    }, 28500);
   }
 
   function toggleTheme() {
@@ -1047,11 +1078,9 @@
 
       if (command.includes("หน้าหลัก") || command.includes("แดชบอร์ด")) switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
       else if (command.includes("หน้าประวัติ") || command.includes("ประวัติ")) switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
-      else if (command.includes("บันทึกเหตุการณ์") || command.includes("เหตุการณ์")) switchTab('tab-faults', document.querySelectorAll('.tab-btn')[2]);
-      else if (command.includes("รายงาน") || command.includes("สุขภาพ")) switchTab('tab-report', document.querySelectorAll('.tab-btn')[3]);
-      else if (command.includes("คำนวณ") || command.includes("ตั้งค่า")) switchTab('tab-calc', document.querySelectorAll('.tab-btn')[4]);
-      else if (command.includes("หน้าระบบ") || command.includes("ระบบ")) switchTab('tab-system', document.querySelectorAll('.tab-btn')[5]);
-      else if (command.includes("คู่มือ")) switchTab('tab-manual', document.querySelectorAll('.tab-btn')[6]);
+      else if (command.includes("คำนวณ") || command.includes("ตั้งค่า")) switchTab('tab-calc', document.querySelectorAll('.tab-btn')[2]);
+      else if (command.includes("หน้าระบบ") || command.includes("ระบบ")) switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
+      else if (command.includes("คู่มือ")) switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
       else if (command.includes("เปลี่ยนธีม")) toggleTheme();
       else if (command.includes("เปลี่ยนภาษา")) toggleLang();
       else alert(`🎙️ AI ได้ยินว่า: "${command}"`);
