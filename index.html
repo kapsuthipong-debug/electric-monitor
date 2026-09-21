@@ -36,15 +36,10 @@
     .subtitle { font-size: 14px; font-weight: 500; color: var(--text-sub); }
 
     .header-actions { display: flex; align-items: center; gap: 8px; }
-    .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-    .status-badge.online { background-color: rgba(42, 157, 143, 0.15); color: var(--success-color); }
-    .status-badge.offline { background-color: rgba(230, 57, 70, 0.15); color: var(--danger-color); }
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .online .status-dot { background-color: var(--success-color); }
-    .offline .status-dot { background-color: var(--danger-color); }
     
     .tab-bar { display: flex; background: var(--card-bg); padding: 6px; border-radius: 14px; margin-bottom: 20px; gap: 4px; border: 1px solid var(--border-color); box-shadow: var(--shadow); overflow-x: auto; }
-    .tab-btn { flex: 1; min-width: 85px; padding: 10px 4px; border: none; background: transparent; color: var(--text-sub); border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; transition: 0.2s; }
+    .tab-btn { flex: 1; min-width: 75px; padding: 10px 4px; border: none; background: transparent; color: var(--text-sub); border-radius: 10px; font-size: 10px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; transition: 0.2s; }
+    .tab-btn i { font-size: 14px; }
     .tab-btn.active { background: var(--primary-color); color: white; box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3); }
     
     .tab-content { display: none; }
@@ -103,11 +98,11 @@
     #qrcode, #manual-qrcode { display: flex; justify-content: center; margin: 12px 0; }
 
     @media (max-width: 768px) {
-      body { padding: 12px; padding-bottom: 85px; }
+      body { padding: 12px; padding-bottom: 95px; }
       .header h1 { font-size: 16px; }
       .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; margin-bottom: 0; border-radius: 0; border-top: 1px solid var(--border-color); z-index: 999; padding: 8px 4px; justify-content: space-around; box-shadow: 0 -5px 15px rgba(0,0,0,0.08); background: var(--card-bg); }
-      .tab-btn { flex-direction: column; gap: 2px; font-size: 9px; padding: 4px; min-width: auto; }
-      .tab-btn i { font-size: 14px; }
+      .tab-btn { flex: 1; min-width: auto; font-size: 9px; padding: 4px; }
+      .tab-btn i { font-size: 13px; }
       .grid { grid-template-columns: 1fr 1fr; }
       .controls { flex-direction: column; }
     }
@@ -124,16 +119,14 @@
 
     <div class="header-actions">
       <button class="tool-btn" onclick="toggleLang()"><i class="fa-solid fa-language"></i> <span id="lang-btn-text">EN</span></button>
-      <div id="status-badge" class="status-badge offline">
-        <div class="status-dot"></div>
-        <span id="status-text">OFFLINE</span>
-      </div>
     </div>
   </div>
 
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('tab-dash', this)"><i class="fa-solid fa-chart-line"></i> <span data-i18n="tab_dash">หน้าหลัก</span></button>
     <button class="tab-btn" onclick="switchTab('tab-history', this)"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="tab_history">ประวัติ</span></button>
+    <button class="tab-btn" onclick="switchTab('tab-faults', this)"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="tab_faults">บันทึกเหตุการณ์</span></button>
+    <button class="tab-btn" onclick="switchTab('tab-report', this)"><i class="fa-solid fa-file-invoice"></i> <span data-i18n="tab_report">รายงานสุขภาพ</span></button>
     <button class="tab-btn" onclick="switchTab('tab-calc', this)"><i class="fa-solid fa-sliders"></i> <span data-i18n="tab_calc">คำนวณ</span></button>
     <button class="tab-btn" onclick="switchTab('tab-system', this)"><i class="fa-solid fa-gear"></i> <span data-i18n="tab_system">ระบบ</span></button>
     <button class="tab-btn" onclick="switchTab('tab-manual', this)"><i class="fa-solid fa-book-open"></i> <span data-i18n="tab_manual">คู่มือ</span></button>
@@ -258,7 +251,66 @@
     </div>
   </div>
 
-  <!-- TAB 3: คำนวณ -->
+  <!-- TAB 3: บันทึกเหตุการณ์ความผิดปกติ (Fault Log) -->
+  <div id="tab-faults" class="tab-content">
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> <span data-i18n="fault_title">ประวัติเหตุการณ์ความผิดปกติ (Event Log / Fault History)</span></div>
+        <button class="tool-btn" onclick="clearFaultLogs()"><i class="fa-solid fa-trash"></i> <span data-i18n="btn_clear_faults">ล้างประวัติเหตุการณ์</span></button>
+      </div>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 14px;" data-i18n="fault_desc">บันทึกเวลาและค่าที่วัดได้เมื่อเกิดเหตุการณ์ไฟตก (<215V), ไฟเกิน (>245V) หรือกระแสไฟเกินพิกัด (>15A)</p>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="th_fault_time">เวลาที่เกิดเหตุ</th>
+              <th data-i18n="th_fault_type">ประเภทเหตุการณ์</th>
+              <th data-i18n="th_fault_val">ค่าที่วัดได้</th>
+            </tr>
+          </thead>
+          <tbody id="fault-table-body">
+            <tr><td colspan="3" style="text-align: center; color: var(--text-sub);" data-i18n="no_faults">ยังไม่มีบันทึกเหตุการณ์ความผิดปกติในระบบ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report) -->
+  <div id="tab-report" class="tab-content">
+    <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.08), rgba(42,157,143,0.08)); border: 1px solid var(--primary-color);">
+      <div class="panel-title"><i class="fa-solid fa-file-invoice" style="color: var(--primary-color);"></i> <span data-i18n="report_title">รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report)</span></div>
+      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 16px;" data-i18n="report_subtitle">สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า สถิติความผิดปกติ และคำแนะนำในการประหยัดพลังงานอัตโนมัติประจำเดือนนี้</p>
+      
+      <div class="grid" style="margin-bottom: 14px;">
+        <div class="card" style="background: var(--card-bg);">
+          <div class="card-icon" style="background: rgba(42,157,143,0.15); color: var(--success-color);"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="card-info">
+            <h3 data-i18n="rep_score_lbl">คะแนนเสถียรภาพระบบ</h3>
+            <div class="value" id="rep-health-score" style="color: var(--success-color);">100 / 100</div>
+            <div class="sub-text" id="rep-score-desc">สถานะ: ยอดเยี่ยม ไม่มีข้อผิดพลาด</div>
+          </div>
+        </div>
+        <div class="card" style="background: var(--card-bg);">
+          <div class="card-icon" style="background: rgba(230,57,70,0.15); color: var(--danger-color);"><i class="fa-solid fa-circle-exclamation"></i></div>
+          <div class="card-info">
+            <h3 data-i18n="rep_fault_lbl">จำนวนครั้งที่ผิดปกติเดือนนี้</h3>
+            <div class="value" id="rep-fault-count">0 ครั้ง</div>
+            <div class="sub-text" id="rep-fault-breakdown">ไฟตก: 0 | ไฟเกิน: 0 | Overload: 0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="background: var(--card-bg); margin-bottom: 0;">
+        <div class="panel-title" style="font-size: 14px;"><i class="fa-solid fa-lightbulb" style="color: var(--warning-color);"></i> <span data-i18n="rep_ai_tips">คำแนะนำอัจฉริยะเพื่อการประหยัดพลังงาน (AI Recommendations)</span></div>
+        <ul id="ai-tips-list" style="margin-top: 10px; padding-left: 20px; font-size: 13px; color: var(--text-main); line-height: 1.6;">
+          <li data-i18n="tip_default">ระบบกำลังวิเคราะห์พฤติกรรมการใช้ไฟเพื่อแนะนำแนวทางประหยัดพลังงานที่ดีที่สุด...</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 5: คำนวณ -->
   <div id="tab-calc" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-sliders"></i> <span data-i18n="title_tariff">ตั้งค่าอัตราค่าไฟฟ้า</span></div>
@@ -296,7 +348,7 @@
     </div>
   </div>
 
-  <!-- TAB 4: ระบบ -->
+  <!-- TAB 6: ระบบ -->
   <div id="tab-system" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-envelope" style="color: var(--primary-color);"></i> <span data-i18n="mail_title">ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)</span></div>
@@ -324,7 +376,7 @@
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-vial"></i> <span data-i18n="title_demo">โหมดจำลองสถานการณ์เตือนภัย</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือน</p>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือนและบันทึก Fault Log</p>
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
         <button class="btn btn-demo" onclick="triggerDemoOverload()"><i class="fa-solid fa-bolt-lightning"></i> <span data-i18n="btn_demo_over">จำลองไฟเกิน (15.5A)</span></button>
         <button class="btn btn-demo" style="background-color: var(--warning-color); color: #111;" onclick="triggerDemoLowVolt()"><i class="fa-solid fa-arrow-down"></i> <span data-i18n="btn_demo_low">จำลองไฟตก (205V)</span></button>
@@ -342,7 +394,7 @@
 
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-map-location-dot" style="color: var(--primary-color);"></i> <span data-i18n="map_title">จุดติดตั้งอุปกรณ์ IoT (Device Geo-Location)</span></div>
-      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="map_desc">แสดงตำแหน่งพิกัดและสถานะของบอร์ด ESP32 ที่ติดตั้งหน้างาน</p>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;" data-i18n="map_desc">แสดงตำแหน่งพิกัดของบอร์ด ESP32 ที่ติดตั้งหน้างาน</p>
       <div id="iotMap" style="width: 100%; height: 300px; border-radius: 12px; z-index: 1;"></div>
     </div>
 
@@ -355,7 +407,7 @@
     </div>
   </div>
 
-  <!-- TAB 5: คู่มือการใช้งาน -->
+  <!-- TAB 7: คู่มือการใช้งาน -->
   <div id="tab-manual" class="tab-content">
     <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.1), rgba(42,157,143,0.1)); border: 1px solid var(--primary-color);">
       <div class="panel-title"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary-color);"></i> <span data-i18n="tour_title">โหมดแนะนำการใช้งานระบบอัตโนมัติ (Guided Tour)</span></div>
@@ -386,28 +438,24 @@
       <div class="manual-step">
         <div class="step-num">3</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s3_h">3. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)</h4>
-          <p data-i18n="man_s3_p">สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที</p>
+          <h4 data-i18n="man_s3_h">3. บันทึกเหตุการณ์ความผิดปกติและรายงานประจำเดือน</h4>
+          <p data-i18n="man_s3_p">ตรวจสอบประวัติเหตุการณ์ไฟตก ไฟเกิน ย้อนหลังได้ในแท็บ "บันทึกเหตุการณ์" และดูคะแนนเสถียรภาพพร้อมคำแนะนำประหยัดไฟในแท็บ "รายงานสุขภาพ"</p>
         </div>
       </div>
 
       <div class="manual-step">
         <div class="step-num">4</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s4_h">4. ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)</h4>
-          <p data-i18n="man_s4_p">ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)</p>
+          <h4 data-i18n="man_s4_h">4. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)</h4>
+          <p data-i18n="man_s4_p">สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที</p>
         </div>
       </div>
 
       <div class="manual-step">
         <div class="step-num">5</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s5_h">5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Smart Voice Control)</h4>
-          <p data-i18n="man_s5_p">กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทยเพื่อควบคุมระบบ:</p>
-          <div style="margin-top: 6px; font-size: 13px; color: var(--text-sub);">
-            • <span data-i18n="man_v_nav">การนำทาง</span>: <span class="voice-command-tag">"หน้าหลัก" / "ประวัติ" / "คำนวณ" / "ระบบ" / "คู่มือ"</span><br>
-            • <span data-i18n="man_v_ctrl">การควบคุม</span>: <span class="voice-command-tag">"ปิดเสียง" / "เปิดเสียง" / "เปลี่ยนธีม" / "เปลี่ยนภาษา" / "ทดสอบเตือนภัย"</span>
-          </div>
+          <h4 data-i18n="man_s5_h">5. ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)</h4>
+          <p data-i18n="man_s5_p">ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)</p>
         </div>
       </div>
     </div>
@@ -432,7 +480,6 @@
 
 <script>
   const FIREBASE_BASE = "https://electric-monitor-648d7-default-rtdb.firebaseio.com";
-  let lastDataTime = Date.now();
   let currentMuteState = false;
   let customRate = 4.39;
   let currentLang = 'th';
@@ -441,6 +488,7 @@
   let mapInitialized = false;
   let iotMap, deviceMarker;
   let latestRealtimeData = { voltage: 0, current: 0, power: 0, energy: 0 };
+  let lastFaultLoggedTime = 0;
 
   const EMAILJS_SERVICE_ID = "service_3er85fc";
   const EMAILJS_TEMPLATE_ID = "template_zz03wjc";
@@ -449,21 +497,30 @@
 
   const i18n = {
     th: {
-      title: "ระบบวัดค่าไฟฟ้า", tab_dash: "หน้าหลัก", tab_history: "ประวัติ", tab_calc: "คำนวณ", tab_system: "ระบบ", tab_manual: "คู่มือ",
+      title: "ระบบวัดค่าไฟฟ้า", tab_dash: "หน้าหลัก", tab_history: "ประวัติ", tab_faults: "บันทึกเหตุการณ์", tab_report: "รายงานสุขภาพ", tab_calc: "คำนวณ", tab_system: "ระบบ", tab_manual: "คู่มือ",
       analyzing: "กำลังวิเคราะห์พฤติกรรมการใช้ไฟ...", v_normal: "สถานะไฟฟ้า: ปกติสมบูรณ์", lbl_voltage: "แรงดันไฟฟ้า", quality_ok: "คุณภาพไฟ: ปกติ",
       lbl_current: "กระแสไฟฟ้า", max_limit: "จำกัดสูงสุด: 15.00 A", lbl_power: "กำลังไฟฟ้า", load_light: "โหลด: พัดลม/หลอดไฟ",
       lbl_energy: "พลังงานสะสม", chart_title: "กราฟแสดงการใช้กำลังไฟฟ้า (Watt)", btn_mute: "เปิด/ปิด Buzzer", btn_reset: "Reset ค่าพลังงาน",
       lbl_total_cost: "ค่าไฟสะสมรวม", lbl_breakdown: "แจกแจงค่าไฟ", sub_vat: "รวมค่า Ft + VAT 7% แล้ว", history_title: "ประวัติรายวัน & Peak Tracker",
       btn_export: "ดาวน์โหลด CSV", th_date: "วันที่", th_kwh: "พลังงาน (kWh)", th_peak_i: "กระแสสูงสุด", th_peak_t: "เวลา Peak", th_cost: "ค่าไฟ (บาท)",
-      loading: "กำลังโหลดข้อมูล...", title_tariff: "ตั้งค่าอัตราค่าไฟฟ้า", lbl_rate: "อัตราค่าไฟ (บาท/หน่วย):", lbl_preset: "เลือกประเภทสถานที่:",
+      loading: "กำลังโหลดข้อมูล...",
+      fault_title: "ประวัติเหตุการณ์ความผิดปกติ (Event Log / Fault History)",
+      btn_clear_faults: "ล้างประวัติเหตุการณ์",
+      fault_desc: "บันทึกเวลาและค่าที่วัดได้เมื่อเกิดเหตุการณ์ไฟตก (<215V), ไฟเกิน (>245V) หรือกระแสไฟเกินพิกัด (>15A)",
+      th_fault_time: "เวลาที่เกิดเหตุ", th_fault_type: "ประเภทเหตุการณ์", th_fault_val: "ค่าที่วัดได้", no_faults: "ยังไม่มีบันทึกเหตุการณ์ความผิดปกติในระบบ",
+      report_title: "รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report)",
+      report_subtitle: "สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า สถิติความผิดปกติ และคำแนะนำในการประหยัดพลังงานอัตโนมัติประจำเดือนนี้",
+      rep_score_lbl: "คะแนนเสถียรภาพระบบ", rep_fault_lbl: "จำนวนครั้งที่ผิดปกติเดือนนี้", rep_ai_tips: "คำแนะนำอัจฉริยะเพื่อการประหยัดพลังงาน (AI Recommendations)",
+      tip_default: "ระบบกำลังวิเคราะห์พฤติกรรมการใช้ไฟเพื่อแนะนำแนวทางประหยัดพลังงานที่ดีที่สุด...",
+      title_tariff: "ตั้งค่าอัตราค่าไฟฟ้า", lbl_rate: "อัตราค่าไฟ (บาท/หน่วย):", lbl_preset: "เลือกประเภทสถานที่:",
       opt_home: "บ้านอยู่อาศัย (~4.39 บาท)", opt_dorm: "หอพัก / อพาร์ตเมนต์ (~7.00 บาท)", opt_shop: "ร้านค้า / กิจการขนาดเล็ก (~4.80 บาท)", title_calc: "เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า",
       lbl_watt: "กำลังไฟ (วัตต์):", lbl_hrs: "เปิดใช้งาน (ชั่วโมง/วัน):", btn_calc: "คำนวณค่าไฟ", title_demo: "โหมดจำลองสถานการณ์เตือนภัย",
-      desc_demo: "จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือน", btn_demo_over: "จำลองไฟเกิน (15.5A)", btn_demo_low: "จำลองไฟตก (205V)", btn_demo_high: "จำลองไฟเกิน V (250V)", title_tools: "เครื่องมือการแสดงผล",
+      desc_demo: "จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือนและบันทึก Fault Log", btn_demo_over: "จำลองไฟเกิน (15.5A)", btn_demo_low: "จำลองไฟตก (205V)", btn_demo_high: "จำลองไฟเกิน V (250V)", title_tools: "เครื่องมือการแสดงผล",
       sos_title: "แผงควบคุมเหตุฉุกเฉินด่วน (Emergency SOS Panel)",
       sos_desc: "ปุ่มด่วนสำหรับสั่งตัดกระแสไฟฟ้าฉุกเฉินและส่งอีเมลแจ้งเตือนเหตุด่วนไปยังผู้ดูแลระบบทันที",
       btn_sos_cut: "ตัดไฟฉุกเฉิน (Emergency Cut-off)",
       map_title: "จุดติดตั้งอุปกรณ์ IoT (Device Geo-Location)",
-      map_desc: "แสดงตำแหน่งพิกัดและสถานะของบอร์ด ESP32 ที่ติดตั้งหน้างาน",
+      map_desc: "แสดงตำแหน่งพิกัดของบอร์ด ESP32 ที่ติดตั้งหน้างาน",
       tour_title: "โหมดแนะนำการใช้งานระบบอัตโนมัติ (Guided Tour)",
       tour_desc: "สำหรับผู้ใช้งานใหม่ กดปุ่มด้านล่างเพื่อให้ระบบพาชมฟีเจอร์เด่นทั้งหมดทีละขั้นตอน",
       tour_btn: "🚀 เริ่มต้นใช้งานทัวร์ระบบ (Start Tour)",
@@ -482,31 +539,39 @@
       man_s1_p: "แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 พร้อมกราฟแสดงแนวโน้มและระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)",
       man_s2_h: "2. ประวัติการใช้ไฟและ Peak Tracker (History & Export)",
       man_s2_p: "เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมอัตโนมัติพร้อมภาษี VAT 7% และสามารถกดดาวน์โหลดไฟล์ CSV ไปใช้งานต่อได้",
-      man_s3_h: "3. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)",
-      man_s3_p: "สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที",
-      man_s4_h: "4. ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)",
-      man_s4_p: "ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)",
-      man_s5_h: "5. ระบบสั่งงานด้วยเสียงอัจฉริยะ (Smart Voice Control)",
-      man_s5_p: "กดปุ่มไมโครโฟนแล้วพูดคำสั่งเสียงภาษาไทยเพื่อควบคุมระบบ:",
-      man_v_nav: "การนำทาง", man_v_ctrl: "การควบคุม",
+      man_s3_h: "3. บันทึกเหตุการณ์ความผิดปกติและรายงานประจำเดือน",
+      man_s3_p: "ตรวจสอบประวัติเหตุการณ์ไฟตก ไฟเกิน ย้อนหลังได้ในแท็บ 'บันทึกเหตุการณ์' และดูคะแนนเสถียรภาพพร้อมคำแนะนำประหยัดไฟในแท็บ 'รายงานสุขภาพ'",
+      man_s4_h: "4. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)",
+      man_s4_p: "สามารถเลือกเรทค่าไฟตามประเภทสถานที่ (บ้านพัก, หอพัก, ร้านค้า) หรือคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้าตามกำลังวัตต์และชั่วโมงใช้งานได้ทันที",
+      man_s5_h: "5. ระบบแจ้งเตือนความปลอดภัยและอีเมล (Email Alerts & Simulation)",
+      man_s5_p: "ตั้งค่าอีเมลผู้รับเพื่อรับแจ้งเตือนอัตโนมัติเมื่อเกิด Overload หรือ Volt ต่ำ/สูง พร้อมโหมดจำลองสถานการณ์ฉุกเฉินและปุ่มตัดไฟด่วน (Emergency SOS)",
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
     en: {
-      title: "Electricity Monitor", tab_dash: "Dashboard", tab_history: "History", tab_calc: "Calculator", tab_system: "System", tab_manual: "Manual",
+      title: "Electricity Monitor", tab_dash: "Dashboard", tab_history: "History", tab_faults: "Fault Log", tab_report: "Health Report", tab_calc: "Calculator", tab_system: "System", tab_manual: "Manual",
       analyzing: "Analyzing power consumption...", v_normal: "Grid Status: Normal (220V)", lbl_voltage: "Voltage", quality_ok: "Power Quality: Optimal",
       lbl_current: "Current", max_limit: "Max Limit: 15.00 A", lbl_power: "Active Power", load_light: "Load: Fan/Lighting",
       lbl_energy: "Accumulated Energy", chart_title: "Active Power Chart (Watt)", btn_mute: "Mute/Unmute Buzzer", btn_reset: "Reset Energy",
       lbl_total_cost: "Total Electricity Cost", lbl_breakdown: "Bill Breakdown", sub_vat: "Includes Ft + VAT 7%", history_title: "Daily History & Peak Tracker",
       btn_export: "Export CSV", th_date: "Date", th_kwh: "Energy (kWh)", th_peak_i: "Peak Current", th_peak_t: "Peak Time", th_cost: "Cost (THB)",
-      loading: "Loading data...", title_tariff: "Electricity Tariff Settings", lbl_rate: "Rate (THB/kWh):", lbl_preset: "Select Location Type:",
+      loading: "Loading data...",
+      fault_title: "Event Log & Fault History",
+      btn_clear_faults: "Clear Fault History",
+      fault_desc: "Records timestamp and measured values during Low Voltage (<215V), High Voltage (>245V), or Overload (>15A).",
+      th_fault_time: "Timestamp", th_fault_type: "Fault Type", th_fault_val: "Measured Value", no_faults: "No fault events recorded.",
+      report_title: "Monthly Health Report",
+      report_subtitle: "Overview of grid stability, fault statistics, and automated energy-saving recommendations for this month.",
+      rep_score_lbl: "Grid Stability Score", rep_fault_lbl: "Fault Count This Month", rep_ai_tips: "AI Energy-Saving Recommendations",
+      tip_default: "Analyzing power usage to suggest the best energy-saving tips...",
+      title_tariff: "Electricity Tariff Settings", lbl_rate: "Rate (THB/kWh):", lbl_preset: "Select Location Type:",
       opt_home: "Residential (~4.39 THB)", opt_dorm: "Dormitory (~7.00 THB)", opt_shop: "Small Business (~4.80 THB)", title_calc: "Appliance Bill Calculator",
       lbl_watt: "Power (Watts):", lbl_hrs: "Usage (Hours/Day):", btn_calc: "Calculate", title_demo: "Alarm Simulation Mode",
-      desc_demo: "Simulate emergency situations on Firebase to test alert systems.", btn_demo_over: "Simulate Overload (15.5A)", btn_demo_low: "Simulate Low Volt (205V)", btn_demo_high: "Simulate High Volt (250V)", title_tools: "Display Tools",
+      desc_demo: "Simulate emergency situations on Firebase to test alert systems and fault logging.", btn_demo_over: "Simulate Overload (15.5A)", btn_demo_low: "Simulate Low Volt (205V)", btn_demo_high: "Simulate High Volt (250V)", title_tools: "Display Tools",
       sos_title: "Emergency SOS Panel",
       sos_desc: "Quick action buttons for emergency power cut-off and instant admin alert email.",
       btn_sos_cut: "Emergency Cut-off",
       map_title: "Device Geo-Location",
-      map_desc: "Displays coordinates and status of deployed ESP32 boards.",
+      map_desc: "Displays coordinates of deployed ESP32 boards.",
       tour_title: "Automated System Guided Tour",
       tour_desc: "For new users, click below to let the system walk you through all key features step-by-step.",
       tour_btn: "🚀 Start System Tour",
@@ -525,13 +590,12 @@
       man_s1_p: "Displays Voltage (V), Current (A), Power (W), and Energy (kWh) from ESP32 with charts and abnormal voltage detection (<215V or >245V).",
       man_s2_h: "2. Daily History & Peak Tracker (History & Export)",
       man_s2_p: "Records daily energy consumption history, automatically calculates total bills with 7% VAT, and allows exporting CSV reports.",
-      man_s3_h: "3. Tariff Settings & Appliance Calculator",
-      man_s3_p: "Select electricity rates based on location types (Residential, Dormitory, Shop) or calculate appliance power costs in advance.",
-      man_s4_h: "4. Email Alerts & Simulation Mode",
-      man_s4_p: "Set recipient email for automatic alerts during overloads or voltage faults, featuring emergency simulation and SOS cut-off.",
-      man_s5_h: "5. Smart Voice Control",
-      man_s5_p: "Tap the microphone button and speak Thai voice commands:",
-      man_v_nav: "Navigation", man_v_ctrl: "Control",
+      man_s3_h: "3. Fault Log & Monthly Health Report",
+      man_s3_p: "Check past low/high voltage events in the 'Fault Log' tab and view grid stability scores with recommendations in the 'Health Report' tab.",
+      man_s4_h: "4. Tariff Settings & Appliance Calculator",
+      man_s4_p: "Select electricity rates based on location types (Residential, Dormitory, Shop) or calculate appliance power costs in advance.",
+      man_s5_h: "5. Email Alerts & Simulation Mode",
+      man_s5_p: "Set recipient email for automatic alerts during overloads or voltage faults, featuring emergency simulation and SOS cut-off.",
       man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the dashboard."
     }
   };
@@ -543,6 +607,7 @@
       const key = el.getAttribute('data-i18n');
       if (i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
     });
+    fetchMonthlyReport();
   }
 
   function switchTab(tabId, btn) {
@@ -557,9 +622,15 @@
     }
 
     if(tabId === 'tab-system') {
-      setTimeout(() => {
-        initIoTMap();
-      }, 200);
+      setTimeout(() => { initIoTMap(); }, 200);
+    }
+
+    if(tabId === 'tab-faults') {
+      fetchFaultLogs();
+    }
+
+    if(tabId === 'tab-report') {
+      fetchMonthlyReport();
     }
   }
 
@@ -567,17 +638,21 @@
     alert("🚀 เริ่มต้นระบบแนะนำการใช้งานอัตโนมัติ (Guided Tour)\nระบบจะพาคุณทัวร์ฟีเจอร์หลักทีละหน้าจอครับ!");
     switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
     setTimeout(() => {
-      alert("📍 [Step 1/3 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้า พร้อมกราฟแสดงผล");
-      switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
+      alert("📍 [Step 1/4 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้า พร้อมกราฟเรียลไทม์");
+      switchTab('tab-faults', document.querySelectorAll('.tab-btn')[2]);
     }, 4000);
     setTimeout(() => {
-      alert("📍 [Step 2/3 - หน้าประวัติ & Peak Tracker]\nเก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมภาษี และดาวน์โหลด CSV ได้");
-      switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
+      alert("📍 [Step 2/4 - บันทึกเหตุการณ์ (Fault Log)]\nตรวจสอบประวัติไฟตก ไฟเกิน และ Overload ย้อนหลังได้ที่นี่");
+      switchTab('tab-report', document.querySelectorAll('.tab-btn')[3]);
     }, 9000);
     setTimeout(() => {
-      alert("📍 [Step 3/3 - หน้าระบบ]\nตั้งค่าอีเมลรับแจ้งเตือน มีแผนที่พิกัด และเครื่องมือระบบครบถ้วน");
-      switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
+      alert("📍 [Step 3/4 - รายงานสุขภาพระบบไฟฟ้า]\nดูคะแนนเสถียรภาพประจำเดือนและคำแนะนำประหยัดพลังงานอัตโนมัติ");
+      switchTab('tab-system', document.querySelectorAll('.tab-btn')[5]);
     }, 14000);
+    setTimeout(() => {
+      alert("📍 [Step 4/4 - หน้าระบบ]\nตั้งค่าอีเมลแจ้งเตือน ทดสอบจำลองสถานการณ์ และควบคุมฉุกเฉิน");
+      switchTab('tab-manual', document.querySelectorAll('.tab-btn')[6]);
+    }, 19000);
   }
 
   function toggleTheme() {
@@ -628,7 +703,7 @@
     iotMap = L.map('iotMap').setView([initialLat, initialLng], 17);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap contributors' }).addTo(iotMap);
     
-    deviceMarker = L.marker([initialLat, initialLng]).addTo(iotMap).bindPopup('<b>PowerPulse IoT #01 (มทร.พระนคร เหนือ)</b><br>กำลังโหลดสถานะ...').openPopup();
+    deviceMarker = L.marker([initialLat, initialLng]).addTo(iotMap).bindPopup('<b>PowerPulse IoT #01 (มทร.พระนคร เหนือ)</b><br>กำลังโหลด...').openPopup();
     mapInitialized = true;
   }
 
@@ -644,19 +719,8 @@
       iotMap.panTo(newLatLng);
     }
 
-    const isOffline = (Date.now() - lastDataTime > 8000);
-    let statusText = '';
-    
-    if (isOffline) {
-      statusText = '🔴 ออฟไลน์ (Offline)';
-    } else if (currentVal > 15.0 || voltageVal < 215 || voltageVal > 245) {
-      statusText = '🟡 ผิดปกติ/Overload';
-    } else {
-      statusText = '🟢 ออนไลน์ (Online - ปกติ)';
-    }
-
     if (deviceMarker) {
-      deviceMarker.setPopupContent(`<b>PowerPulse IoT #01 (มทร.พระนคร เหนือ)</b><br>สถานะ: ${statusText}<br>Volt: ${voltageVal.toFixed(1)}V | Current: ${currentVal.toFixed(2)}A`);
+      deviceMarker.setPopupContent(`<b>PowerPulse IoT #01 (มทร.พระนคร เหนือ)</b><br>Volt: ${voltageVal.toFixed(1)}V | Current: ${currentVal.toFixed(2)}A`);
     }
   }
 
@@ -715,13 +779,26 @@
     } catch (e) { console.error(e); }
   }
 
+  // ฟังก์ชันบันทึกเหตุการณ์ความผิดปกติลง Firebase
+  async function logFaultEvent(type, valStr) {
+    const now = Date.now();
+    // ป้องกันการบันทึกถี่เกินไป (Throttle 60 วินาทีต่อประเภทเหตุการณ์)
+    if (now - lastFaultLoggedTime < 60000) return;
+    lastFaultLoggedTime = now;
+
+    const timestamp = new Date().toLocaleString('th-TH');
+    const faultData = { timestamp, type, value: valStr };
+    await fetch(`${FIREBASE_BASE}/fault_logs.json`, {
+      method: 'POST',
+      body: JSON.stringify(faultData)
+    });
+  }
+
   async function fetchRealtimeData() {
     try {
       const res = await fetch(`${FIREBASE_BASE}/electricity.json`);
       const data = await res.json();
       if (data) {
-        lastDataTime = Date.now();
-
         const v = data.voltage || 0, i = data.current || 0, w = data.power || 0, energy = data.energy || 0;
         const deviceLat = data.lat;
         const deviceLng = data.lng;
@@ -732,6 +809,15 @@
         document.getElementById('current').innerText = `${i.toFixed(2)} A`;
         document.getElementById('power').innerText = `${w.toFixed(1)} W`;
         document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
+
+        // ตรวจสอบความผิดปกติเพื่อบันทึก Fault Log อัตโนมัติ
+        if (v > 0 && v < 215) {
+          logFaultEvent('ไฟตก (Low Voltage)', `${v.toFixed(1)} V`);
+        } else if (v > 245) {
+          logFaultEvent('ไฟเกิน (High Voltage)', `${v.toFixed(1)} V`);
+        } else if (i > 15.0) {
+          logFaultEvent('กระแสไฟเกินพิกัด (Overload)', `${i.toFixed(2)} A`);
+        }
 
         const timeLabel = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         updateCharts(timeLabel, w, v, i);
@@ -750,21 +836,24 @@
 
   async function triggerDemoOverload() {
     await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) });
-    alert("Simulation: ไฟเกิน (15.50 A)");
+    await logFaultEvent('กระแสไฟเกินพิกัด (Overload)', '15.50 A');
+    alert("Simulation: ไฟเกิน (15.50 A) และบันทึก Fault Log แล้ว");
     await sendAlertEmailNotification("ตรวจพบกระแสไฟเกินพิกัด (Overload)", "กระแสไฟฟ้าขึ้นสูงถึง 15.50 A");
     fetchRealtimeData();
   }
 
   async function triggerDemoLowVolt() {
     await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 205.0, power: 440.0 }) });
-    alert("Simulation: ไฟตก (205.0 V)");
+    await logFaultEvent('ไฟตก (Low Voltage)', '205.0 V');
+    alert("Simulation: ไฟตก (205.0 V) และบันทึก Fault Log แล้ว");
     await sendAlertEmailNotification("ตรวจพบแรงดันไฟฟ้าตกผิดปกติ (Low Voltage)", "แรงดันไฟฟ้าลดลงเหลือ 205.0 V");
     fetchRealtimeData();
   }
 
   async function triggerDemoHighVolt() {
     await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 250.0, power: 550.0 }) });
-    alert("Simulation: ไฟเกิน V (250.0 V)");
+    await logFaultEvent('ไฟเกิน (High Voltage)', '250.0 V');
+    alert("Simulation: ไฟเกิน V (250.0 V) และบันทึก Fault Log แล้ว");
     await sendAlertEmailNotification("ตรวจพบแรงดันไฟฟ้าเกินผิดปกติ (High Voltage)", "แรงดันไฟฟ้าพุ่งสูงถึง 250.0 V");
     fetchRealtimeData();
   }
@@ -795,6 +884,81 @@
           tbody.innerHTML += `<tr><td><strong>${date}</strong></td><td>${(item.energy || 0).toFixed(2)} kWh</td><td>${(item.peakCurrent || 0).toFixed(2)} A</td><td>${item.peakTime || '-'}</td><td>${(item.totalCost || 0).toFixed(2)} ฿</td></tr>`;
         });
       }
+    } catch (e) { console.error(e); }
+  }
+
+  // ดึงข้อมูล Fault Log มาแสดงในตาราง
+  async function fetchFaultLogs() {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/fault_logs.json`);
+      const data = await res.json();
+      const tbody = document.getElementById('fault-table-body');
+      tbody.innerHTML = '';
+      if (data) {
+        const keys = Object.keys(data).reverse();
+        keys.forEach(key => {
+          const item = data[key];
+          tbody.innerHTML += `<tr><td>${item.timestamp}</td><td><span style="color: var(--danger-color); font-weight: 600;">${item.type}</span></td><td>${item.value}</td></tr>`;
+        });
+      } else {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-sub);">${currentLang === 'th' ? 'ยังไม่มีบันทึกเหตุการณ์ความผิดปกติในระบบ' : 'No fault events recorded.'}</td></tr>`;
+      }
+    } catch (e) { console.error(e); }
+  }
+
+  async function clearFaultLogs() {
+    if (confirm(currentLang === 'th' ? "⚠️ ยืนยันการล้างประวัติเหตุการณ์ความผิดปกติทั้งหมด?" : "Clear all fault history?")) {
+      await fetch(`${FIREBASE_BASE}/fault_logs.json`, { method: 'DELETE' });
+      fetchFaultLogs();
+    }
+  }
+
+  // คำนวณและแสดงผลรายงานสุขภาพประจำเดือน (Monthly Health Report)
+  async function fetchMonthlyReport() {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/fault_logs.json`);
+      const data = await res.json();
+      let lowVolt = 0, highVolt = 0, overload = 0;
+      
+      if (data) {
+        Object.keys(data).forEach(key => {
+          const item = data[key];
+          if (item.type.includes('ไฟตก')) lowVolt++;
+          else if (item.type.includes('ไฟเกิน')) highVolt++;
+          else if (item.type.includes('Overload') || item.type.includes('เกินพิกัด')) overload++;
+        });
+      }
+
+      const totalFaults = lowVolt + highVolt + overload;
+      let score = Math.max(0, 100 - (totalFaults * 5));
+
+      document.getElementById('rep-health-score').innerText = `${score} / 100`;
+      document.getElementById('rep-fault-count').innerText = `${totalFaults} ${currentLang === 'th' ? 'ครั้ง' : 'times'}`;
+      document.getElementById('rep-fault-breakdown').innerText = currentLang === 'th' ? 
+        `ไฟตก: ${lowVolt} | ไฟเกิน: ${highVolt} | Overload: ${overload}` : 
+        `Low Volt: ${lowVolt} | High Volt: ${highVolt} | Overload: ${overload}`;
+
+      let scoreDesc = currentLang === 'th' ? "สถานะ: ยอดเยี่ยม ระบบไฟฟ้าเสถียรดีมาก" : "Status: Excellent grid stability";
+      if (score < 80 && score >= 50) scoreDesc = currentLang === 'th' ? "สถานะ: ปานกลาง ควรตรวจสอบแรงดันไฟฟ้า" : "Status: Moderate, check voltage stability";
+      else if (score < 50) scoreDesc = currentLang === 'th' ? "สถานะ: ต้องปรับปรุง มีความผิดปกติบ่อยครั้ง" : "Status: Needs improvement, frequent faults";
+      document.getElementById('rep-score-desc').innerText = scoreDesc;
+
+      const tipsList = document.getElementById('ai-tips-list');
+      tipsList.innerHTML = '';
+      let tips = [];
+      if (currentLang === 'th') {
+        if (lowVolt > 0) tips.push(`<li>พบปัญหาไฟตก ${lowVolt} ครั้ง แนะนำให้ตรวจสอบหม้อแปลงไฟฟ้าหรือประสานการไฟฟ้าส่วนภูมิภาค/นครหลวง</li>`);
+        if (overload > 0) tips.push(`<li>ตรวจพบการใช้กระแสไฟเกินพิกัด ${overload} ครั้ง ควรหลีกเลี่ยงการเปิดเครื่องใช้ไฟฟ้ากำลังวัตต์สูงพร้อมกัน</li>`);
+        tips.push(`<li>ตั้งเวลาปิดแอร์หรือเครื่องใช้ไฟฟ้าในช่วงเวลาที่ไม่ได้ใช้งานเพื่อประหยัดพลังงานสะสมสูงสุด</li>`);
+        tips.push(`<li>ตรวจสอบอุปกรณ์ทำความร้อนหรือตู้เย็นว่ามีขอบยางเสื่อมสภาพหรือไม่เพื่อลดการกินไฟเกินจำเป็น</li>`);
+      } else {
+        if (lowVolt > 0) tips.push(`<li>Detected ${lowVolt} low voltage events. Consider checking your grid stability with local utility provider.</li>`);
+        if (overload > 0) tips.push(`<li>Detected ${overload} overload events. Avoid running high-wattage appliances simultaneously.</li>`);
+        tips.push(`<li>Schedule AC units and heavy appliances to turn off automatically during idle hours to save energy.</li>`);
+        tips.push(`<li>Check refrigerator door seals regularly to prevent unnecessary power consumption.</li>`);
+      }
+      tips.forEach(t => tipsList.innerHTML += t);
+
     } catch (e) { console.error(e); }
   }
 
@@ -842,9 +1006,11 @@
 
       if (command.includes("หน้าหลัก") || command.includes("แดชบอร์ด")) switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
       else if (command.includes("หน้าประวัติ") || command.includes("ประวัติ")) switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
-      else if (command.includes("คำนวณ") || command.includes("ตั้งค่า")) switchTab('tab-calc', document.querySelectorAll('.tab-btn')[2]);
-      else if (command.includes("หน้าระบบ") || command.includes("ระบบ")) switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
-      else if (command.includes("คู่มือ")) switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
+      else if (command.includes("บันทึกเหตุการณ์") || command.includes("เหตุการณ์")) switchTab('tab-faults', document.querySelectorAll('.tab-btn')[2]);
+      else if (command.includes("รายงาน") || command.includes("สุขภาพ")) switchTab('tab-report', document.querySelectorAll('.tab-btn')[3]);
+      else if (command.includes("คำนวณ") || command.includes("ตั้งค่า")) switchTab('tab-calc', document.querySelectorAll('.tab-btn')[4]);
+      else if (command.includes("หน้าระบบ") || command.includes("ระบบ")) switchTab('tab-system', document.querySelectorAll('.tab-btn')[5]);
+      else if (command.includes("คู่มือ")) switchTab('tab-manual', document.querySelectorAll('.tab-btn')[6]);
       else if (command.includes("เปลี่ยนธีม")) toggleTheme();
       else if (command.includes("เปลี่ยนภาษา")) toggleLang();
       else alert(`🎙️ AI ได้ยินว่า: "${command}"`);
@@ -855,18 +1021,6 @@
   } else {
     window.startVoiceCommand = function() { alert("⚠️ เบราว์เซอร์ไม่รองรับเสียง"); };
   }
-
-  // ระบบเช็กสถานะ Online / Offline ทุกๆ 2 วินาที (หากข้อมูลขาดหายเกิน 8 วินาทีจะเปลี่ยนเป็น OFFLINE ทันที)
-  setInterval(() => {
-    const badge = document.getElementById('status-badge'), text = document.getElementById('status-text');
-    if (Date.now() - lastDataTime > 8000) { 
-      text.innerText = "OFFLINE"; 
-      badge.className = "status-badge offline"; 
-    } else { 
-      text.innerText = "ONLINE"; 
-      badge.className = "status-badge online"; 
-    }
-  }, 2000);
 
   window.onload = () => {
     initCharts(); fetchRealtimeData(); fetchHistory(); loadEmailSettings();
