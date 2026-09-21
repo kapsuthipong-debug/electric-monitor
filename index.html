@@ -586,7 +586,6 @@
   }
 
   function initCharts() {
-    // กราฟกำลังไฟฟ้า (Watt)
     const ctxPower = document.getElementById('powerChart').getContext('2d');
     powerChart = new Chart(ctxPower, {
       type: 'line',
@@ -594,7 +593,6 @@
       options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false } } }
     });
 
-    // กราฟแรงดันไฟฟ้า (Voltage)
     const ctxVolt = document.getElementById('voltageChart').getContext('2d');
     voltageChart = new Chart(ctxVolt, {
       type: 'line',
@@ -602,7 +600,6 @@
       options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: false } }, plugins: { legend: { display: false } } }
     });
 
-    // กราฟกระแสไฟฟ้า (Current)
     const ctxCurr = document.getElementById('currentChart').getContext('2d');
     currentChart = new Chart(ctxCurr, {
       type: 'line',
@@ -612,26 +609,16 @@
   }
 
   function updateCharts(timeLabel, powerValue, voltValue, currValue) {
-    // อัปเดตกราฟ Watt
     if (powerChart.data.labels.length >= 20) { powerChart.data.labels.shift(); powerChart.data.datasets[0].data.shift(); }
-    powerChart.data.labels.push(timeLabel); 
-    powerChart.data.datasets[0].data.push(powerValue); 
-    powerChart.update();
+    powerChart.data.labels.push(timeLabel); powerChart.data.datasets[0].data.push(powerValue); powerChart.update();
 
-    // อัปเดตกราฟ Voltage
     if (voltageChart.data.labels.length >= 20) { voltageChart.data.labels.shift(); voltageChart.data.datasets[0].data.shift(); }
-    voltageChart.data.labels.push(timeLabel); 
-    voltageChart.data.datasets[0].data.push(voltValue); 
-    voltageChart.update();
+    voltageChart.data.labels.push(timeLabel); voltageChart.data.datasets[0].data.push(voltValue); voltageChart.update();
 
-    // อัปเดตกราฟ Current
     if (currentChart.data.labels.length >= 20) { currentChart.data.labels.shift(); currentChart.data.datasets[0].data.shift(); }
-    currentChart.data.labels.push(timeLabel); 
-    currentChart.data.datasets[0].data.push(currValue); 
-    currentChart.update();
+    currentChart.data.labels.push(timeLabel); currentChart.data.datasets[0].data.push(currValue); currentChart.update();
   }
 
-  // 📍 พิกัดตั้งต้น: มหาวิทยาลัยเทคโนโลยีราชมงคลพระนคร ศูนย์พระนครเหนือ (13.81760, 100.51214)
   const defaultLat = 13.81760; 
   const defaultLng = 100.51214;
 
@@ -657,7 +644,7 @@
       iotMap.panTo(newLatLng);
     }
 
-    const isOffline = (Date.now() - lastDataTime > 10000);
+    const isOffline = (Date.now() - lastDataTime > 8000);
     let statusText = '';
     
     if (isOffline) {
@@ -722,23 +709,10 @@
     try {
       const res = await fetch(`${FIREBASE_BASE}/settings/alertEmail.json`);
       const email = await res.json();
-      if (!email) {
-        console.warn("ยังไม่ได้ตั้งค่าอีเมลผู้รับในระบบ");
-        return;
-      }
+      if (!email) return;
       const messageBody = `⚠️ [PowerPulse IoT Alert]\nหัวข้อ: ${subject}\nรายละเอียด: ${details}\nเวลา: ${new Date().toLocaleString('th-TH')}`;
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        to_email: email,
-        message_body: messageBody,
-        time_alert: new Date().toLocaleString('th-TH')
-      }).then(() => {
-        console.log("ส่งอีเมลแจ้งเตือนสำเร็จ");
-      }).catch((err) => {
-        console.error("ส่งอีเมลไม่สำเร็จ: ", err);
-      });
-    } catch (e) {
-      console.error("เกิดข้อผิดพลาดในการดึงอีเมล: ", e);
-    }
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, { to_email: email, message_body: messageBody, time_alert: new Date().toLocaleString('th-TH') });
+    } catch (e) { console.error(e); }
   }
 
   async function fetchRealtimeData() {
@@ -746,6 +720,8 @@
       const res = await fetch(`${FIREBASE_BASE}/electricity.json`);
       const data = await res.json();
       if (data) {
+        lastDataTime = Date.now();
+
         const v = data.voltage || 0, i = data.current || 0, w = data.power || 0, energy = data.energy || 0;
         const deviceLat = data.lat;
         const deviceLng = data.lng;
@@ -767,49 +743,36 @@
         const baseCost = totalCost / 1.07, vatCost = totalCost - baseCost;
         document.getElementById('breakdown-text').innerText = `ฐาน: ${baseCost.toFixed(2)} ฿ | VAT: ${vatCost.toFixed(2)} ฿`;
 
-        lastDataTime = Date.now();
         saveDailyHistory(energy, totalCost, i, new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }));
       }
     } catch (e) { console.error(e); }
   }
 
   async function triggerDemoOverload() {
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { 
-      method: 'PATCH', 
-      body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) 
-    });
-    alert("Simulation: ไฟเกิน (15.50 A) อัปเดตลงฐานข้อมูลและกำลังส่งอีเมลแจ้งเตือน...");
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) });
+    alert("Simulation: ไฟเกิน (15.50 A)");
     await sendAlertEmailNotification("ตรวจพบกระแสไฟเกินพิกัด (Overload)", "กระแสไฟฟ้าขึ้นสูงถึง 15.50 A");
     fetchRealtimeData();
   }
 
   async function triggerDemoLowVolt() {
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { 
-      method: 'PATCH', 
-      body: JSON.stringify({ current: 2.0, voltage: 205.0, power: 440.0 }) 
-    });
-    alert("Simulation: ไฟตก (205.0 V) อัปเดตลงฐานข้อมูลและกำลังส่งอีเมลแจ้งเตือน...");
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 205.0, power: 440.0 }) });
+    alert("Simulation: ไฟตก (205.0 V)");
     await sendAlertEmailNotification("ตรวจพบแรงดันไฟฟ้าตกผิดปกติ (Low Voltage)", "แรงดันไฟฟ้าลดลงเหลือ 205.0 V");
     fetchRealtimeData();
   }
 
   async function triggerDemoHighVolt() {
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { 
-      method: 'PATCH', 
-      body: JSON.stringify({ current: 2.0, voltage: 250.0, power: 550.0 }) 
-    });
-    alert("Simulation: ไฟเกิน V (250.0 V) อัปเดตลงฐานข้อมูลและกำลังส่งอีเมลแจ้งเตือน...");
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 250.0, power: 550.0 }) });
+    alert("Simulation: ไฟเกิน V (250.0 V)");
     await sendAlertEmailNotification("ตรวจพบแรงดันไฟฟ้าเกินผิดปกติ (High Voltage)", "แรงดันไฟฟ้าพุ่งสูงถึง 250.0 V");
     fetchRealtimeData();
   }
 
   async function triggerEmergencyCutoff() {
     if (confirm("⚠️ ยืนยันการสั่งตัดกระแสไฟฟ้าฉุกเฉิน (Emergency Cut-off)?")) {
-      await fetch(`${FIREBASE_BASE}/electricity.json`, { 
-        method: 'PATCH', 
-        body: JSON.stringify({ current: 0.0, power: 0.0 }) 
-      });
-      alert("🚨 สั่งตัดไฟฉุกเฉินอัปเดตลงฐานข้อมูลและส่งอีเมลแจ้งเตือนแล้ว!");
+      await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 0.0, power: 0.0 }) });
+      alert("🚨 สั่งตัดไฟฉุกเฉินเรียบร้อยแล้ว!");
       await sendAlertEmailNotification("เหตุฉุกเฉิน: สั่งตัดกระแสไฟฟ้า (Emergency Cut-off)", "ระบบได้ทำการตัดกระแสไฟฟ้าฉุกเฉินเรียบร้อยแล้ว");
       fetchRealtimeData();
     }
@@ -851,12 +814,7 @@
   async function toggleBuzzerMute() {
     currentMuteState = !currentMuteState;
     await fetch(`${FIREBASE_BASE}/electricity/buzzerMute.json`, { method: 'PUT', body: JSON.stringify(currentMuteState) });
-    
-    if (currentMuteState) {
-      alert("ตอนนี้กำลังสั่ง: ปิดเสียง BUZZER แล้ว");
-    } else {
-      alert("ตอนนี้กำลังสั่ง: เปิดเสียง BUZZER แล้ว");
-    }
+    alert(currentMuteState ? "ปิดเสียง BUZZER แล้ว" : "เปิดเสียง BUZZER แล้ว");
   }
 
   async function resetData() {
@@ -898,15 +856,22 @@
     window.startVoiceCommand = function() { alert("⚠️ เบราว์เซอร์ไม่รองรับเสียง"); };
   }
 
+  // ตั้งค่าเช็กสถานะทุกๆ 2 วินาที (หากข้อมูลขาดหายเกิน 8 วินาทีจะเปลี่ยนเป็น OFFLINE ทันที)
   setInterval(() => {
     const badge = document.getElementById('status-badge'), text = document.getElementById('status-text');
-    if (Date.now() - lastDataTime > 10000) { text.innerText = "OFFLINE"; badge.className = "status-badge offline"; }
-    else { text.innerText = "ONLINE"; badge.className = "status-badge online"; }
-  }, 3000);
+    if (Date.now() - lastDataTime > 8000) { 
+      text.innerText = "OFFLINE"; 
+      badge.className = "status-badge offline"; 
+    } else { 
+      text.innerText = "ONLINE"; 
+      badge.className = "status-badge online"; 
+    }
+  }, 2000);
 
   window.onload = () => {
     initCharts(); fetchRealtimeData(); fetchHistory(); loadEmailSettings();
-    setInterval(fetchRealtimeData, 3000);
+    // ปรับความถี่ในการดึงข้อมูลจาก Firebase เป็นทุกๆ 2 วินาที
+    setInterval(fetchRealtimeData, 2000);
     setInterval(fetchHistory, 10000);
   };
 </script>
