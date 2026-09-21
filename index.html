@@ -779,7 +779,13 @@
   async function toggleBuzzerMute() {
     currentMuteState = !currentMuteState;
     await fetch(`${FIREBASE_BASE}/electricity/buzzerMute.json`, { method: 'PUT', body: JSON.stringify(currentMuteState) });
-    alert("Updated Buzzer Mute State");
+    
+    // แสดงข้อความแจ้งเตือนระบุสถานะชัดเจน
+    if (currentMuteState) {
+      alert("ตอนนี้กำลังสั่ง: ปิดเสียง BUZZER แล้ว");
+    } else {
+      alert("ตอนนี้กำลังสั่ง: เปิดเสียง BUZZER แล้ว");
+    }
   }
 
   async function resetData() {
