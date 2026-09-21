@@ -120,7 +120,7 @@
 <div class="container">
   <div class="header">
     <h1>
-      <i class="fa-solid fa-bolt"></i> <span data-i18n="title">ระบบวัดค่าไฟฟ้าแบบเรียลไทม์</span><br>
+      <i class="fa-solid fa-bolt"></i> <span data-i18n="title">ระบบวัดค่าไฟฟ้า</span><br>
       <span class="subtitle">( PowerPulse IoT )</span>
     </h1>
 
@@ -362,8 +362,8 @@
       <div class="manual-step">
         <div class="step-num">1</div>
         <div class="step-desc">
-          <h4 data-i18n="man_s1_h">1. การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Real-time Dashboard)</h4>
-          <p data-i18n="man_s1_p">แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทุกๆ 3 วินาที พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)</p>
+          <h4 data-i18n="man_s1_h">1. การมอนิเตอร์ค่าไฟฟ้า (Dashboard)</h4>
+          <p data-i18n="man_s1_p">แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)</p>
         </div>
       </div>
 
@@ -441,7 +441,7 @@
 
   const i18n = {
     th: {
-      title: "ระบบวัดค่าไฟฟ้าแบบเรียลไทม์", tab_dash: "หน้าหลัก", tab_history: "ประวัติ", tab_calc: "คำนวณ", tab_system: "ระบบ", tab_manual: "คู่มือ",
+      title: "ระบบวัดค่าไฟฟ้า", tab_dash: "หน้าหลัก", tab_history: "ประวัติ", tab_calc: "คำนวณ", tab_system: "ระบบ", tab_manual: "คู่มือ",
       analyzing: "กำลังวิเคราะห์พฤติกรรมการใช้ไฟ...", v_normal: "สถานะไฟฟ้า: ปกติสมบูรณ์", lbl_voltage: "แรงดันไฟฟ้า", quality_ok: "คุณภาพไฟ: ปกติ",
       lbl_current: "กระแสไฟฟ้า", max_limit: "จำกัดสูงสุด: 15.00 A", lbl_power: "กำลังไฟฟ้า", load_light: "โหลด: พัดลม/หลอดไฟ",
       lbl_energy: "พลังงานสะสม", chart_title: "กราฟแสดงการใช้กำลังไฟฟ้า 24 ชั่วโมง (Watt)", btn_mute: "เปิด/ปิด Buzzer", btn_reset: "Reset ค่าพลังงาน",
@@ -470,8 +470,8 @@
       btn_test_mail: "ทดสอบส่งอีเมลแจ้งเตือน",
       man_title: "คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)",
       man_subtitle: "คู่มือการใช้งานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)",
-      man_s1_h: "1. การมอนิเตอร์ค่าไฟฟ้าแบบเรียลไทม์ (Real-time Dashboard)",
-      man_s1_p: "แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทุกๆ 3 วินาที พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)",
+      man_s1_h: "1. การมอนิเตอร์ค่าไฟฟ้า (Dashboard)",
+      man_s1_p: "แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 พร้อมกราฟแสดงแนวโน้ม 24 ชั่วโมง และระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)",
       man_s2_h: "2. ประวัติการใช้ไฟและ Peak Tracker (History & Export)",
       man_s2_p: "เก็บบันทึกประวัติการใช้พลังงานรายวัน คำนวณค่าไฟรวมอัตโนมัติพร้อมภาษี VAT 7% และสามารถกดดาวน์โหลดไฟล์ CSV ไปใช้งานต่อได้",
       man_s3_h: "3. เครื่องคิดคำนวณและตั้งค่าอัตราค่าไฟฟ้า (Tariff & Calculator)",
@@ -484,7 +484,7 @@
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
     en: {
-      title: "Real-time Electricity Monitor", tab_dash: "Dashboard", tab_history: "History", tab_calc: "Calculator", tab_system: "System", tab_manual: "Manual",
+      title: "Electricity Monitor", tab_dash: "Dashboard", tab_history: "History", tab_calc: "Calculator", tab_system: "System", tab_manual: "Manual",
       analyzing: "Analyzing power consumption...", v_normal: "Grid Status: Normal (220V)", lbl_voltage: "Voltage", quality_ok: "Power Quality: Optimal",
       lbl_current: "Current", max_limit: "Max Limit: 15.00 A", lbl_power: "Active Power", load_light: "Load: Fan/Lighting",
       lbl_energy: "Accumulated Energy", chart_title: "24-Hour Power Consumption Chart (Watt)", btn_mute: "Mute/Unmute Buzzer", btn_reset: "Reset Energy",
@@ -513,8 +513,8 @@
       btn_test_mail: "Send Test Email",
       man_title: "PowerPulse IoT User Manual & Guide",
       man_subtitle: "Comprehensive guide for all system features in Thai and English.",
-      man_s1_h: "1. Real-time Electricity Monitoring (Dashboard)",
-      man_s1_p: "Displays Voltage (V), Current (A), Power (W), and Energy (kWh) from ESP32 every 3 seconds with a 24-hour chart and abnormal voltage detection (<215V or >245V).",
+      man_s1_h: "1. Electricity Monitoring (Dashboard)",
+      man_s1_p: "Displays Voltage (V), Current (A), Power (W), and Energy (kWh) from ESP32 with a 24-hour chart and abnormal voltage detection (<215V or >245V).",
       man_s2_h: "2. Daily History & Peak Tracker (History & Export)",
       man_s2_p: "Records daily energy consumption history, automatically calculates total bills with 7% VAT, and allows exporting CSV reports.",
       man_s3_h: "3. Tariff Settings & Appliance Calculator",
@@ -524,7 +524,7 @@
       man_s5_h: "5. Smart Voice Control",
       man_s5_p: "Tap the microphone button and speak Thai voice commands:",
       man_v_nav: "Navigation", man_v_ctrl: "Control",
-      man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the live dashboard."
+      man_qr_title: "Scan to Open on Mobile", man_qr_sub: "Use your phone to scan this QR code to open the dashboard."
     }
   };
 
@@ -559,7 +559,7 @@
     alert("🚀 เริ่มต้นระบบแนะนำการใช้งานอัตโนมัติ (Guided Tour)\nระบบจะพาคุณทัวร์ฟีเจอร์หลักทีละหน้าจอครับ!");
     switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
     setTimeout(() => {
-      alert("📍 [Step 1/3 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้าแบบเรียลไทม์ พร้อมกราฟ 24 ชั่วโมง");
+      alert("📍 [Step 1/3 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้า พร้อมกราฟ 24 ชั่วโมง");
       switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
     }, 4000);
     setTimeout(() => {
@@ -592,7 +592,7 @@
     powerChart.data.labels.push(timeLabel); powerChart.data.datasets[0].data.push(powerValue); powerChart.update();
   }
 
-  // 📍 พิกัด มทร.พระนคร (ศูนย์พระนครเหนือ ถนนพิบูลสงคราม)
+  // 📍 พิกัดตั้งต้น: มหาวิทยาลัยเทคโนโลยีราชมงคลพระนคร ศูนย์พระนครเหนือ (ถนนพิบูลสงคราม บางซื่อ)
   const defaultLat = 13.8188; 
   const defaultLng = 100.5140;
 
