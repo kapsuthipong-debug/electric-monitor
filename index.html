@@ -89,12 +89,12 @@
     .step-num { background: var(--primary-color); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
     .step-desc h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
     .step-desc p { font-size: 13px; color: var(--text-sub); line-height: 1.4; }
-    .voice-command-tag { background: rgba(138, 43, 226, 0.1); color: #8a2be2; padding: 4px 8px; border-radius: 6px; font-family: monospace; font-weight: 600; font-size: 12px; display: inline-block; margin: 2px 0; }
 
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
-    .modal-content { background: var(--card-bg); padding: 22px; border-radius: var(--border-radius); text-align: center; max-width: 300px; width: 90%; position: relative; color: var(--text-main); }
+    .modal { display: flex; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; }
+    .modal-content { background: var(--card-bg); padding: 26px; border-radius: var(--border-radius); text-align: center; max-width: 380px; width: 90%; position: relative; color: var(--text-main); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
     .close-btn { position: absolute; right: 15px; top: 10px; font-size: 20px; cursor: pointer; color: var(--text-sub); }
     #qrcode, #manual-qrcode { display: flex; justify-content: center; margin: 12px 0; }
+    .lang-select-box { display: flex; gap: 10px; margin-top: 18px; justify-content: center; }
 
     @media (max-width: 768px) {
       body { padding: 12px; padding-bottom: 90px; }
@@ -108,6 +108,20 @@
   </style>
 </head>
 <body>
+
+<!-- Modal ต้อนรับและเลือกภาษา -->
+<div id="welcomeModal" class="modal">
+  <div class="modal-content">
+    <i class="fa-solid fa-bolt" style="font-size: 36px; color: var(--warning-color); margin-bottom: 12px;"></i>
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">สวัสดี ยินดีต้อนรับสู่ ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส อัจฉริยะ</h3>
+    <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 18px;">( Power Pulse )</p>
+    <p style="font-size: 14px; font-weight: 600; margin-bottom: 10px;">กรุณาเลือกภาษา / Please select language:</p>
+    <div class="lang-select-box">
+      <button class="btn btn-demo" onclick="selectLanguage('th')">🇹🇭 ไทย (Thai)</button>
+      <button class="btn btn-demo" style="background-color: var(--success-color);" onclick="selectLanguage('en')">🇬🇧 English</button>
+    </div>
+  </div>
+</div>
 
 <div class="container">
   <div class="header">
@@ -204,7 +218,7 @@
     </div>
   </div>
 
-  <!-- TAB 2: ประวัติ & รายงาน (รวมประวัติการใช้ไฟ, บันทึกเหตุการณ์, รายงานสุขภาพ) -->
+  <!-- TAB 2: ประวัติ & รายงาน -->
   <div id="tab-history" class="tab-content">
     <div class="grid">
       <div class="card">
@@ -444,7 +458,7 @@
 </div>
 
 <!-- Modal QR Code -->
-<div id="qrModal" class="modal">
+<div id="qrModal" class="modal" style="display: none;">
   <div class="modal-content">
     <span class="close-btn" onclick="closeQRModal()">&times;</span>
     <h3 data-i18n="qr_title">สแกนเพื่อเข้าใช้งานเว็บ</h3>
@@ -561,6 +575,17 @@
     }
   };
 
+  function selectLanguage(lang) {
+    currentLang = lang;
+    document.getElementById('lang-btn-text').innerText = currentLang === 'th' ? 'EN' : 'TH';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
+    });
+    document.getElementById('welcomeModal').style.display = 'none';
+    fetchMonthlyReport();
+  }
+
   function toggleLang() {
     currentLang = currentLang === 'th' ? 'en' : 'th';
     document.getElementById('lang-btn-text').innerText = currentLang === 'th' ? 'EN' : 'TH';
@@ -594,18 +619,15 @@
   }
 
   function startGuidedTour() {
-    alert("🚀 เริ่มต้นระบบแนะนำการใช้งานอัตโนมัติ (Guided Tour)\nระบบจะพาคุณทัวร์ฟีเจอร์หลักทีละหน้าจอครับ!");
+    alert(currentLang === 'th' ? "🚀 เริ่มต้นระบบแนะนำการใช้งานอัตโนมัติ (Guided Tour)" : "🚀 Starting automated system guided tour");
     switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
     setTimeout(() => {
-      alert("📍 [Step 1/3 - หน้าหลัก Dashboard]\nแสดงผลค่าแรงดัน กระแส และกำลังไฟฟ้า พร้อมกราฟเรียลไทม์");
       switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
     }, 4000);
     setTimeout(() => {
-      alert("📍 [Step 2/3 - หน้าประวัติ & รายงาน]\nรวบรวมรายงานสุขภาพ, ประวัติการใช้ไฟ และบันทึก Fault Log พร้อมปุ่มดาวน์โหลด/ล้างข้อมูล");
       switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
     }, 9000);
     setTimeout(() => {
-      alert("📍 [Step 3/3 - หน้าระบบ & คู่มือ]\nตั้งค่าอีเมลแจ้งเตือน ทดสอบจำลองสถานการณ์ และดูคู่มือระบบ");
       switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
     }, 14000);
   }
@@ -658,7 +680,7 @@
     iotMap = L.map('iotMap').setView([initialLat, initialLng], 17);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap contributors' }).addTo(iotMap);
     
-    deviceMarker = L.marker([initialLat, initialLng]).addTo(iotMap).bindPopup('<b>Power Pulse #01 (มทร.พระนคร เหนือ)</b><br>กำลังโหลด...').openPopup();
+    deviceMarker = L.marker([initialLat, initialLng]).addTo(iotMap).bindPopup('<b>Power Pulse #01</b>').openPopup();
     mapInitialized = true;
   }
 
@@ -675,7 +697,7 @@
     }
 
     if (deviceMarker) {
-      deviceMarker.setPopupContent(`<b>Power Pulse #01 (มทร.พระนคร เหนือ)</b><br>Volt: ${voltageVal.toFixed(1)}V | Current: ${currentVal.toFixed(2)}A`);
+      deviceMarker.setPopupContent(`<b>Power Pulse #01</b><br>Volt: ${voltageVal.toFixed(1)}V | Current: ${currentVal.toFixed(2)}A`);
     }
   }
 
@@ -715,16 +737,6 @@
       const email = await res.json();
       if(email) document.getElementById('alertEmailInput').value = email;
     } catch(e) { console.error(e); }
-  }
-
-  async function sendAlertEmailNotification(subject, details) {
-    try {
-      const res = await fetch(`${FIREBASE_BASE}/settings/alertEmail.json`);
-      const email = await res.json();
-      if (!email) return;
-      const messageBody = `⚠️ [Power Pulse Alert]\nหัวข้อ: ${subject}\nรายละเอียด: ${details}\nเวลา: ${new Date().toLocaleString('th-TH')}`;
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, { to_email: email, message_body: messageBody, time_alert: new Date().toLocaleString('th-TH') });
-    } catch (e) { console.error(e); }
   }
 
   async function logFaultEvent(type, valStr) {
@@ -783,7 +795,6 @@
     await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) });
     await logFaultEvent('กระแสไฟเกินพิกัด (Overload)', '15.50 A');
     alert("Simulation: ไฟเกิน (15.50 A) และบันทึก Fault Log แล้ว");
-    await sendAlertEmailNotification("ตรวจพบกระแสไฟเกินพิกัด (Overload)", "กระแสไฟฟ้าขึ้นสูงถึง 15.50 A");
     fetchRealtimeData();
   }
 
@@ -791,7 +802,6 @@
     await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 205.0, power: 440.0 }) });
     await logFaultEvent('ไฟตก (Low Voltage)', '205.0 V');
     alert("Simulation: ไฟตก (205.0 V) และบันทึก Fault Log แล้ว");
-    await sendAlertEmailNotification("ตรวจพบแรงดันไฟฟ้าตกผิดปกติ (Low Voltage)", "แรงดันไฟฟ้าลดลงเหลือ 205.0 V");
     fetchRealtimeData();
   }
 
@@ -799,7 +809,6 @@
     await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 250.0, power: 550.0 }) });
     await logFaultEvent('ไฟเกิน (High Voltage)', '250.0 V');
     alert("Simulation: ไฟเกิน V (250.0 V) และบันทึก Fault Log แล้ว");
-    await sendAlertEmailNotification("ตรวจพบแรงดันไฟฟ้าเกินผิดปกติ (High Voltage)", "แรงดันไฟฟ้าพุ่งสูงถึง 250.0 V");
     fetchRealtimeData();
   }
 
