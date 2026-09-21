@@ -93,7 +93,7 @@
     .step-desc h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
     .step-desc p { font-size: 0.85rem; color: var(--text-sub); line-height: 1.4; }
 
-    /* Modal เลือกภาษา (ให้คำว่า สวัสดี อยู่บรรทัดบนสุด และ ยินดีต้อนรับสู่อยู่บรรทัดที่ 2) */
+    /* Modal เลือกภาษา */
     .lang-modal { display: flex; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .lang-modal-content { background: #ffffff; color: #1e293b; padding: 35px 25px; border-radius: 24px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: scaleUp 0.3s ease; }
     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -125,7 +125,7 @@
 </head>
 <body>
 
-<!-- หน้าต่างป๊อปอัปเลือกภาษา (จัด สวัสดี ให้อยู่บรรทัดบนสุด และ ยินดีต้อนรับสู่อยู่บรรทัดที่ 2) -->
+<!-- หน้าต่างป๊อปอัปเลือกภาษา (สวัสดี บรรทัดแรก / ยินดีต้อนรับสู่อยู่บรรทัดที่ 2) -->
 <div id="languageModal" class="lang-modal">
   <div class="lang-modal-content">
     <div class="lang-icon-box">
@@ -322,7 +322,7 @@
       </div>
     </div>
 
-    <!-- 3. รายงานสุขภาพระบบไฟฟ้าประจำเดือน (เพิ่มปุ่ม Reset รายงานสุขภาพ) -->
+    <!-- 3. รายงานสุขภาพระบบไฟฟ้าประจำเดือน (พร้อมปุ่ม Reset รายงานสุขภาพ) -->
     <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.06), rgba(42,157,143,0.06)); border: 1px solid var(--primary-color);">
       <div class="panel-header" style="margin-bottom: 6px;">
         <div class="panel-title" style="margin-bottom: 0;">
@@ -836,6 +836,30 @@
     });
   }
 
+  async function sendAlertEmailNotification(faultType, valueStr) {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/settings/alertEmail.json`);
+      const recipientEmail = await res.json();
+      
+      if (!recipientEmail) {
+        console.log("ยังไม่ได้ตั้งค่าอีเมลผู้รับในระบบ");
+        return;
+      }
+
+      const templateParams = {
+        to_email: recipientEmail,
+        fault_type: faultType,
+        fault_value: valueStr,
+        time: new Date().toLocaleString('th-TH')
+      };
+
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      console.log("ส่งอีเมลแจ้งเตือนสำเร็จไปยัง:", recipientEmail);
+    } catch (err) {
+      console.error("เกิดข้อผิดพลาดในการส่งอีเมล:", err);
+    }
+  }
+
   async function fetchRealtimeData() {
     try {
       const res = await fetch(`${FIREBASE_BASE}/electricity.json`);
@@ -878,21 +902,24 @@
   async function triggerDemoOverload() {
     await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) });
     await logFaultEvent('กระแสไฟเกินพิกัด (Overload)', '15.50 A');
-    alert("Simulation: ไฟเกิน (15.50 A) และบันทึก Fault Log แล้ว");
+    await sendAlertEmailNotification('กระแสไฟเกินพิกัด (Overload)', '15.50 A');
+    alert("Simulation: ไฟเกิน (15.50 A) บันทึก Fault Log และส่งอีเมลแจ้งเตือนแล้ว!");
     fetchRealtimeData();
   }
 
   async function triggerDemoLowVolt() {
     await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 205.0, power: 440.0 }) });
     await logFaultEvent('ไฟตก (Low Voltage)', '205.0 V');
-    alert("Simulation: ไฟตก (205.0 V) และบันทึก Fault Log แล้ว");
+    await sendAlertEmailNotification('ไฟตก (Low Voltage)', '205.0 V');
+    alert("Simulation: ไฟตก (205.0 V) บันทึก Fault Log และส่งอีเมลแจ้งเตือนแล้ว!");
     fetchRealtimeData();
   }
 
   async function triggerDemoHighVolt() {
     await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 250.0, power: 550.0 }) });
     await logFaultEvent('ไฟเกิน (High Voltage)', '250.0 V');
-    alert("Simulation: ไฟเกิน V (250.0 V) และบันทึก Fault Log แล้ว");
+    await sendAlertEmailNotification('ไฟเกิน (High Voltage)', '250.0 V');
+    alert("Simulation: ไฟเกิน V (250.0 V) บันทึก Fault Log และส่งอีเมลแจ้งเตือนแล้ว!");
     fetchRealtimeData();
   }
 
