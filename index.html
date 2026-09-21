@@ -856,7 +856,7 @@
     window.startVoiceCommand = function() { alert("⚠️ เบราว์เซอร์ไม่รองรับเสียง"); };
   }
 
-  // ตั้งค่าเช็กสถานะทุกๆ 2 วินาที (หากข้อมูลขาดหายเกิน 8 วินาทีจะเปลี่ยนเป็น OFFLINE ทันที)
+  // ระบบเช็กสถานะ Online / Offline ทุกๆ 2 วินาที (หากข้อมูลขาดหายเกิน 8 วินาทีจะเปลี่ยนเป็น OFFLINE ทันที)
   setInterval(() => {
     const badge = document.getElementById('status-badge'), text = document.getElementById('status-text');
     if (Date.now() - lastDataTime > 8000) { 
@@ -870,7 +870,6 @@
 
   window.onload = () => {
     initCharts(); fetchRealtimeData(); fetchHistory(); loadEmailSettings();
-    // ปรับความถี่ในการดึงข้อมูลจาก Firebase เป็นทุกๆ 2 วินาที
     setInterval(fetchRealtimeData, 2000);
     setInterval(fetchHistory, 10000);
   };
