@@ -93,7 +93,7 @@
     .step-desc h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
     .step-desc p { font-size: 0.85rem; color: var(--text-sub); line-height: 1.4; }
 
-    /* Modal เลือกภาษา */
+    /* Modal เลือกภาษา (ให้คำว่า สวัสดี อยู่บรรทัดบนสุด และ ยินดีต้อนรับสู่อยู่บรรทัดที่ 2) */
     .lang-modal { display: flex; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .lang-modal-content { background: #ffffff; color: #1e293b; padding: 35px 25px; border-radius: 24px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: scaleUp 0.3s ease; }
     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -125,14 +125,17 @@
 </head>
 <body>
 
-<!-- หน้าต่างป๊อปอัปเลือกภาษา -->
+<!-- หน้าต่างป๊อปอัปเลือกภาษา (จัด สวัสดี ให้อยู่บรรทัดบนสุด และ ยินดีต้อนรับสู่อยู่บรรทัดที่ 2) -->
 <div id="languageModal" class="lang-modal">
   <div class="lang-modal-content">
     <div class="lang-icon-box">
       <i class="fa-solid fa-bolt"></i>
     </div>
-    <h3>สวัสดี<br>ยินดีต้อนรับสู่ ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส อัจฉริยะ</h3>
-    <div class="sub-title">( Power Pulse )</div>
+    <h3 style="font-size: 1.15rem; font-weight: 700; line-height: 1.5;">
+      สวัสดี<br>
+      ยินดีต้อนรับสู่ ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส อัจฉริยะ
+    </h3>
+    <div class="sub-title" style="margin-top: 8px;">( Power Pulse )</div>
     <p>กรุณาเลือกภาษา / Please select language:</p>
     <div class="lang-btn-group">
       <button class="btn-choice btn-th" onclick="setAppLanguage('th')">
@@ -266,7 +269,7 @@
       </div>
     </div>
 
-    <!-- 1. ประวัติรายวัน & Peak Tracker (เพิ่มปุ่มลบข้อมูลประวัติรายวัน) -->
+    <!-- 1. ประวัติรายวัน & Peak Tracker -->
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="history_title">ประวัติรายวัน & Peak Tracker</span></div>
@@ -293,7 +296,7 @@
       </div>
     </div>
 
-    <!-- 2. บันทึกเหตุการณ์ความผิดปกติ (Fault Log) (เพิ่มปุ่มดาวน์โหลดประวัติเหตุการณ์) -->
+    <!-- 2. บันทึกเหตุการณ์ความผิดปกติ (Fault Log) -->
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> <span data-i18n="fault_title">ประวัติเหตุการณ์ความผิดปกติ (Event Log / Fault History)</span></div>
@@ -319,11 +322,14 @@
       </div>
     </div>
 
-    <!-- 3. รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report) (เอา AI Recommendations ออกแล้ว) -->
+    <!-- 3. รายงานสุขภาพระบบไฟฟ้าประจำเดือน (เพิ่มปุ่ม Reset รายงานสุขภาพ) -->
     <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.06), rgba(42,157,143,0.06)); border: 1px solid var(--primary-color);">
-      <div class="panel-title" style="margin-bottom: 6px;">
-        <i class="fa-solid fa-file-invoice" style="color: var(--primary-color); font-size: 1.1rem;"></i> 
-        <span data-i18n="report_title" style="font-size: 1.05rem;">รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report)</span>
+      <div class="panel-header" style="margin-bottom: 6px;">
+        <div class="panel-title" style="margin-bottom: 0;">
+          <i class="fa-solid fa-file-invoice" style="color: var(--primary-color); font-size: 1.1rem;"></i> 
+          <span data-i18n="report_title" style="font-size: 1.05rem;">รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report)</span>
+        </div>
+        <button class="tool-btn" style="background: rgba(230,57,70,0.1); color: var(--danger-color); border-color: rgba(230,57,70,0.2);" onclick="resetHealthReport()"><i class="fa-solid fa-rotate-left"></i> <span data-i18n="btn_reset_health">Reset รายงานสุขภาพ</span></button>
       </div>
       <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 18px;" data-i18n="report_subtitle">สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า และสถิติความผิดปกติด้านแรงดันไฟฟ้าหรือกระแสเกินประจำเดือนนี้</p>
       
@@ -560,7 +566,7 @@
       th_fault_time: "เวลาที่เกิดเหตุ", th_fault_type: "ประเภทเหตุการณ์", th_fault_val: "ค่าที่วัดได้", no_faults: "ยังไม่มีบันทึกเหตุการณ์ความผิดปกติในระบบ",
       report_title: "รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report)",
       report_subtitle: "สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า และสถิติความผิดปกติด้านแรงดันไฟฟ้าหรือกระแสเกินประจำเดือนนี้",
-      rep_score_lbl: "คะแนนเสถียรภาพระบบ", rep_fault_lbl: "จำนวนครั้งที่ผิดปกติเดือนนี้",
+      rep_score_lbl: "คะแนนเสถียรภาพระบบ", rep_fault_lbl: "จำนวนครั้งที่ผิดปกติเดือนนี้", btn_reset_health: "Reset รายงานสุขภาพ",
       title_tariff: "ตั้งค่าอัตราค่าไฟฟ้า", lbl_rate: "อัตราค่าไฟ (บาท/หน่วย):", lbl_preset: "เลือกประเภทสถานที่:",
       opt_home: "บ้านอยู่อาศัย (~4.39 บาท)", opt_dorm: "หอพัก / อพาร์ตเมนต์ (~7.00 บาท)", opt_shop: "ร้านค้า / กิจการขนาดเล็ก (~4.80 บาท)", title_calc: "เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า",
       lbl_watt: "กำลังไฟ (วัตต์):", lbl_hrs: "เปิดใช้งาน (ชั่วโมง/วัน):", btn_calc: "คำนวณค่าไฟ", title_demo: "โหมดจำลองสถานการณ์เตือนภัย",
@@ -604,7 +610,7 @@
       th_fault_time: "Timestamp", th_fault_type: "Fault Type", th_fault_val: "Measured Value", no_faults: "No fault events recorded.",
       report_title: "Monthly Health Report",
       report_subtitle: "Overview of grid stability and fault statistics for this month.",
-      rep_score_lbl: "Grid Stability Score", rep_fault_lbl: "Fault Count This Month",
+      rep_score_lbl: "Grid Stability Score", rep_fault_lbl: "Fault Count This Month", btn_reset_health: "Reset Health Report",
       title_tariff: "Electricity Tariff Settings", lbl_rate: "Rate (THB/kWh):", lbl_preset: "Select Location Type:",
       opt_home: "Residential (~4.39 THB)", opt_dorm: "Dormitory (~7.00 THB)", opt_shop: "Small Business (~4.80 THB)", title_calc: "Appliance Bill Calculator",
       lbl_watt: "Power (Watts):", lbl_hrs: "Usage (Hours/Day):", btn_calc: "Calculate", title_demo: "Alarm Simulation Mode",
@@ -913,7 +919,7 @@
   }
 
   async function clearDailyHistory() {
-    if (confirm(currentLang === 'th' ? "⚠️ ยืนยันการล้างประวัติรายทั้งหมด?" : "Clear all daily history?")) {
+    if (confirm(currentLang === 'th' ? "⚠️ ยืนยันการล้างประวัติรายวันทั้งหมด?" : "Clear all daily history?")) {
       await fetch(`${FIREBASE_BASE}/history.json`, { method: 'DELETE' });
       fetchHistory();
     }
@@ -941,6 +947,15 @@
     if (confirm(currentLang === 'th' ? "⚠️ ยืนยันการล้างประวัติเหตุการณ์ความผิดปกติทั้งหมด?" : "Clear all fault history?")) {
       await fetch(`${FIREBASE_BASE}/fault_logs.json`, { method: 'DELETE' });
       fetchFaultLogs();
+      fetchMonthlyReport();
+    }
+  }
+
+  async function resetHealthReport() {
+    if (confirm(currentLang === 'th' ? "⚠️ ยืนยันการ Reset รายงานสุขภาพ (ล้างบันทึกความผิดปกติทั้งหมดเพื่อคืนค่าคะแนนเป็น 100)?" : "Reset health report and clear all faults?")) {
+      await fetch(`${FIREBASE_BASE}/fault_logs.json`, { method: 'DELETE' });
+      fetchFaultLogs();
+      fetchMonthlyReport();
     }
   }
 
