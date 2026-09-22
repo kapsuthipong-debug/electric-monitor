@@ -93,13 +93,15 @@
     .step-desc h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
     .step-desc p { font-size: 0.85rem; color: var(--text-sub); line-height: 1.4; }
 
-    /* Modal เลือกภาษา (แยก สวัสดี และ ยินดีต้อนรับสู่ออกเป็นคนละบรรทัดอย่างชัดเจน) */
+    /* Modal เลือกภาษา (นำคำว่า ระบบแจ้งเตือน มาไว้อยู่บรรทัดที่ 3) */
     .lang-modal { display: flex; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .lang-modal-content { background: #ffffff; color: #1e293b; padding: 35px 25px; border-radius: 24px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: scaleUp 0.3s ease; }
     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .lang-icon-box { font-size: 2.2rem; color: #ffb703; margin-bottom: 15px; }
     .lang-modal-content .welcome-hello { font-size: 1.25rem; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block; }
-    .lang-modal-content .welcome-text { font-size: 1.05rem; font-weight: 700; color: #1e293b; line-height: 1.4; display: block; margin-bottom: 4px; }
+    .lang-modal-content .welcome-line1 { font-size: 1.05rem; font-weight: 700; color: #1e293b; display: block; margin-bottom: 2px; }
+    .lang-modal-content .welcome-line2 { font-size: 1.05rem; font-weight: 700; color: #1e293b; display: block; margin-bottom: 2px; }
+    .lang-modal-content .welcome-line3 { font-size: 1.05rem; font-weight: 700; color: #1e293b; display: block; margin-bottom: 6px; }
     .lang-modal-content .sub-title { font-size: 0.9rem; font-weight: 600; color: #64748b; margin-bottom: 20px; display: block; }
     .lang-modal-content p { font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 20px; }
     .lang-btn-group { display: flex; gap: 12px; }
@@ -126,16 +128,18 @@
 </head>
 <body>
 
-<!-- หน้าต่างป๊อปอัปเลือกภาษา (จัดแยกบรรทัด สวัสดี และ ยินดีต้อนรับสู่อย่างชัดเจน) -->
+<!-- หน้าต่างป๊อปอัปเลือกภาษา (จัดแยกบรรทัดตามที่ต้องการ) -->
 <div id="languageModal" class="lang-modal">
   <div class="lang-modal-content">
     <div class="lang-icon-box">
       <i class="fa-solid fa-bolt"></i>
     </div>
-    <span class="welcome-hello">สวัสดี</span>
-    <span class="welcome-text">ยินดีต้อนรับสู่ ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส อัจฉริยะ</span>
+    <span class="welcome-hello" data-i18n="modal_hello">สวัสดี</span>
+    <span class="welcome-line1" data-i18n="modal_l1">ยินดีต้อนรับสู่</span>
+    <span class="welcome-line2" data-i18n="modal_l2">ความผิดปกติไฟฟ้า 1 เฟส</span>
+    <span class="welcome-line3" data-i18n="modal_l3">ระบบแจ้งเตือน อัจฉริยะ</span>
     <div class="sub-title">( Power Pulse )</div>
-    <p>กรุณาเลือกภาษา / Please select language:</p>
+    <p data-i18n="modal_lang_prompt">กรุณาเลือกภาษา / Please select language:</p>
     <div class="lang-btn-group">
       <button class="btn-choice btn-th" onclick="setAppLanguage('th')">
         <i class="fa-solid fa-flag"></i> TH ไทย (Thai)
@@ -199,7 +203,7 @@
         <div class="card-info">
           <h3 data-i18n="lbl_current">กระแสไฟฟ้า</h3>
           <div class="value" id="current">0.00 A</div>
-          <div class="sub-text" data-i18n="max_limit">จำกัดสูงสุด: 15.00 A</div>
+          <div class="sub-text" data-i18n="max_limit">จำกัดสูงสุด: 0.70 A</div>
         </div>
       </div>
       <div class="card">
@@ -226,12 +230,12 @@
     </div>
 
     <div class="panel">
-      <div class="panel-title"><i class="fa-solid fa-chart-line" style="color: #4361ee;"></i> <span>กราฟแสดงแรงดันไฟฟ้า (Voltage - V)</span></div>
+      <div class="panel-title"><i class="fa-solid fa-chart-line" style="color: #4361ee;"></i> <span data-i18n="chart_volt">กราฟแสดงแรงดันไฟฟ้า (Voltage - V)</span></div>
       <div class="chart-container"><canvas id="voltageChart"></canvas></div>
     </div>
 
     <div class="panel">
-      <div class="panel-title"><i class="fa-solid fa-chart-line" style="color: #ff922b;"></i> <span>กราฟแสดงกระแสไฟฟ้า (Current - A)</span></div>
+      <div class="panel-title"><i class="fa-solid fa-chart-line" style="color: #ff922b;"></i> <span data-i18n="chart_curr">กราฟแสดงกระแสไฟฟ้า (Current - A)</span></div>
       <div class="chart-container"><canvas id="currentChart"></canvas></div>
     </div>
 
@@ -304,7 +308,7 @@
           <button class="tool-btn" onclick="clearFaultLogs()"><i class="fa-solid fa-trash"></i> <span data-i18n="btn_clear_faults">ล้างประวัติเหตุการณ์</span></button>
         </div>
       </div>
-      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 14px;" data-i18n="fault_desc">บันทึกเวลาและค่าที่วัดได้เมื่อเกิดเหตุการณ์ไฟตก (<215V), ไฟเกิน (>245V) หรือกระแสไฟเกินพิกัด (>15A)</p>
+      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 14px;" data-i18n="fault_desc">บันทึกเวลาและค่าที่วัดได้เมื่อเกิดเหตุการณ์ไฟตก (<215V), ไฟเกิน (>245V) หรือกระแสไฟเกินพิกัด (>0.70A)</p>
       <div class="table-container">
         <table>
           <thead>
@@ -321,7 +325,7 @@
       </div>
     </div>
 
-    <!-- 3. รายงานสุขภาพระบบไฟฟ้าประจำเดือน (พร้อมปุ่ม Reset รายงานสุขภาพ) -->
+    <!-- 3. รายงานสุขภาพระบบไฟฟ้าประจำเดือน -->
     <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.06), rgba(42,157,143,0.06)); border: 1px solid var(--primary-color);">
       <div class="panel-header" style="margin-bottom: 6px;">
         <div class="panel-title" style="margin-bottom: 0;">
@@ -332,7 +336,6 @@
       </div>
       <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 18px;" data-i18n="report_subtitle">สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า และสถิติความผิดปกติด้านแรงดันไฟฟ้าหรือกระแสเกินประจำเดือนนี้</p>
       
-      <!-- Grid คะแนนเสถียรภาพและสถิติ -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
         <div style="background: var(--card-bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow);">
           <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(42,157,143,0.12); color: var(--success-color); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
@@ -341,7 +344,7 @@
           <div>
             <div style="font-size: 0.75rem; color: var(--text-sub); font-weight: 500;" data-i18n="rep_score_lbl">คะแนนเสถียรภาพระบบ</div>
             <div id="rep-health-score" style="font-size: 1.35rem; font-weight: 700; color: var(--success-color); line-height: 1.2;">100 / 100</div>
-            <div id="rep-score-desc" style="font-size: 0.68rem; color: var(--text-sub); margin-top: 2px;">สถานะ: ยอดเยี่ยม ไม่มีข้อผิดพลาด</div>
+            <div id="rep-score-desc" style="font-size: 0.68rem; color: var(--text-sub); margin-top: 2px;" data-i18n="rep_score_desc_ok">สถานะ: ยอดเยี่ยม ไม่มีข้อผิดพลาด</div>
           </div>
         </div>
 
@@ -401,7 +404,7 @@
   <div id="tab-system" class="tab-content">
     <div class="panel">
       <div class="panel-title"><i class="fa-solid fa-envelope" style="color: var(--primary-color);"></i> <span data-i18n="mail_title">ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)</span></div>
-      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_desc">กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด หรือแรงดันไฟฟ้าผิดปกติ (<215V หรือ >245V)</p>
+      <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 12px;" data-i18n="mail_desc">กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด (>0.70A) หรือแรงดันไฟฟ้าผิดปกติ (<215V หรือ >245V)</p>
       
       <div class="calc-grid">
         <div class="input-group" style="grid-column: 1 / -1;">
@@ -421,7 +424,7 @@
       <div class="panel-title"><i class="fa-solid fa-vial"></i> <span data-i18n="title_demo">โหมดจำลองสถานการณ์เตือนภัย</span></div>
       <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 12px;" data-i18n="desc_demo">จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือนและบันทึก Fault Log</p>
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn btn-demo" onclick="triggerDemoOverload()"><i class="fa-solid fa-bolt-lightning"></i> <span data-i18n="btn_demo_over">จำลองไฟเกิน (15.5A)</span></button>
+        <button class="btn btn-demo" onclick="triggerDemoOverload()"><i class="fa-solid fa-bolt-lightning"></i> <span data-i18n="btn_demo_over">จำลองไฟเกิน (0.75A)</span></button>
         <button class="btn btn-demo" style="background-color: var(--warning-color); color: #111;" onclick="triggerDemoLowVolt()"><i class="fa-solid fa-arrow-down"></i> <span data-i18n="btn_demo_low">จำลองไฟตก (205V)</span></button>
         <button class="btn btn-demo" style="background-color: var(--danger-color);" onclick="triggerDemoHighVolt()"><i class="fa-solid fa-arrow-up"></i> <span data-i18n="btn_demo_high">จำลองไฟเกิน V (250V)</span></button>
       </div>
@@ -552,24 +555,30 @@
 
   const i18n = {
     th: {
+      modal_hello: "สวัสดี",
+      modal_l1: "ยินดีต้อนรับสู่",
+      modal_l2: "ความผิดปกติไฟฟ้า 1 เฟส",
+      modal_l3: "ระบบแจ้งเตือน อัจฉริยะ",
+      modal_lang_prompt: "กรุณาเลือกภาษา / Please select language:",
       title: "ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส อัจฉริยะ", tab_dash: "หน้าหลัก", tab_history: "ประวัติ & รายงาน", tab_calc: "คำนวณ", tab_system: "ระบบ", tab_manual: "คู่มือ",
       analyzing: "กำลังวิเคราะห์พฤติกรรมการใช้ไฟ...", v_normal: "สถานะไฟฟ้า: ปกติสมบูรณ์", lbl_voltage: "แรงดันไฟฟ้า", quality_ok: "คุณภาพไฟ: ปกติ",
-      lbl_current: "กระแสไฟฟ้า", max_limit: "จำกัดสูงสุด: 15.00 A", lbl_power: "กำลังไฟฟ้า", load_light: "โหลด: พัดลม/หลอดไฟ",
-      lbl_energy: "พลังงานสะสม", chart_title: "กราฟแสดงการใช้กำลังไฟฟ้า (Watt)", btn_mute: "เปิด/ปิด Buzzer", btn_reset: "Reset ค่าพลังงาน",
+      lbl_current: "กระแสไฟฟ้า", max_limit: "จำกัดสูงสุด: 0.70 A", lbl_power: "กำลังไฟฟ้า", load_light: "โหลด: พัดลม/หลอดไฟ",
+      lbl_energy: "พลังงานสะสม", chart_title: "กราฟแสดงการใช้กำลังไฟฟ้า (Watt)", chart_volt: "กราฟแสดงแรงดันไฟฟ้า (Voltage - V)", chart_curr: "กราฟแสดงกระแสไฟฟ้า (Current - A)", btn_mute: "เปิด/ปิด Buzzer", btn_reset: "Reset ค่าพลังงาน",
       lbl_total_cost: "ค่าไฟสะสมรวม", lbl_breakdown: "แจกแจงค่าไฟ", sub_vat: "รวมค่า Ft + VAT 7% แล้ว", history_title: "ประวัติรายวัน & Peak Tracker",
       btn_export: "ดาวน์โหลด CSV", btn_clear_history: "ล้างประวัติรายวัน", btn_export_fault: "ดาวน์โหลดประวัติเหตุการณ์", th_date: "วันที่", th_kwh: "พลังงาน (kWh)", th_peak_i: "กระแสสูงสุด", th_peak_t: "เวลา Peak", th_cost: "ค่าไฟ (บาท)",
       loading: "กำลังโหลดข้อมูล...",
       fault_title: "ประวัติเหตุการณ์ความผิดปกติ (Event Log / Fault History)",
       btn_clear_faults: "ล้างประวัติเหตุการณ์",
-      fault_desc: "บันทึกเวลาและค่าที่วัดได้เมื่อเกิดเหตุการณ์ไฟตก (<215V), ไฟเกิน (>245V) หรือกระแสไฟเกินพิกัด (>15A)",
+      fault_desc: "บันทึกเวลาและค่าที่วัดได้เมื่อเกิดเหตุการณ์ไฟตก (<215V), ไฟเกิน (>245V) หรือกระแสไฟเกินพิกัด (>0.70A)",
       th_fault_time: "เวลาที่เกิดเหตุ", th_fault_type: "ประเภทเหตุการณ์", th_fault_val: "ค่าที่วัดได้", no_faults: "ยังไม่มีบันทึกเหตุการณ์ความผิดปกติในระบบ",
       report_title: "รายงานสุขภาพระบบไฟฟ้าประจำเดือน (Monthly Health Report)",
       report_subtitle: "สรุปผลภาพรวมเสถียรภาพของระบบไฟฟ้า และสถิติความผิดปกติด้านแรงดันไฟฟ้าหรือกระแสเกินประจำเดือนนี้",
       rep_score_lbl: "คะแนนเสถียรภาพระบบ", rep_fault_lbl: "จำนวนครั้งที่ผิดปกติเดือนนี้", btn_reset_health: "Reset รายงานสุขภาพ",
+      rep_score_desc_ok: "สถานะ: ยอดเยี่ยม ไม่มีข้อผิดพลาด",
       title_tariff: "ตั้งค่าอัตราค่าไฟฟ้า", lbl_rate: "อัตราค่าไฟ (บาท/หน่วย):", lbl_preset: "เลือกประเภทสถานที่:",
       opt_home: "บ้านอยู่อาศัย (~4.39 บาท)", opt_dorm: "หอพัก / อพาร์ตเมนต์ (~7.00 บาท)", opt_shop: "ร้านค้า / กิจการขนาดเล็ก (~4.80 บาท)", title_calc: "เครื่องคิดคำนวณค่าไฟเครื่องใช้ไฟฟ้า",
       lbl_watt: "กำลังไฟ (วัตต์):", lbl_hrs: "เปิดใช้งาน (ชั่วโมง/วัน):", btn_calc: "คำนวณค่าไฟ", title_demo: "โหมดจำลองสถานการณ์เตือนภัย",
-      desc_demo: "จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือนและบันทึก Fault Log", btn_demo_over: "จำลองไฟเกิน (15.5A)", btn_demo_low: "จำลองไฟตก (205V)", btn_demo_high: "จำลองไฟเกิน V (250V)", title_tools: "เครื่องมือการแสดงผล",
+      desc_demo: "จำลองสถานการณ์ฉุกเฉินบน Firebase เพื่อทดสอบระบบแจ้งเตือนและบันทึก Fault Log", btn_demo_over: "จำลองไฟเกิน (0.75A)", btn_demo_low: "จำลองไฟตก (205V)", btn_demo_high: "จำลองไฟเกิน V (250V)", title_tools: "เครื่องมือการแสดงผล",
       map_title: "จุดติดตั้งอุปกรณ์ IoT (Device Geo-Location)",
       map_desc: "แสดงตำแหน่งพิกัดของบอร์ด ESP32 ที่ติดตั้งหน้างาน",
       tour_title: "โหมดแนะนำการใช้งานระบบอัตโนมัติ (Guided Tour)",
@@ -578,7 +587,7 @@
       btn_theme: "สลับธีม สว่าง/มืด", btn_qr: "แสดง QR Code", qr_title: "สแกนเพื่อเข้าใช้งานเว็บ", btn_voice: "สั่งงานด้วยเสียง",
       voice_listening: "กำลังฟังคำสั่ง...",
       mail_title: "ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย (Email Alert)",
-      mail_desc: "กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด หรือแรงดันไฟฟ้าผิดปกติ (<215V หรือ >245V)",
+      mail_desc: "กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด (>0.70A) หรือแรงดันไฟฟ้าผิดปกติ (<215V หรือ >245V)",
       mail_label: "อีเมลผู้รับแจ้งเตือน (Recipient Email):",
       btn_save_mail: "บันทึกอีเมลผู้รับ",
       man_title: "คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)",
@@ -596,24 +605,30 @@
       man_qr_title: "สแกนเพื่อเปิดใช้งานบนมือถือ", man_qr_sub: "ใช้มือถือสแกน QR Code นี้เพื่อเปิดแดชบอร์ดทดลองใช้งานจริง"
     },
     en: {
+      modal_hello: "Hello",
+      modal_l1: "Welcome to",
+      modal_l2: "Single-Phase Electricity Fault",
+      modal_l3: "Smart Alert System",
+      modal_lang_prompt: "Please select language / กรุณาเลือกภาษา:",
       title: "Smart Single-Phase Electricity Fault Alert System", tab_dash: "Dashboard", tab_history: "History & Reports", tab_calc: "Calculator", tab_system: "System", tab_manual: "Manual",
       analyzing: "Analyzing power consumption...", v_normal: "Grid Status: Normal (220V)", lbl_voltage: "Voltage", quality_ok: "Power Quality: Optimal",
-      lbl_current: "Current", max_limit: "Max Limit: 15.00 A", lbl_power: "Active Power", load_light: "Load: Fan/Lighting",
-      lbl_energy: "Accumulated Energy", chart_title: "Active Power Chart (Watt)", btn_mute: "Mute/Unmute Buzzer", btn_reset: "Reset Energy",
+      lbl_current: "Current", max_limit: "Max Limit: 0.70 A", lbl_power: "Active Power", load_light: "Load: Fan/Lighting",
+      lbl_energy: "Accumulated Energy", chart_title: "Active Power Chart (Watt)", chart_volt: "Voltage Chart (Voltage - V)", chart_curr: "Current Chart (Current - A)", btn_mute: "Mute/Unmute Buzzer", btn_reset: "Reset Energy",
       lbl_total_cost: "Total Electricity Cost", lbl_breakdown: "Bill Breakdown", sub_vat: "Includes Ft + VAT 7%", history_title: "Daily History & Peak Tracker",
       btn_export: "Export CSV", btn_clear_history: "Clear Daily History", btn_export_fault: "Export Fault Log", th_date: "Date", th_kwh: "Energy (kWh)", th_peak_i: "Peak Current", th_peak_t: "Peak Time", th_cost: "Cost (THB)",
       loading: "Loading data...",
       fault_title: "Event Log & Fault History",
       btn_clear_faults: "Clear Fault History",
-      fault_desc: "Records timestamp and measured values during Low Voltage (<215V), High Voltage (>245V), or Overload (>15A).",
+      fault_desc: "Records timestamp and measured values during Low Voltage (<215V), High Voltage (>245V), or Overload (>0.70A).",
       th_fault_time: "Timestamp", th_fault_type: "Fault Type", th_fault_val: "Measured Value", no_faults: "No fault events recorded.",
       report_title: "Monthly Health Report",
       report_subtitle: "Overview of grid stability and fault statistics for this month.",
       rep_score_lbl: "Grid Stability Score", rep_fault_lbl: "Fault Count This Month", btn_reset_health: "Reset Health Report",
+      rep_score_desc_ok: "Status: Excellent grid stability",
       title_tariff: "Electricity Tariff Settings", lbl_rate: "Rate (THB/kWh):", lbl_preset: "Select Location Type:",
       opt_home: "Residential (~4.39 THB)", opt_dorm: "Dormitory (~7.00 THB)", opt_shop: "Small Business (~4.80 THB)", title_calc: "Appliance Bill Calculator",
       lbl_watt: "Power (Watts):", lbl_hrs: "Usage (Hours/Day):", btn_calc: "Calculate", title_demo: "Alarm Simulation Mode",
-      desc_demo: "Simulate emergency situations on Firebase to test alert systems and fault logging.", btn_demo_over: "Simulate Overload (15.5A)", btn_demo_low: "Simulate Low Volt (205V)", btn_demo_high: "Simulate High Volt (250V)", title_tools: "Display Tools",
+      desc_demo: "Simulate emergency situations on Firebase to test alert systems and fault logging.", btn_demo_over: "Simulate Overload (0.75A)", btn_demo_low: "Simulate Low Volt (205V)", btn_demo_high: "Simulate High Volt (250V)", title_tools: "Display Tools",
       map_title: "Device Geo-Location",
       map_desc: "Displays coordinates of deployed ESP32 boards.",
       tour_title: "Automated System Guided Tour",
@@ -622,7 +637,7 @@
       btn_theme: "Toggle Dark/Light", btn_qr: "Show QR Code", qr_title: "Scan to Open Web App", btn_voice: "Voice Control",
       voice_listening: "Listening...",
       mail_title: "Email Alert Settings",
-      mail_desc: "Enter recipient email to receive automatic alerts when overload or abnormal voltage (<215V or >245V) occurs.",
+      mail_desc: "Enter recipient email to receive automatic alerts when overload (>0.70A) or abnormal voltage (<215V or >245V) occurs.",
       mail_label: "Recipient Email:",
       btn_save_mail: "Save Email",
       man_title: "PowerPulse IoT User Manual & Guide",
@@ -687,31 +702,31 @@
   }
 
   function startGuidedTour() {
-    alert("🚀 เริ่มต้นระบบแนะนำการใช้งานอัตโนมัติ (Guided Tour)\nระบบจะพาคุณทัวร์และอธิบายหน้าที่ของแต่ละหน้าจอครับ!");
+    alert(currentLang === 'th' ? "🚀 เริ่มต้นระบบแนะนำการใช้งานอัตโนมัติ (Guided Tour)\nระบบจะพาคุณทัวร์และอธิบายหน้าที่ของแต่ละหน้าจอครับ!" : "🚀 Starting Automated Guided Tour!");
     
     switchTab('tab-dash', document.querySelectorAll('.tab-btn')[0]);
     setTimeout(() => {
-      alert("📍 [1. หน้าหลัก Dashboard]\nหน้าที่: มอนิเตอร์ค่าไฟฟ้าเรียลไทม์ แสดงผลแรงดัน กระแส และกำลังไฟฟ้า พร้อมกราฟแสดงผลแบบสดๆ");
+      alert(currentLang === 'th' ? "📍 [1. หน้าหลัก Dashboard]\nหน้าที่: มอนิเตอร์ค่าไฟฟ้าเรียลไทม์" : "📍 [1. Dashboard]\nFunction: Real-time monitoring");
       switchTab('tab-history', document.querySelectorAll('.tab-btn')[1]);
     }, 4500);
 
     setTimeout(() => {
-      alert("📍 [2. หน้าประวัติ & รายงาน (History & Reports)]\nหน้าที่: ตรวจสอบข้อมูลย้อนหลัง ดูประวัติรายวัน บันทึกเหตุการณ์ไฟตก/ไฟเกิน (Fault Log) และรายงานสุขภาพระบบไฟฟ้าประจำเดือน");
+      alert(currentLang === 'th' ? "📍 [2. หน้าประวัติ & รายงาน]\nหน้าที่: ตรวจสอบข้อมูลย้อนหลังและบันทึก Fault Log" : "📍 [2. History & Reports]\nFunction: Historical data & Fault logs");
       switchTab('tab-calc', document.querySelectorAll('.tab-btn')[2]);
     }, 10500);
 
     setTimeout(() => {
-      alert("📍 [3. หน้าคำนวณ (Calculator)]\nหน้าที่: ตั้งค่าอัตราค่าไฟฟ้าตามประเภทสถานที่ (บ้าน, หอพัก, ร้านค้า) และคำนวณค่าไฟเครื่องใช้ไฟฟ้าล่วงหน้า");
+      alert(currentLang === 'th' ? "📍 [3. หน้าคำนวณ]\nหน้าที่: ตั้งค่าอัตราค่าไฟและคำนวณค่าไฟ" : "📍 [3. Calculator]\nFunction: Tariff settings & bill calculator");
       switchTab('tab-system', document.querySelectorAll('.tab-btn')[3]);
     }, 16500);
 
     setTimeout(() => {
-      alert("📍 [4. หน้าระบบ (System)]\nหน้าที่: ตั้งค่าอีเมลรับแจ้งเตือนความปลอดภัย, จำลองสถานการณ์ฉุกเฉิน และดูแผนที่พิกัดอุปกรณ์");
+      alert(currentLang === 'th' ? "📍 [4. หน้าระบบ]\nหน้าที่: ตั้งค่าอีเมลและจำลองสถานการณ์" : "📍 [4. System]\nFunction: Email settings & simulation");
       switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
     }, 22500);
 
     setTimeout(() => {
-      alert("📍 [5. หน้าคู่มือ (Manual)]\nหน้าที่: อธิบายคู่มือการใช้งานฟีเจอร์ทั้งหมด และมี QR Code สำหรับสแกนเปิดใช้งานบนมือถือครับ!");
+      alert(currentLang === 'th' ? "📍 [5. หน้าคู่มือ]\nหน้าที่: คู่มือการใช้งานและ QR Code" : "📍 [5. Manual]\nFunction: User manual & QR code");
     }, 28500);
   }
 
@@ -763,7 +778,7 @@
     iotMap = L.map('iotMap').setView([initialLat, initialLng], 17);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap contributors' }).addTo(iotMap);
     
-    deviceMarker = L.marker([initialLat, initialLng]).addTo(iotMap).bindPopup('<b>PowerPulse IoT #01 (มทร.พระนคร เหนือ)</b><br>กำลังโหลด...').openPopup();
+    deviceMarker = L.marker([initialLat, initialLng]).addTo(iotMap).bindPopup('<b>PowerPulse IoT #01</b><br>Loading...').openPopup();
     mapInitialized = true;
   }
 
@@ -780,13 +795,13 @@
     }
 
     if (deviceMarker) {
-      deviceMarker.setPopupContent(`<b>PowerPulse IoT #01 (มทร.พระนคร เหนือ)</b><br>Volt: ${voltageVal.toFixed(1)}V | Current: ${currentVal.toFixed(2)}A`);
+      deviceMarker.setPopupContent(`<b>PowerPulse IoT #01</b><br>Volt: ${voltageVal.toFixed(1)}V | Current: ${currentVal.toFixed(2)}A`);
     }
   }
 
   function updateRate() {
     customRate = parseFloat(document.getElementById('unitRateInput').value) || 4.39;
-    document.getElementById('rate-display').innerText = `อัตรา: ${customRate.toFixed(2)} ฿/หน่วย`;
+    document.getElementById('rate-display').innerText = `${currentLang === 'th' ? 'อัตรา:' : 'Rate:'} ${customRate.toFixed(2)} ฿/${currentLang === 'th' ? 'หน่วย' : 'kWh'}`;
     fetchRealtimeData();
   }
 
@@ -797,7 +812,9 @@
     const hours = parseFloat(document.getElementById('calcHours').value) || 0;
     const dailyKwh = (watt * hours) / 1000;
     const dailyCost = dailyKwh * customRate;
-    document.getElementById('calc-result').innerHTML = `ผลคำนวณ: วันละ ${dailyKwh.toFixed(2)} kWh (${dailyCost.toFixed(2)} บาท/วัน)`;
+    document.getElementById('calc-result').innerHTML = currentLang === 'th' ? 
+      `ผลคำนวณ: วันละ ${dailyKwh.toFixed(2)} kWh (${dailyCost.toFixed(2)} บาท/วัน)` : 
+      `Result: ${dailyKwh.toFixed(2)} kWh/day (${dailyCost.toFixed(2)} THB/day)`;
   }
 
   function openQRModal() {
@@ -808,9 +825,9 @@
 
   async function saveEmailSettings() {
     const email = document.getElementById('alertEmailInput').value.trim();
-    if(!email) { alert("กรุณากรอกอีเมล"); return; }
+    if(!email) { alert(currentLang === 'th' ? "กรุณากรอกอีเมล" : "Please enter email"); return; }
     await fetch(`${FIREBASE_BASE}/settings/alertEmail.json`, { method: 'PUT', body: JSON.stringify(email) });
-    document.getElementById('email-save-status').innerText = "✅ บันทึกอีเมลผู้รับเรียบร้อยแล้ว";
+    document.getElementById('email-save-status').innerText = currentLang === 'th' ? "✅ บันทึกอีเมลผู้รับเรียบร้อยแล้ว" : "✅ Email saved successfully";
     setTimeout(() => { document.getElementById('email-save-status').innerText = ""; }, 3000);
   }
 
@@ -841,7 +858,7 @@
       const recipientEmail = await res.json();
       
       if (!recipientEmail) {
-        console.log("ยังไม่ได้ตั้งค่าอีเมลผู้รับในระบบ");
+        console.log("No recipient email set");
         return;
       }
 
@@ -852,9 +869,9 @@
       };
 
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-      console.log("ส่งอีเมลแจ้งเตือนสำเร็จไปยัง:", recipientEmail);
+      console.log("Email sent successfully to:", recipientEmail);
     } catch (err) {
-      console.error("เกิดข้อผิดพลาดในการส่งอีเมล:", err);
+      console.error("Email send error:", err);
     }
   }
 
@@ -874,12 +891,16 @@
         document.getElementById('power').innerText = `${w.toFixed(1)} W`;
         document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
 
+        // ปรับเกณฑ์กระแสเกินเป็น > 0.70 A ตามที่ขอ พร้อมส่งอีเมลอัตโนมัติ
         if (v > 0 && v < 215) {
           logFaultEvent('ไฟตก (Low Voltage)', `${v.toFixed(1)} V`);
+          sendAlertEmailNotification('ไฟตก (Low Voltage)', `${v.toFixed(1)} V`);
         } else if (v > 245) {
           logFaultEvent('ไฟเกิน (High Voltage)', `${v.toFixed(1)} V`);
-        } else if (i > 15.0) {
+          sendAlertEmailNotification('ไฟเกิน (High Voltage)', `${v.toFixed(1)} V`);
+        } else if (i > 0.70) {
           logFaultEvent('กระแสไฟเกินพิกัด (Overload)', `${i.toFixed(2)} A`);
+          sendAlertEmailNotification('กระแสไฟเกินพิกัด (Overload)', `${i.toFixed(2)} A`);
         }
 
         const timeLabel = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -898,15 +919,15 @@
   }
 
   async function triggerDemoOverload() {
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 15.50, voltage: 220.0, power: 3410.0 }) });
-    await logFaultEvent('กระแสไฟเกินพิกัด (Overload)', '15.50 A');
-    await sendAlertEmailNotification('กระแสไฟเกินพิกัด (Overload)', '15.50 A');
-    alert("Simulation: ไฟเกิน (15.50 A) บันทึก Fault Log และส่งอีเมลแจ้งเตือนแล้ว!");
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 0.75, voltage: 220.0, power: 165.0 }) });
+    await logFaultEvent('กระแสไฟเกินพิกัด (Overload)', '0.75 A');
+    await sendAlertEmailNotification('กระแสไฟเกินพิกัด (Overload)', '0.75 A');
+    alert("Simulation: กระแสไฟเกิน (0.75 A) บันทึก Fault Log และส่งอีเมลแจ้งเตือนแล้ว!");
     fetchRealtimeData();
   }
 
   async function triggerDemoLowVolt() {
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 205.0, power: 440.0 }) });
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 0.2, voltage: 205.0, power: 44.0 }) });
     await logFaultEvent('ไฟตก (Low Voltage)', '205.0 V');
     await sendAlertEmailNotification('ไฟตก (Low Voltage)', '205.0 V');
     alert("Simulation: ไฟตก (205.0 V) บันทึก Fault Log และส่งอีเมลแจ้งเตือนแล้ว!");
@@ -914,7 +935,7 @@
   }
 
   async function triggerDemoHighVolt() {
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 2.0, voltage: 250.0, power: 550.0 }) });
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 0.2, voltage: 250.0, power: 50.0 }) });
     await logFaultEvent('ไฟเกิน (High Voltage)', '250.0 V');
     await sendAlertEmailNotification('ไฟเกิน (High Voltage)', '250.0 V');
     alert("Simulation: ไฟเกิน V (250.0 V) บันทึก Fault Log และส่งอีเมลแจ้งเตือนแล้ว!");
@@ -938,7 +959,7 @@
           tbody.innerHTML += `<tr><td><strong>${date}</strong></td><td>${(item.energy || 0).toFixed(2)} kWh</td><td>${(item.peakCurrent || 0).toFixed(2)} A</td><td>${item.peakTime || '-'}</td><td>${(item.totalCost || 0).toFixed(2)} ฿</td></tr>`;
         });
       } else {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-sub);">ยังไม่มีข้อมูลประวัติรายวัน</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-sub);">${currentLang === 'th' ? 'ยังไม่มีข้อมูลประวัติรายวัน' : 'No daily history'}</td></tr>`;
       }
     } catch (e) { console.error(e); }
   }
@@ -977,7 +998,7 @@
   }
 
   async function resetHealthReport() {
-    if (confirm(currentLang === 'th' ? "⚠️ ยืนยันการ Reset รายงานสุขภาพ (ล้างบันทึกความผิดปกติทั้งหมดเพื่อคืนค่าคะแนนเป็น 100)?" : "Reset health report and clear all faults?")) {
+    if (confirm(currentLang === 'th' ? "⚠️ ยืนยันการ Reset รายงานสุขภาพ?" : "Reset health report?")) {
       await fetch(`${FIREBASE_BASE}/fault_logs.json`, { method: 'DELETE' });
       fetchFaultLogs();
       fetchMonthlyReport();
@@ -1009,8 +1030,8 @@
         `Low Volt: ${lowVolt} | High Volt: ${highVolt} | Overload: ${overload}`;
 
       let scoreDesc = currentLang === 'th' ? "สถานะ: ยอดเยี่ยม ระบบไฟฟ้าเสถียรดีมาก" : "Status: Excellent grid stability";
-      if (score < 80 && score >= 50) scoreDesc = currentLang === 'th' ? "สถานะ: ปานกลาง ควรตรวจสอบแรงดันไฟฟ้า" : "Status: Moderate, check voltage stability";
-      else if (score < 50) scoreDesc = currentLang === 'th' ? "สถานะ: ต้องปรับปรุง มีความผิดปกติบ่อยครั้ง" : "Status: Needs improvement, frequent faults";
+      if (score < 80 && score >= 50) scoreDesc = currentLang === 'th' ? "สถานะ: ปานกลาง ควรตรวจสอบแรงดันไฟฟ้า" : "Status: Moderate, check voltage";
+      else if (score < 50) scoreDesc = currentLang === 'th' ? "สถานะ: ต้องปรับปรุง มีความผิดปกติบ่อยครั้ง" : "Status: Needs improvement";
       document.getElementById('rep-score-desc').innerText = scoreDesc;
 
     } catch (e) { console.error(e); }
@@ -1045,11 +1066,11 @@
   async function toggleBuzzerMute() {
     currentMuteState = !currentMuteState;
     await fetch(`${FIREBASE_BASE}/electricity/buzzerMute.json`, { method: 'PUT', body: JSON.stringify(currentMuteState) });
-    alert(currentMuteState ? "ปิดเสียง BUZZER แล้ว" : "เปิดเสียง BUZZER แล้ว");
+    alert(currentMuteState ? (currentLang === 'th' ? "ปิดเสียง BUZZER แล้ว" : "Buzzer Muted") : (currentLang === 'th' ? "เปิดเสียง BUZZER แล้ว" : "Buzzer Unmuted"));
   }
 
   async function resetData() {
-    if (confirm("Reset Energy Data?")) {
+    if (confirm(currentLang === 'th' ? "Reset ค่าพลังงานหรือไม่?" : "Reset Energy Data?")) {
       await fetch(`${FIREBASE_BASE}/electricity/resetEnergy.json`, { method: 'PUT', body: JSON.stringify(true) });
     }
   }
@@ -1078,13 +1099,13 @@
       else if (command.includes("คู่มือ")) switchTab('tab-manual', document.querySelectorAll('.tab-btn')[4]);
       else if (command.includes("เปลี่ยนธีม")) toggleTheme();
       else if (command.includes("เปลี่ยนภาษา")) toggleLang();
-      else alert(`🎙️ AI ได้ยินว่า: "${command}"`);
+      else alert(`🎙️ AI: "${command}"`);
     };
 
     recognition.onerror = function() { document.getElementById('voice-status').style.display = 'none'; };
     recognition.onspeechend = function() { recognition.stop(); document.getElementById('voice-status').style.display = 'none'; };
   } else {
-    window.startVoiceCommand = function() { alert("⚠️ เบราว์เซอร์ไม่รองรับเสียง"); };
+    window.startVoiceCommand = function() { alert("⚠️ Browser not supported"); };
   }
 
   window.onload = () => {
