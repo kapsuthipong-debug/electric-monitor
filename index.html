@@ -548,9 +548,10 @@
     }
   }
 
-  const EMAILJS_SERVICE_ID = "service_3er85fc";
-  const EMAILJS_TEMPLATE_ID = "template_zz03wjc";
-  const EMAILJS_PUBLIC_KEY = "BuscMCQrAQ5TAq5F_";
+  // อัปเดต EmailJS Config ใหม่ของคุณ
+  const EMAILJS_SERVICE_ID = "service_rcvjiqh";
+  const EMAILJS_TEMPLATE_ID = "template_nxv1xa1";
+  const EMAILJS_PUBLIC_KEY = "VwT8JV3QFTspxIpHQ";
   emailjs.init(EMAILJS_PUBLIC_KEY);
 
   const i18n = {
@@ -891,7 +892,6 @@
         document.getElementById('power').innerText = `${w.toFixed(1)} W`;
         document.getElementById('energy').innerText = `${energy.toFixed(2)} kWh`;
 
-        // ปรับเกณฑ์กระแสเกินเป็น > 0.70 A ตามที่ขอ พร้อมส่งอีเมลอัตโนมัติ
         if (v > 0 && v < 215) {
           logFaultEvent('ไฟตก (Low Voltage)', `${v.toFixed(1)} V`);
           sendAlertEmailNotification('ไฟตก (Low Voltage)', `${v.toFixed(1)} V`);
