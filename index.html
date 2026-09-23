@@ -436,8 +436,8 @@
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
         <button class="tool-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> <span data-i18n="btn_theme">สลับธีม สว่าง/มืด</span></button>
         <button class="tool-btn" onclick="openQRModal()"><i class="fa-solid fa-qrcode"></i> <span data-i18n="btn_qr">แสดง QR Code</span></button>
-        <!-- เพิ่มปุ่มดาวน์โหลดแอพ (Install PWA) ตรงนี้ -->
-        <button class="tool-btn" id="installAppBtn" style="background: var(--primary-color); color: white; display: none;" onclick="installPWAApp()">
+        <!-- ปุ่มดาวน์โหลดแอพแสดงผลตลอดเวลา -->
+        <button class="tool-btn" id="installAppBtn" style="background: var(--primary-color); color: white;" onclick="installPWAApp()">
           <i class="fa-solid fa-download"></i> <span data-i18n="btn_install_app">ดาวน์โหลด / ติดตั้งแอป</span>
         </button>
       </div>
@@ -528,29 +528,22 @@
   let lastFaultLoggedTime = 0;
   let lastEmailSentTime = 0;
   
-  // ตัวแปรสำหรับจัดเก็บ Event การติดตั้ง PWA
   let deferredPrompt;
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    const installBtn = document.getElementById('installAppBtn');
-    if (installBtn) installBtn.style.display = 'inline-flex';
   });
 
   async function installPWAApp() {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        console.log('User accepted the install prompt');
-      }
       deferredPrompt = null;
-      document.getElementById('installAppBtn').style.display = 'none';
     } else {
       alert(currentLang === 'th' ? 
-        "หากต้องการติดตั้งแอป ให้กดเมนูของเบราว์เซอร์ (3 จุดมุมขวาบนของ Chrome) แล้วเลือก 'เพิ่มไปยังหน้าจอหลัก' หรือ 'ติดตั้งแอป'" : 
-        "To install this app, open your browser menu and select 'Add to Home Screen' or 'Install App'.");
+        "📱 วิธีการติดตั้งแอป:\n\n• แอนดรอยด์ (Chrome): กดจุด 3 จุดมุมขวาบน เลือก 'เพิ่มไปยังหน้าจอหลัก' หรือ 'ติดตั้งแอป'\n• ไอโฟน (Safari): กดปุ่มแชร์ เลือก 'เพิ่มไปยังหน้าจอโฮม'" : 
+        "📱 How to install:\n• Android: Tap menu (3 dots) -> 'Add to Home screen'\n• iOS: Tap share -> 'Add to Home Screen'");
     }
   }
 
