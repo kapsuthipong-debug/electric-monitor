@@ -93,7 +93,7 @@
     .step-desc h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
     .step-desc p { font-size: 0.85rem; color: var(--text-sub); line-height: 1.4; }
 
-    /* Modal เลือกภาษา (นำคำว่า ระบบแจ้งเตือน มาไว้อยู่บรรทัดที่ 3) */
+    /* Modal เลือกภาษา (ปรับข้อความให้เรียงถูกต้อง) */
     .lang-modal { display: flex; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .lang-modal-content { background: #ffffff; color: #1e293b; padding: 35px 25px; border-radius: 24px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: scaleUp 0.3s ease; }
     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -128,7 +128,7 @@
 </head>
 <body>
 
-<!-- หน้าต่างป๊อปอัปเลือกภาษา (จัดแยกบรรทัดตามที่ต้องการ) -->
+<!-- หน้าต่างป๊อปอัปเลือกภาษา -->
 <div id="languageModal" class="lang-modal">
   <div class="lang-modal-content">
     <div class="lang-icon-box">
@@ -136,8 +136,8 @@
     </div>
     <span class="welcome-hello" data-i18n="modal_hello">สวัสดี</span>
     <span class="welcome-line1" data-i18n="modal_l1">ยินดีต้อนรับสู่</span>
-    <span class="welcome-line2" data-i18n="modal_l2">ความผิดปกติไฟฟ้า 1 เฟส</span>
-    <span class="welcome-line3" data-i18n="modal_l3">ระบบแจ้งเตือน อัจฉริยะ</span>
+    <span class="welcome-line2" data-i18n="modal_l2">ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส</span>
+    <span class="welcome-line3" data-i18n="modal_l3">อัจฉริยะ</span>
     <div class="sub-title">( Power Pulse )</div>
     <p data-i18n="modal_lang_prompt">กรุณาเลือกภาษา / Please select language:</p>
     <div class="lang-btn-group">
@@ -548,7 +548,7 @@
     }
   }
 
-  // อัปเดต EmailJS Config ใหม่ของคุณ
+  // EmailJS Config ใหม่ของคุณ
   const EMAILJS_SERVICE_ID = "service_rcvjiqh";
   const EMAILJS_TEMPLATE_ID = "template_nxv1xa1";
   const EMAILJS_PUBLIC_KEY = "VwT8JV3QFTspxIpHQ";
@@ -558,8 +558,8 @@
     th: {
       modal_hello: "สวัสดี",
       modal_l1: "ยินดีต้อนรับสู่",
-      modal_l2: "ความผิดปกติไฟฟ้า 1 เฟส",
-      modal_l3: "ระบบแจ้งเตือน อัจฉริยะ",
+      modal_l2: "ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส",
+      modal_l3: "อัจฉริยะ",
       modal_lang_prompt: "กรุณาเลือกภาษา / Please select language:",
       title: "ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส อัจฉริยะ", tab_dash: "หน้าหลัก", tab_history: "ประวัติ & รายงาน", tab_calc: "คำนวณ", tab_system: "ระบบ", tab_manual: "คู่มือ",
       analyzing: "กำลังวิเคราะห์พฤติกรรมการใช้ไฟ...", v_normal: "สถานะไฟฟ้า: ปกติสมบูรณ์", lbl_voltage: "แรงดันไฟฟ้า", quality_ok: "คุณภาพไฟ: ปกติ",
@@ -608,8 +608,8 @@
     en: {
       modal_hello: "Hello",
       modal_l1: "Welcome to",
-      modal_l2: "Single-Phase Electricity Fault",
-      modal_l3: "Smart Alert System",
+      modal_l2: "Smart Single-Phase Electricity",
+      modal_l3: "Fault Alert System",
       modal_lang_prompt: "Please select language / กรุณาเลือกภาษา:",
       title: "Smart Single-Phase Electricity Fault Alert System", tab_dash: "Dashboard", tab_history: "History & Reports", tab_calc: "Calculator", tab_system: "System", tab_manual: "Manual",
       analyzing: "Analyzing power consumption...", v_normal: "Grid Status: Normal (220V)", lbl_voltage: "Voltage", quality_ok: "Power Quality: Optimal",
@@ -865,7 +865,7 @@
 
       const templateParams = {
         to_email: recipientEmail,
-        message_body: `ตรวจพบความผิดปกติ: ${faultType} | ค่าที่วัดได้: ${valueStr}`,
+        message_body: `ตอนนี้ระบบทำงานผิดปกติ: ${faultType} | ค่าที่วัดได้: ${valueStr}`,
         time_alert: new Date().toLocaleString('th-TH')
       };
 
