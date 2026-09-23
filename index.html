@@ -93,7 +93,7 @@
     .step-desc h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
     .step-desc p { font-size: 0.85rem; color: var(--text-sub); line-height: 1.4; }
 
-    /* Modal เลือกภาษา (ปรับข้อความให้เรียงถูกต้อง) */
+    /* Modal เลือกภาษา */
     .lang-modal { display: flex; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .lang-modal-content { background: #ffffff; color: #1e293b; padding: 35px 25px; border-radius: 24px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: scaleUp 0.3s ease; }
     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -159,11 +159,9 @@
     </h1>
 
     <div class="header-actions">
-      <!-- ปุ่มปรับขนาดตัวอักษร -->
       <button class="tool-btn" onclick="cycleFontSize()" title="ปรับขนาดตัวอักษร">
         <i class="fa-solid fa-text-height"></i> <span id="font-size-label">ขนาด: ปกติ</span>
       </button>
-      <!-- ปุ่มเปลี่ยนภาษา -->
       <button class="tool-btn" onclick="toggleLang()"><i class="fa-solid fa-language"></i> <span id="lang-btn-text">EN</span></button>
     </div>
   </div>
@@ -272,7 +270,6 @@
       </div>
     </div>
 
-    <!-- 1. ประวัติรายวัน & Peak Tracker -->
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="history_title">ประวัติรายวัน & Peak Tracker</span></div>
@@ -299,7 +296,6 @@
       </div>
     </div>
 
-    <!-- 2. บันทึกเหตุการณ์ความผิดปกติ (Fault Log) -->
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> <span data-i18n="fault_title">ประวัติเหตุการณ์ความผิดปกติ (Event Log / Fault History)</span></div>
@@ -325,7 +321,6 @@
       </div>
     </div>
 
-    <!-- 3. รายงานสุขภาพระบบไฟฟ้าประจำเดือน -->
     <div class="panel" style="background: linear-gradient(135deg, rgba(67,97,238,0.06), rgba(42,157,143,0.06)); border: 1px solid var(--primary-color);">
       <div class="panel-header" style="margin-bottom: 6px;">
         <div class="panel-title" style="margin-bottom: 0;">
@@ -527,6 +522,7 @@
   let iotMap, deviceMarker;
   let latestRealtimeData = { voltage: 0, current: 0, power: 0, energy: 0 };
   let lastFaultLoggedTime = 0;
+  let lastEmailSentTime = 0; // ตัวแปรสำหรับจำกัดเวลาส่งอีเมล (Cooldown 2 นาที)
 
   let fontSizes = ['1rem', '1.15rem', '1.3rem', '0.85rem'];
   let fontLabelsTh = ['ขนาด: ปกติ', 'ขนาด: ใหญ่', 'ขนาด: ใหญ่มาก', 'ขนาด: เล็ก'];
@@ -548,7 +544,6 @@
     }
   }
 
-  // EmailJS Config ใหม่ของคุณ
   const EMAILJS_SERVICE_ID = "service_rcvjiqh";
   const EMAILJS_TEMPLATE_ID = "template_nxv1xa1";
   const EMAILJS_PUBLIC_KEY = "VwT8JV3QFTspxIpHQ";
@@ -855,6 +850,13 @@
 
   async function sendAlertEmailNotification(faultType, valueStr) {
     try {
+      const now = Date.now();
+      // จำกัดการส่งอีเมล: ส่งได้แค่ 1 ครั้งต่อรอบ 2 นาที (120,000 มิลลิวินาที) หากกระแสยังไม่ลด
+      if (now - lastEmailSentTime < 120000) {
+        console.log("Email cooldown active (waiting 2 mins).");
+        return;
+      }
+
       const res = await fetch(`${FIREBASE_BASE}/settings/alertEmail.json`);
       const recipientEmail = await res.json();
       
@@ -870,6 +872,7 @@
       };
 
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      lastEmailSentTime = now; // อัปเดตเวลาที่ส่งอีเมลล่าสุด
       console.log("Email sent successfully to:", recipientEmail);
     } catch (err) {
       console.error("Email send error:", err);
