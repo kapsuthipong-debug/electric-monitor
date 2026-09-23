@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Smart Single-Phase Electricity Fault Alert System</title>
   
-  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNtYXJ0IFNpbmdsZS1QaGFzZSBFbGVjdHJpY2l0eSBGYXVsdCBBbGVydCBTeXN0ZW0iLAogICJzaG9ydF9uYW1lIjogIlNtbWFydEVsZWMiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzNmOGY5ZmEiLAogICJ0aGVtZV9jb2xvciI6ICI0MzYxZWUiCn0=">
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNtYXJ0IFNpbmdsZS1QaGFzZSBFbGVjdHJpY2l0eSBGYXVsdCBBbGVydCBTeXN0ZW0iLAogICJzaG9ydF9uYW1lIjogIlNtbWFydEVsZWMiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzMzM2Q1ZCIsCiAgInRoZW1lX2NvbG9yIjogIiM0MzYxZWUiCn0=">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -436,6 +436,10 @@
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
         <button class="tool-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> <span data-i18n="btn_theme">สลับธีม สว่าง/มืด</span></button>
         <button class="tool-btn" onclick="openQRModal()"><i class="fa-solid fa-qrcode"></i> <span data-i18n="btn_qr">แสดง QR Code</span></button>
+        <!-- เพิ่มปุ่มดาวน์โหลดแอพ (Install PWA) ตรงนี้ -->
+        <button class="tool-btn" id="installAppBtn" style="background: var(--primary-color); color: white; display: none;" onclick="installPWAApp()">
+          <i class="fa-solid fa-download"></i> <span data-i18n="btn_install_app">ดาวน์โหลด / ติดตั้งแอป</span>
+        </button>
       </div>
     </div>
   </div>
@@ -523,6 +527,32 @@
   let latestRealtimeData = { voltage: 0, current: 0, power: 0, energy: 0 };
   let lastFaultLoggedTime = 0;
   let lastEmailSentTime = 0;
+  
+  // ตัวแปรสำหรับจัดเก็บ Event การติดตั้ง PWA
+  let deferredPrompt;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const installBtn = document.getElementById('installAppBtn');
+    if (installBtn) installBtn.style.display = 'inline-flex';
+  });
+
+  async function installPWAApp() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+      }
+      deferredPrompt = null;
+      document.getElementById('installAppBtn').style.display = 'none';
+    } else {
+      alert(currentLang === 'th' ? 
+        "หากต้องการติดตั้งแอป ให้กดเมนูของเบราว์เซอร์ (3 จุดมุมขวาบนของ Chrome) แล้วเลือก 'เพิ่มไปยังหน้าจอหลัก' หรือ 'ติดตั้งแอป'" : 
+        "To install this app, open your browser menu and select 'Add to Home Screen' or 'Install App'.");
+    }
+  }
 
   let fontSizes = ['1rem', '1.15rem', '1.3rem', '0.85rem'];
   let fontLabelsTh = ['ขนาด: ปกติ', 'ขนาด: ใหญ่', 'ขนาด: ใหญ่มาก', 'ขนาด: เล็ก'];
@@ -586,6 +616,7 @@
       mail_desc: "กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด (>0.70A) หรือแรงดันไฟฟ้าผิดปกติ (<215V หรือ >245V)",
       mail_label: "อีเมลผู้รับแจ้งเตือน (Recipient Email):",
       btn_save_mail: "บันทึกอีเมลผู้รับ",
+      btn_install_app: "ดาวน์โหลด / ติดตั้งแอป",
       man_title: "คู่มือการใช้งานระบบ (Smart Single-Phase Electricity Fault Alert System User Manual)",
       man_subtitle: "คู่มืออธิบายหน้าที่การทำงานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)",
       man_s1_h: "1. หน้าหลัก (Dashboard) - หน้าที่: มอนิเตอร์ค่าไฟฟ้าเรียลไทม์",
@@ -636,6 +667,7 @@
       mail_desc: "Enter recipient email to receive automatic alerts when overload (>0.70A) or abnormal voltage (<215V or >245V) occurs.",
       mail_label: "Recipient Email:",
       btn_save_mail: "Save Email",
+      btn_install_app: "Download / Install App",
       man_title: "Smart Single-Phase Electricity Fault Alert System User Manual & Guide",
       man_subtitle: "Comprehensive guide explaining all system features.",
       man_s1_h: "1. Dashboard - Function: Real-time Electricity Monitoring",
