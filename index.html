@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PowerPulse IoT - Smart Electricity Monitor</title>
+  <title>Smart Single-Phase Electricity Fault Alert System</title>
   
-  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlBvd2VyUHVsc2UgSW9UIiwKICAic2hvcnRfbmFtZSI6ICJQb3dlclB1bHNlIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmOGY5ZmEiLAogICJ0aGVtZV9jb2xvciI6ICI0MzYxZWUiCn0=">
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNtYXJ0IFNpbmdsZS1QaGFzZSBFbGVjdHJpY2l0eSBGYXVsdCBBbGVydCBTeXN0ZW0iLAogICJzaG9ydF9uYW1lIjogIlNtbWFydEVsZWMiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzNmOGY5ZmEiLAogICJ0aGVtZV9jb2xvciI6ICI0MzYxZWUiCn0=">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -138,7 +138,7 @@
     <span class="welcome-line1" data-i18n="modal_l1">ยินดีต้อนรับสู่</span>
     <span class="welcome-line2" data-i18n="modal_l2">ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส</span>
     <span class="welcome-line3" data-i18n="modal_l3">อัจฉริยะ</span>
-    <div class="sub-title">( Power Pulse )</div>
+    <div class="sub-title">( Smart Single-Phase Electricity Fault Alert System )</div>
     <p data-i18n="modal_lang_prompt">กรุณาเลือกภาษา / Please select language:</p>
     <div class="lang-btn-group">
       <button class="btn-choice btn-th" onclick="setAppLanguage('th')">
@@ -155,7 +155,7 @@
   <div class="header">
     <h1>
       <i class="fa-solid fa-bolt"></i> <span data-i18n="title">ระบบแจ้งเตือนความผิดปกติไฟฟ้า 1 เฟส อัจฉริยะ</span>
-      <span class="subtitle">( Power Pulse )</span>
+      <span class="subtitle">( Smart Single-Phase Electricity Fault Alert System )</span>
     </h1>
 
     <div class="header-actions">
@@ -449,7 +449,7 @@
     </div>
 
     <div class="panel">
-      <div class="panel-title"><i class="fa-solid fa-book-open" style="color: var(--primary-color);"></i> <span data-i18n="man_title">คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)</span></div>
+      <div class="panel-title"><i class="fa-solid fa-book-open" style="color: var(--primary-color);"></i> <span data-i18n="man_title">คู่มือการใช้งานระบบ (Smart Single-Phase Electricity Fault Alert System User Manual)</span></div>
       <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 16px;" data-i18n="man_subtitle">คู่มืออธิบายหน้าที่การทำงานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)</p>
 
       <div class="manual-step">
@@ -506,7 +506,7 @@
   <div class="modal-content">
     <span class="close-btn" onclick="closeQRModal()">&times;</span>
     <h3 data-i18n="qr_title">สแกนเพื่อเข้าใช้งานเว็บ</h3>
-    <p style="font-size: 0.75rem; color: var(--text-sub);">PowerPulse IoT Web Dashboard</p>
+    <p style="font-size: 0.75rem; color: var(--text-sub);">Smart Single-Phase Electricity Fault Alert System</p>
     <div id="qrcode"></div>
   </div>
 </div>
@@ -522,7 +522,7 @@
   let iotMap, deviceMarker;
   let latestRealtimeData = { voltage: 0, current: 0, power: 0, energy: 0 };
   let lastFaultLoggedTime = 0;
-  let lastEmailSentTime = 0; // ตัวแปรสำหรับจำกัดเวลาส่งอีเมล (Cooldown 2 นาที)
+  let lastEmailSentTime = 0;
 
   let fontSizes = ['1rem', '1.15rem', '1.3rem', '0.85rem'];
   let fontLabelsTh = ['ขนาด: ปกติ', 'ขนาด: ใหญ่', 'ขนาด: ใหญ่มาก', 'ขนาด: เล็ก'];
@@ -586,7 +586,7 @@
       mail_desc: "กรอกอีเมลผู้รับเพื่อรับการแจ้งเตือนอัตโนมัติเมื่อเกิดกระแสไฟเกินพิกัด (>0.70A) หรือแรงดันไฟฟ้าผิดปกติ (<215V หรือ >245V)",
       mail_label: "อีเมลผู้รับแจ้งเตือน (Recipient Email):",
       btn_save_mail: "บันทึกอีเมลผู้รับ",
-      man_title: "คู่มือการใช้งานระบบ (PowerPulse IoT User Manual)",
+      man_title: "คู่มือการใช้งานระบบ (Smart Single-Phase Electricity Fault Alert System User Manual)",
       man_subtitle: "คู่มืออธิบายหน้าที่การทำงานฟีเจอร์ทั้งหมดในระบบ รองรับทั้งภาษาไทยและภาษาอังกฤษ (Full Features Guide)",
       man_s1_h: "1. หน้าหลัก (Dashboard) - หน้าที่: มอนิเตอร์ค่าไฟฟ้าเรียลไทม์",
       man_s1_p: "ทำหน้าที่แสดงผลแรงดัน (V), กระแส (A), กำลังไฟฟ้า (W) และพลังงานสะสม (kWh) จากบอร์ด ESP32 ทันที พร้อมกราฟแสดงแนวโน้มและระบบตรวจสอบแรงดันผิดปกติ (<215V หรือ >245V)",
@@ -636,7 +636,7 @@
       mail_desc: "Enter recipient email to receive automatic alerts when overload (>0.70A) or abnormal voltage (<215V or >245V) occurs.",
       mail_label: "Recipient Email:",
       btn_save_mail: "Save Email",
-      man_title: "PowerPulse IoT User Manual & Guide",
+      man_title: "Smart Single-Phase Electricity Fault Alert System User Manual & Guide",
       man_subtitle: "Comprehensive guide explaining all system features.",
       man_s1_h: "1. Dashboard - Function: Real-time Electricity Monitoring",
       man_s1_p: "Displays Voltage (V), Current (A), Power (W), and Energy (kWh) from ESP32 with live charts and abnormal voltage detection.",
@@ -774,7 +774,7 @@
     iotMap = L.map('iotMap').setView([initialLat, initialLng], 17);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap contributors' }).addTo(iotMap);
     
-    deviceMarker = L.marker([initialLat, initialLng]).addTo(iotMap).bindPopup('<b>PowerPulse IoT #01</b><br>Loading...').openPopup();
+    deviceMarker = L.marker([initialLat, initialLng]).addTo(iotMap).bindPopup('<b>Smart Single-Phase Electricity Fault Alert System #01</b><br>Loading...').openPopup();
     mapInitialized = true;
   }
 
@@ -791,7 +791,7 @@
     }
 
     if (deviceMarker) {
-      deviceMarker.setPopupContent(`<b>PowerPulse IoT #01</b><br>Volt: ${voltageVal.toFixed(1)}V | Current: ${currentVal.toFixed(2)}A`);
+      deviceMarker.setPopupContent(`<b>Smart Single-Phase Electricity Fault Alert System #01</b><br>Volt: ${voltageVal.toFixed(1)}V | Current: ${currentVal.toFixed(2)}A`);
     }
   }
 
@@ -851,7 +851,6 @@
   async function sendAlertEmailNotification(faultType, valueStr) {
     try {
       const now = Date.now();
-      // จำกัดการส่งอีเมล: ส่งได้แค่ 1 ครั้งต่อรอบ 2 นาที (120,000 มิลลิวินาที) หากกระแสยังไม่ลด
       if (now - lastEmailSentTime < 120000) {
         console.log("Email cooldown active (waiting 2 mins).");
         return;
@@ -872,7 +871,7 @@
       };
 
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-      lastEmailSentTime = now; // อัปเดตเวลาที่ส่งอีเมลล่าสุด
+      lastEmailSentTime = now;
       console.log("Email sent successfully to:", recipientEmail);
     } catch (err) {
       console.error("Email send error:", err);
@@ -1050,7 +1049,7 @@
       csv += `${date},${(item.energy||0).toFixed(2)},${(item.peakCurrent||0).toFixed(2)},${item.peakTime||'-'},${(item.totalCost||0).toFixed(2)}\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `PowerPulse_History.csv`; a.click();
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `SmartElectric_History.csv`; a.click();
   }
 
   async function exportFaultCSV() {
@@ -1063,7 +1062,7 @@
       csv += `"${item.timestamp}","${item.type}","${item.value}"\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `PowerPulse_FaultLogs.csv`; a.click();
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `SmartElectric_FaultLogs.csv`; a.click();
   }
 
   async function toggleBuzzerMute() {
