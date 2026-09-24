@@ -954,7 +954,7 @@
   }
 
   async function triggerDemoLowVolt() {
-    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 0.2, voltage: 205.0, power: 44.0 }) });
+    await fetch(`${FIREBASE_BASE}/electricity.json`, { method: 'PATCH', body: JSON.stringify({ current: 0.2, voltage: 205.0, power: 41.0 }) });
     await logFaultEvent('ไฟตก (Low Voltage)', '205.0 V');
     await sendAlertEmailNotification('ไฟตก (Low Voltage)', '205.0 V');
     alert("Simulation: ไฟตก (205.0 V) บันทึก Fault Log และส่งอีเมลแจ้งเตือนแล้ว!");
