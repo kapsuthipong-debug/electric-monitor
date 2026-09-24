@@ -436,7 +436,6 @@
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
         <button class="tool-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> <span data-i18n="btn_theme">สลับธีม สว่าง/มืด</span></button>
         <button class="tool-btn" onclick="openQRModal()"><i class="fa-solid fa-qrcode"></i> <span data-i18n="btn_qr">แสดง QR Code</span></button>
-        <!-- ปุ่มดาวน์โหลดแอพแสดงผลตลอดเวลา -->
         <button class="tool-btn" id="installAppBtn" style="background: var(--primary-color); color: white;" onclick="installPWAApp()">
           <i class="fa-solid fa-download"></i> <span data-i18n="btn_install_app">ดาวน์โหลด / ติดตั้งแอป</span>
         </button>
@@ -876,8 +875,9 @@
   async function sendAlertEmailNotification(faultType, valueStr) {
     try {
       const now = Date.now();
-      if (now - lastEmailSentTime < 120000) {
-        console.log("Email cooldown active (waiting 2 mins).");
+      // หน่วงเวลา 5 นาที (300,000 มิลลิวินาที)
+      if (now - lastEmailSentTime < 300000) {
+        console.log("Email cooldown active (waiting 5 mins).");
         return;
       }
 
