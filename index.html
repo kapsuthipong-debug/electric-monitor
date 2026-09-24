@@ -875,9 +875,9 @@
   async function sendAlertEmailNotification(faultType, valueStr) {
     try {
       const now = Date.now();
-      // หน่วงเวลา 5 นาที (300,000 มิลลิวินาที)
-      if (now - lastEmailSentTime < 300000) {
-        console.log("Email cooldown active (waiting 5 mins).");
+      // หน่วงเวลา 2 นาที (120,000 มิลลิวินาที) ตามที่ขอ
+      if (now - lastEmailSentTime < 120000) {
+        console.log("Email cooldown active (waiting 2 mins).");
         return;
       }
 
